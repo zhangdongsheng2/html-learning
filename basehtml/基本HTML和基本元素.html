@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="c">
+<head>
+    <!-- 需要来告诉浏览器，网页所采用的编码字符集
+    meta标签用来设置网页的一些元数据，比如网页的字符集，关键字、简介
+    meta是一个自结束标签，编写一个自结束标签时，可以在开始标签中添加 一个-->
+    <meta charset="utf-8"/>
+    <title>网页的标题</title>
+</head>
+
+<body>
+<h1>这是我的第一个网页</h1>
+<h2>这是我的<span style="color: green; font-size: xx-large; ">第二个</span>网页</h2>
+<!--
+    段落标签，段落标签用于表示内容中的一个自然段
+    使用p标签来表示一个段落
+
+    p标签中的文字，默认会独占一行，并且段与段之间会有一个间距
+-->
+<p>我是一个p标签，我用来表示一个段落</p>
+<p>我是一个p标签，我用来表示一个段落</p>
+
+<!--
+    在HTML中，字符之间写再多的空格，浏览器也会当成一个空格解析，
+        换行也会当成一个空格解析。
+    在页面中可以使用br标签来表示一个换行，br标签是一个自结束标签
+-->
+<p>
+    锄禾日当午，<br/>
+    汗滴禾下土，<br/>
+    谁知盘中餐，<br/>
+    粒粒皆辛苦。<br/>
+</p>
+
+<!--hr标签也是一个自结束标签，可以在页面中生成一条水平线-->
+<hr/>
+
+<!--图片标签-->
+<img alt="这是一个大松鼠" src="./img/2.gif"/>
+
+<!--div 是块元素会占一行, span是内联元素不会占一行-->
+<a href="https://www.baidu.com">
+    <span>我是一个span</span>
+    <div style="background-color:red ; width: 200px;">
+        我是一个div
+    </div>
+</a>
+<div style="background-color:yellow ; width: 200px;">
+    我是一个div
+</div>
+
+
+</body>
+</html>
+
+
