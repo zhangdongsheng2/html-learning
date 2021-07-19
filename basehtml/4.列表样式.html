@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>列表样式</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            font: 12px/1 宋体;
+        }
+
+        .layout {
+            width: 300px;
+            margin: 80px auto;
+        }
+
+        .title{
+            border-top:2px #019e8b solid ;
+            line-height: 36px;
+            height: 40px;
+            padding: 0px 22px 0px 16px;
+            background-color: aliceblue;
+        }
+
+        .title spna{
+            font: 16px/40px "微软雅黑";
+        }
+
+        .title a{
+            color: red;
+            text-decoration: underline;
+            float: right;
+        }
+
+
+        .content {
+            border: 1px solid #019e8b;
+            padding: 0px 28px 0px 20px;
+
+        }
+        
+        .content a{
+            text-decoration: none;
+            color: black;
+        }
+
+
+        .content a:hover{
+            text-decoration: underline;
+            color: red;
+        }
+
+        .content .right{
+            float: right;
+        }
+
+
+        .content .red{
+            color: red;
+            font-weight: bold;
+        }
+
+        .content h3{
+            padding: 10px 0px 10px 2px;
+        }
+
+        .content ul{
+            list-style: none;
+        }
+
+        .content ul:not(.no_bord){
+            border-bottom: 1px dashed #deddd9;
+        }
+
+        .content li{
+            margin-bottom: 15px;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="layout">
+
+        <div class="title">
+            <!-- 要把浮动放后面, 因为避免浮动挤下去导致错位 -->
+            <a>16年面授开班计划</a>
+            <spna>近期开班</spna>
+        </div>
+
+        <div class="content">
+            <h3>JavaEE+云计算-全程就业</h3>
+            <ul>
+                <li>
+                    <a href="#">开班时间: <span class="red">2021-02-02</span></a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>   
+
+            </ul>
+
+            <h3>JavaEE+云计算-全程就业</h3>
+            <ul>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>   
+
+            </ul>
+            <h3>JavaEE+云计算-全程就业</h3>
+            <ul class="no_bord">
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right red" href="#">预约报名</a>
+                </li>
+                <li>
+                    <a href="#">开班时间: 2016-04-27</a>
+                    <a class="right" href="#">开班盛况</a>
+                </li>   
+
+            </ul>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+    
+</body>
+</html>
