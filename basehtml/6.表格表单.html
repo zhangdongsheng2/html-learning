@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+        .table-1 {
+            width: 800px;
+            margin: 0 auto;
+            border: 1px solid black;
+            /*
+				 * table和td边框之间默认有一个距离
+				 * 	通过border-spacing属性可以设置这个距离
+				 */
+            border-spacing: 0px;
+            /*
+				 * border-collapse可以用来设置表格的边框合并
+				 * 如果设置了边框合并，则border-spacing自动失效
+				 */
+            border-collapse: collapse;
+
+            background-color: burlywood;
+        }
+
+        td,
+        th {
+            border: 1px solid black;
+        }
+
+        tr:nth-child(event) {
+            background-color: blue;
+        }
+
+        td:hover {
+            background-color: brown;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+			表格在日常生活中使用的非常的多，比如excel就是专门用来创建表格的工具，
+				表格就是用来表示一些格式化的数据的，比如：课程表、银行对账单
+			在网页中也可以来创建出不同的表格。	
+		-->
+
+    <!--
+			在HTML中，使用table标签来创建一个表格
+		-->
+    <!-- <table border="1" width="40%" align="center"> -->
+
+    <table class="table-1">
+
+        <!-- 
+				在table标签中使用tr来表示表格中的一行，有几行就有几个tr
+			-->
+
+
+
+        <tbody>
+            <tr>
+                <!-- 在tr中需要使用td来创建一个单元格，有几个单元格就有几个td -->
+                <td>A1</td>
+                <td>A2</td>
+                <td>A3</td>
+                <td>A4</td>
+            </tr>
+
+            <tr>
+                <td>B1</td>
+                <td>B2</td>
+                <td>B3</td>
+
+                <!-- 
+                        rowspan用来设置纵向的合并单元格
+                    -->
+                <td rowspan="2">B4</td>
+            </tr>
+            <tr>
+                <td>C1</td>
+                <td>C2</td>
+                <td>C3</td>
+            </tr>
+            <tr>
+                <td>D1</td>
+                <td>D2</td>
+                <!-- 
+                        colspan横向的合并单元格
+                    -->
+                <td colspan="2">D3</td>
+            </tr>
+
+        </tbody>
+
+        <thead>
+            <tr>
+                <td>标题1</td>
+                <td>标题2</td>
+                <td>标题</td>
+                <td>标</td>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>合计</td>
+                <td>666</td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <hr />
+
+    <table border="1px" width="100%">
+        <tr>
+            <td colspan="2" height="100px"></td>
+        </tr>
+
+        <tr>
+            <td rowspan="1" height="400px"></td>
+            <td>
+                <table border="1" width="100%" height="100%">
+                    <tr>
+                        <td height="200px"></td>
+
+                    </tr>
+                    <tr>
+                        <td height="200px"></td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" height="100px"></td>
+        </tr>
+
+    </table>
+
+<hr/>
+
+<form action="http://www.baidu.com">
+    
+    <fieldset>
+        <legend>用户信息</legend>
+        <label id="um">用户名</label>
+        <input id="um" type="test" name="username">
+        <br/>
+        <label id="pwd">密码</label>
+        <input id="pwd" type="password" name="password">
+    </fieldset>
+
+    <fieldset>
+        <legend>用户爱好</legend>
+
+        <label>性别</label>
+        <input type="radio" name="gender" value="male" id="male"> <label for="male">男</label>
+        <input type="radio" name="gender" value="male" id="female" checked> <label for="female">女</label>
+        <br>
+        <label>爱好</label>
+        <input type="checkbox" name="aihao" value="zq" > 足球
+        <input type="checkbox" name="aihao" value="lq" checked> 篮球
+        <input type="checkbox" name="aihao" value="tj" checked> 太极
+        <input type="checkbox" name="aihao" value="fx" checked> 飞行
+
+    </fieldset>
+
+    你喜欢的明星
+    <select name="str">
+        <optgroup label="女明星">
+            <option>李冰冰</option>
+            <option>范冰冰</option>
+            <option>赵薇</option>
+            <option>杨子</option>
+        </optgroup>
+        
+        <optgroup label="男明星">
+            <option>武警</option>
+            <option>赵本山</option>
+        </optgroup>
+    </select>
+    <br> <br>
+    自我介绍
+    <textarea name="info"></textarea>
+
+    <br>
+
+    <button type="reset" >重置</button>
+    <button type="button">按键</button>
+
+    <button type="submit" style="margin-bottom: 500px; margin-top: 50px;">提交</button>
+</form>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
