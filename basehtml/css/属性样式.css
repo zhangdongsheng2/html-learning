@@ -592,8 +592,12 @@ a_bak{
      * zoom:1表示不放大元素，但是通过该样式可以开启hasLayout
      * zoom这个样式，只在IE中支持，其他浏览器都不支持
      */
-    zoom:1;
-    overflow: hidden;
+    /* zoom:1; */
+    /* overflow: hidden;
+    content: ""; */
+    /* 既可以解决高度塌陷，又可以确保父元素和子元素的垂直外边距不会重叠 */
+    /* display: table; */
+    /* clear: both; */
 }
 
 .box1-fudong-tx{
@@ -618,7 +622,7 @@ a_bak{
     /*添加一个内容*/
     content: "";
     /*转换为一个块元素*/
-    display: block;
+    display: table;
     /*清除两侧的浮动*/
     clear: both;
 }
@@ -828,6 +832,7 @@ body{
     background-image: url(../img/btn.png);
     /*设置背景图片不重复*/
     background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 .bg-btn:hover{
