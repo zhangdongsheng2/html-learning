@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--:link：表示作为超链接，并指向一个未访问的地址的所有锚, a 标签独有-->
+    <style type="text/css">
+        a{
+            text-decoration: none;
+        }
+        .a-link:link{
+            color: #0c37ba;
+        }
+        .a-link:visited{
+            color: pink;
+        }
+        .a-link:active{
+            color: cornflowerblue;
+        }
+        .a-link:hover{
+            color: #551621;
+        }
+        .target-div{
+            width: 300px;
+            height: 200px;
+            line-height: 200px;
+            background: black;
+            color: pink;
+            text-align: center;
+            display: none;
+        }
+        :target{
+            display: block;
+        }
+
+        .input-text{width: 100px;height: 30px;color: #000}
+        .input-text:enabled{color: red}
+        .input-text:disabled{color: blue}
+        .input-checkbox:checked{width: 100px;height: 100px}
+        .input-focus:focus{background-color: #db1717}
+
+        .span-mock{float: left;width: 50px;height: 50px;margin:0 5px;border: 3px solid #000}
+
+        .label-mock{
+            float: left;
+            margin: 0 5px;overflow: hidden;position: relative;
+        }
+
+        /*.label-mock{background-color: red}*/
+        .input-mock{position: absolute; left: -50px;top: -50px}
+        .input-mock:checked ~ span{background-color: red}
+
+    </style>
+</head>
+<body>
+<h1>伪类</h1>
+
+
+<h2>锚点动态伪类</h2>
+<a class="a-link" href="#">点我点我点我</a>
+
+
+<h2>target伪类</h2>
+<a href="#div1">div1</a>
+<a href="#div2">div2</a>
+<div class="target-div" id="div1">
+    div1
+</div>
+<div class="target-div" id="div2">
+    div2
+</div>
+
+
+<h2>表单相关伪类</h2>
+<input class="input-text" type="text" value="晓飞张"/>
+<input class="input-text" type="text" value="晓飞张" disabled="disabled"/>
+
+<input class="input-checkbox" type="checkbox">
+<br>
+<input style="margin-top: 10px" class="input-focus" type="text" value="">
+
+
+<h2>模拟单选框</h2>
+
+<label class="label-mock">
+    <input class="input-mock" type="radio" name="mock">
+    <span class="span-mock"></span>
+</label>
+<label class="label-mock">
+    <input class="input-mock" type="radio" name="mock">
+    <span class="span-mock"></span>
+</label>
+<label class="label-mock">
+    <input class="input-mock" type="radio" name="mock">
+    <span class="span-mock"></span>
+</label>
+
+<div style="overflow: hidden;clear: both"></div>
+<h2>测试子元素浮动</h2>
+<label style="width: 55px;height: 55px;background-color: red;margin: 0 50px;display: inline-block">
+    <span style="width: 50px;height: 50px;background-color: #0c37ba;"></span>
+</label>
+<label style="width: 55px;height: 55px;background-color: red;margin: 0 50px;display: inline-block">
+    <span style="width: 50px;height: 50px;background-color: #0c37ba;"></span>
+</label>
+<label style="width: 55px;height: 55px;background-color: red;position: relative;margin: 0 50px;display: inline-block">
+    <span style="width: 50px;height: 50px;background-color: #0c37ba;"></span>
+</label>
+
+
+<label style="background-color: red;position: relative;margin: 0 50px;clear: both;overflow: hidden">
+    <span style="float:left;width: 50px;height: 50px;background-color: #0c37ba;"></span>
+</label>
+
+
+<div></div>
+<br>
+<h2>测试子元素浮动</h2>
+<label style="width: 55px;height: 55px;background-color: red;position: relative;margin: 0 50px;">
+    <span style="float:left;width: 50px;height: 50px;background-color: #0c37ba;"></span>
+    <span>lkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</span>
+</label>
+
+
+<div></div>
+<br><div></div>
+<br>
+<!--<label>ssssssssssssssssss</label>-->
+<!--<span style="float: left">ddddddddddddddddd</span>-->
+<div style="float: left">ddddddddddddddddd</div>
+
+<!--<span style="width: 50px;height: 50px;background-color: red;">99</span>-->
+
+<div style="width: 50px;height: 50px;background-color: red"></div>
+
+<div style="background-color: #0c37ba"><textarea  style="background-color: red;display: inline-block"></textarea>
+    <span style="position: absolute; left: 10px;top: 90px;">dd<br><br>dd</span>ssssssss</div>
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
