@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的UI方案</title>
+
+    <style type="text/css">
+        #box-dualcolorvalue {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-image: linear-gradient(red,blue);
+            border: 2px solid black;
+        }
+
+        #box-multiplecolorvalue {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-image: linear-gradient(to top left,red,blue,white,pink);
+            border: 2px solid black;
+        }
+
+        #box-useangle {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-image: linear-gradient(90deg,red 10% ,blue 20%,white 30%,pink 90%); /*数字代表位置, 最大100%*/
+            border: 2px solid black;
+        }
+
+        #box-transparentgradient {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-image: linear-gradient(90deg,rgba(255,0,0,0) 50% ,rgba(255,0,0,0.5),rgba(255,0,0,1) 60%); /*数字代表位置, 最大100%*/
+            border: 2px solid black;
+        }
+        #box-repeatgradient {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-image: repeating-linear-gradient(90deg,rgba(255,0,0,0) 0 ,rgba(255,0,0,1) 33.3333%); /*数字代表位置, 最大100%*/
+            border: 2px solid black;
+        }
+
+        #box-hairsalonlights {
+            width: 800px;
+            height: 50px;
+            margin: 50px;
+            background-image: repeating-linear-gradient(30deg,white 0 ,white 10px ,black 10px,black 20px); /*数字代表位置, 最大100%*/
+            border: 2px solid black;
+            transition: 1000s;
+        }
+
+        #box-hairsalonlights:hover {
+           background-position: -100000px 0;
+        }
+
+
+        #box-spotanimation {
+            width: 800px;
+            height: 100px;
+            margin: 50px;
+            background-image: linear-gradient(30deg,transparent 200px ,white 250px ,transparent 300px);
+            border: 2px solid black;
+            font: 20px/50px "微软雅黑";
+            text-align: center;
+            letter-spacing: 20px;
+            color: rgba(255,255,255,0);
+            /*transition: 3s;*/
+            -webkit-background-clip: text;
+        }
+
+        /*#box-spotanimation:hover {*/
+        /*    background-position: -300px 0px;*/
+        /*}*/
+
+
+        #box-spotanimation-pro {
+            width: 900px;
+            height: 300px;
+            margin: 50px;
+            padding-top: 100px;
+            background-color: black;
+        }
+
+
+
+        #box-dualcolorvalue-gradient {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-image: radial-gradient(red 10%,white 20%,yellow 50%,blue 80%);
+            border: 2px solid black;
+        }
+
+        #box-changeshape-gradient {
+            width: 200px;
+            height: 300px;
+            margin: 50px;
+            /*
+            形状默认是 ellipse 支持圆和椭圆, 边缘位置: closest-side 与最近相切
+            circle at 150px 400px 改变圆心位置
+            */
+            background-image: radial-gradient(closest-side circle at 150px 200px,red,blue);
+            border: 2px solid black;
+        }
+
+        #box-repeatgradient-gradient {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            /*
+            形状默认是 ellipse 支持圆和椭圆, 边缘位置: closest-side 与最近相切
+            circle at 150px 400px 改变圆心位置
+            */
+            background-image: repeating-radial-gradient(circle,red 10%,blue 50%);
+        }
+    </style>
+
+</head>
+<body>
+<h1>线性渐变-双颜色值</h1>
+<div id="box-dualcolorvalue"></div>
+
+<h1>线性渐变-多颜色值-改变方向</h1>
+<div id="box-multiplecolorvalue"></div>
+
+<h1>线性渐变-使用角度-控制分布</h1>
+<div id="box-useangle"></div>
+
+
+<h1>线性渐变-透明渐变</h1>
+<div id="box-transparentgradient"></div>
+
+
+<h1>线性渐变-重复渐变</h1>
+<div id="box-repeatgradient"></div>
+
+<h1>线性渐变-发廊灯</h1>
+<div id="box-hairsalonlights"></div>
+
+<h1>线性渐变-光斑动画</h1>
+<div id="box-spotanimation-pro"><div id="box-spotanimation"><h1>光斑动画光斑动画</h1></div></div>
+
+
+<h1>径向渐变-多颜色值</h1>
+<div id="box-dualcolorvalue-gradient"></div>
+
+<h1>径向渐变-改变形状</h1>
+<div id="box-changeshape-gradient"></div>
+
+<h1>径向渐变-重复</h1>
+<div id="box-repeatgradient-gradient"></div>
+
+
+
+</body>
+
+<script type="text/javascript">
+   const node1 = document.getElementById("box-spotanimation")
+   let left = -300;
+   move();
+   function move(){
+       setInterval(function (){
+           left += 10;
+           if(left > 350){
+               left = -300;
+           }
+           node1.style.backgroundPosition = left + "px 0";
+       },30)
+   }
+
+</script>
+</html>

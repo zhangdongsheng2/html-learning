@@ -275,6 +275,10 @@ input:focus{
     background-color: yellow;
 }*/
 
+/*ul > li:nth-child(2n+1) {*/
+/*	background: #0f0;*/
+/*}*/
+
 /*
  * :first-of-type
  * :last-of-type
@@ -286,10 +290,33 @@ input:focus{
 /*p:first-of-type{
     background-color: yellow;
 }*/
+/*div:nth-of-type(2) {*/
+/*	color: #f00;*/
+/*}*/
 /*p:last-of-type{*/
 /*	background-color: yellow;*/
 /*}*/
 
+/*唯一类型的*/
+/*article:only-of-type {*/
+/*	background: #f00;*/
+/*}*/
+
+/*倒数第二*/
+/*div:nth-last-of-type(2) {*/
+/*	color: #f00;*/
+/*}*/
+
+/*最后一个不选择*/
+/*div > a:not(:last-of-type) {*/
+/*	border-right: 1px solid red;*/
+/*	background-color: #0c37ba;*/
+/*}*/
+
+/*空的不选择*/
+/*div:empty {*/
+/*	background: #f00;*/
+/*}*/
 #------------兄弟元素选择器----------{}
 /*
  * 为span后的一个p元素设置一个背景颜色为黄色

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的UI方案</title>
+
+  <style type="text/css">
+    #wrap{
+      float: left;
+      width: 200px;
+      height: 200px;
+      margin-left: 30px;
+      background-color: #0c37ba;
+      opacity: 0.3;
+    }
+    #inner{
+      width: 30px;
+      height: 30px;
+      background-color: black;
+
+    }
+    #wrap-left{
+      float: left;
+      width: 200px;
+      height: 200px;
+      margin-left: 30px;
+      background-color: #0c37ba;
+    }
+    #inner-left{
+      width: 30px;
+      height: 30px;
+      background-color: black;
+    }
+
+    #wrap-rgba{
+        width: 200px;
+        height: 200px;
+        margin-left: 30px;
+        background-color: rgba(40, 94, 130, 0.2);
+        text-align: center;
+        line-height: 200px;
+        font-size: 20px;
+        color: blue;
+    }
+
+    #f-shadow{
+        margin-left: 30px;
+        font: 100px/200px "微软雅黑";
+        text-align: left;
+        text-shadow: -5px -10px yellow,5px 10px pink;
+    }
+
+    #f-relief{
+        margin-left: 30px;
+        color: white;
+        font: 100px/200px "微软雅黑";
+        text-align: left;
+        text-shadow: 2px 2px 9px black;
+    }
+
+
+
+    #header{
+        position: relative;
+        background: rgba(0,0,0,0.5);
+        overflow: hidden;
+        height: 100px;
+    }
+
+    #header #bg{
+        position: absolute;
+        background: url("img/avatar.jpg") no-repeat;
+        background-size: 100% 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        z-index: -1; /*只在定位中生效*/
+        filter: blur(7px); /* 会覆盖浮动元素 */
+    }
+
+    #header > img{
+        z-index: 6;
+        margin: 20px 20px;
+    }
+
+    #f-stroke {
+        font: 100px/200px "微软雅黑";
+        color: whitesmoke;
+        -webkit-text-stroke: 4px pink;
+    }
+
+    #f-typesetting {
+        font: 50px/100px "微软雅黑";
+        color: red;
+        border: black solid 4px;
+        width: 100px;
+        direction: rtl;
+        height: 200px;
+        unicode-bidi: bidi-override;
+    }
+
+    #f-ellipsis {
+        font: 50px/100px "微软雅黑";
+        color: red;
+        border: black solid 4px;
+        width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space:nowrap;
+        height: 100px;
+    }
+  </style>
+
+</head>
+<body>
+<h1>透明opacity</h1>
+<div id="wrap">
+  <div id="inner"></div>
+</div>
+<div id="wrap-left"><div id="inner-left"></div></div>
+
+<h1 style="clear: both">颜色RGBA,文字不透明</h1>
+<div id="wrap-rgba">
+    背景透明文字不透明
+</div>
+
+<h1 >文字阴影</h1>
+<div id="f-shadow">
+    文字阴影
+</div>
+
+<h1 >浮雕文字</h1>
+<div id="f-relief">
+    浮雕文字
+</div>
+
+<h1 >模糊背景</h1>
+<div id="header">
+    <img src="img/avatar.jpg" width="64" height="64">
+    <div id="bg" ></div>
+</div>
+
+<h1 >文字描边</h1>
+<div id="f-stroke">
+    文字描边
+</div>
+
+<h1 >文字排版</h1>
+<div id="f-typesetting">
+    文字排版
+</div>
+
+<h1 >超出省略号</h1>
+<div id="f-ellipsis">
+    超出省略号超出省略号超出省略号超出省略号超出省略号
+</div>
+
+</body>
+</html>

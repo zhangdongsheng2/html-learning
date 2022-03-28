@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2D变换</title>
+    <style>
+        body{
+            margin-left: 50px;
+        }
+        .box1 {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid;
+        }
+        .box_2d{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            margin: auto;
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+
+            transition: 2s;
+            transform-origin: 50% 50%;
+        }
+        .box1:hover .box_2d{
+            /*transform: translateX(200px);*/
+            /*transform: rotate(300deg);*/
+            /*transform: skew(30deg);*/
+            /*transform: scale(3);*/
+            transform: translateX(300px) scale(.5) ; /*移动 325*/
+            /*transform: scale(.5) translateX(300px); !*移动175*!*/
+        }
+
+
+
+        .box_fan_wrap{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid;
+        }
+
+        .box_wrap{
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .box_wrap > .box_inner{
+            height: 100%;
+        }
+
+        .box_wrap > .box_inner > img{
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 4px;
+            border-radius: 50%;
+        }
+
+
+        .box_wrap > .box_home{
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin: 4px;
+            z-index: 91;
+            background: url("img/home.png");
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: 1s;
+        }
+
+        .box_clock{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid;
+        }
+
+
+        .box_clock_wrap{
+            width: 200px;
+            height: 200px;
+            border: 1px solid;
+            border-radius: 50% 50%;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+        }
+
+        ul{
+            list-style: none;
+        }
+
+        .box_clock_wrap > .box_clock_li > li {
+            position: absolute;
+            left: 99px;
+            top: 0;
+            width: 2px;
+            height: 10px;
+            background: black;
+            transform-origin: center 100px;
+        }
+
+        .box_clock_wrap > .box_clock_li > li:nth-child(5n+1) {
+            height: 15px;
+        }
+
+
+        .box_clock_wrap > .box_clock_h {
+            position: absolute;
+            left: 97px;
+            top:  49%;
+            width: 6px;
+            height: 30px;
+            background: black;
+            transform-origin: 0 0;
+        }
+
+        .box_clock_wrap > .box_clock_m {
+            position: absolute;
+            left: 97px;
+            top: 49%;
+            width: 4px;
+            height: 50px;
+            background: gray;
+            transform-origin: 0 0;
+        }
+
+        .box_clock_wrap > .box_clock_s {
+            position: absolute;
+            left: 97px;
+            top:  49%;
+            width: 2px;
+            height: 70px;
+            background: red;
+            transform-origin: 0 0;
+        }
+
+        .box_clock_wrap > .box_clock_icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            margin: auto;
+            border-radius: 50%;
+            background: red;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<h1>2D变换（transform）</h1>
+rotate:旋转 <br/>
+translate:平移<br/>
+skew: 斜切<br/>
+scale: 缩放<br/>
+变换组合: 顺序是从右往左的，变换的底层其实就是矩阵的运算<br/>
+transform-origin: 基点的变换<br/>
+
+
+<h1>2D变形</h1>
+<div class="box1">
+    <div class="box_2d"></div>
+</div>
+
+
+<h1>扇形导航示例</h1>
+<div class="box_fan_wrap">
+    <div class="box_wrap">
+        <div class="box_inner">
+            <img src="img/clos.png" alt="">
+            <img src="img/full.png" alt="">
+            <img src="img/open.png" alt="">
+            <img src="img/prev.png" alt="">
+            <img src="img/refresh.png" alt="">
+        </div>
+        <div class="box_home"></div>
+    </div>
+</div>
+
+
+<h1>时钟</h1>
+<ul>
+    <li>UI分层, 容器圆形</li>
+    <li>子级指针ul</li>
+    <li>子级时分秒指针和远点icon</li>
+</ul>
+<div class="box_clock">
+    <div class="box_clock_wrap">
+        <ul class="box_clock_li">
+        </ul>
+        <div class="box_clock_h"></div>
+        <div class="box_clock_m"></div>
+        <div class="box_clock_s"></div>
+        <div class="box_clock_icon"></div>
+    </div>
+</div>
+
+
+
+</body>
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        let homeEle = document.querySelector(".box_home");
+        let imgs = document.querySelectorAll(".box_wrap > .box_inner > img");
+        let flag = true;
+        let c = 140;
+
+        //第一部分, 点击事件
+        /*
+        1. 正向, 点击旋转.
+        2. 遍历所有img, 设置散发出去的时间, 设置旋转角度.
+        3. 设置要移动的位置, 根据三角函数计算点位.
+        4. 反向, 设置反向的时间和角度, 反向的位置.
+         */
+        homeEle.onclick = function () {
+            if (flag) {
+                this.style.transform = "rotate(720deg)";
+                for (let i = 0; i < imgs.length; i++) {
+                    imgs[i].style.transition="1s "+(i*0.05)+"s";
+                    imgs[i].style.transform="rotate(720deg) scale(1)";
+                    imgs[i].style.left=-getPoint(c,90*i/(imgs.length-1)).left + "px";
+                    imgs[i].style.top=-getPoint(c,90*i/(imgs.length-1)).top + "px";
+                }
+
+            }else{
+                this.style.transform = "rotate(-720deg)";
+                for (let i = 0; i < imgs.length; i++) {
+                    imgs[i].style.transition="1s "+(i*0.05)+"s";
+                    imgs[i].style.transform="rotate(-720deg) scale(1)";
+                    imgs[i].style.left=0;
+                    imgs[i].style.top=0;
+                }
+            }
+            flag=!flag
+        };
+
+
+        //第二部分
+        /*
+        1. 给所有img增加点击事件, 放大角度和透明度.
+        2. 添加完成事件, 完成后缩放大小和角度透明度, 删除事件.
+         */
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].onclick = function () {
+                this.style.transition="0.5s";
+                this.style.transform="rotate(720deg) scale(2)";
+                this.style.opacity=0.1;
+
+                this.addEventListener("transitionend",fn)
+            };
+        }
+
+        function fn() {
+            this.style.transition="0.5s";
+            this.style.transform="rotate(-720deg) scale(1)";
+            this.style.opacity=1;
+            this.removeEventListener("transitionend",fn)
+        }
+
+
+        //工具: 三角函数, 已知第三边(最底下一个边)和一个角度(90/4 * i), 计算点的位置
+        function getPoint(c, deg) {
+            const x = Math.round(c*Math.sin(deg*Math.PI/180));
+            const y = Math.round(c*Math.cos(deg*Math.PI/180));
+            return {left:x, top: y};
+        }
+
+        //======================时钟=============================
+        let ulNode = document.querySelector(".box_clock_wrap > .box_clock_li");
+        let hourNode = document.querySelector(".box_clock_wrap > .box_clock_h");
+        let minNode = document.querySelector(".box_clock_wrap > .box_clock_m");
+        let secNode = document.querySelector(".box_clock_wrap > .box_clock_s");
+        let htmlStyleElement = document.createElement("style");
+        //第一步: 创建表盘刻度.
+        let liHtml = "";
+        let cssText = "";
+        for (let i = 1; i <= 60; i++) {
+            liHtml += "<li></li>"
+            cssText += ".box_clock_wrap > .box_clock_li > li:nth-child("+i+") {transform: rotate("+(i*6)+"deg);}";
+        }
+        htmlStyleElement.innerHTML = cssText;
+        document.head.appendChild(htmlStyleElement);
+
+        ulNode.innerHTML = liHtml;
+        //第二部: 创建时分秒指针.
+        //第三步: 定时任务移动指针.
+        move();
+        setInterval(move,1000)
+        function move() {
+            let date = new Date();
+            const s = date.getSeconds();
+            const m = date.getMinutes()+s/ 60;
+            const h = date.getHours()+m/60;
+            hourNode.style.transform="rotate("+(30*h+180)+"deg)";
+            minNode.style.transform="rotate("+(6*m +180)+"deg)";
+            secNode.style.transform="rotate("+(6*s+180)+"deg)";
+        }
+
+    };
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+

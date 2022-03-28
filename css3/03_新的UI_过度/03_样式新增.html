@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的UI方案</title>
+
+    <style type="text/css">
+        .box-rounded {
+            width: 200px;
+            height: 200px;
+            margin: 50px;
+            background-color: #0c37ba;
+            border: 2px solid black;
+            /*border-radius: 200px/100px 0;*/
+            /*border-radius: 100px;*/
+            border-radius: 50px;
+        }
+
+        .box-windmill {
+            width: 400px;
+            height: 500px;
+            margin: 50px;
+            transition: 5s linear; /*过渡属性*/
+        }
+
+
+        .box-windmill div {
+            width: 180px;
+            height: 180px;
+            margin: 10px;
+            box-sizing: border-box;
+            background: #0c37ba;
+            border: 2px solid black;
+            float: left;
+        }
+
+        .box-windmill div:nth-child(1), .box-windmill div:nth-child(4){
+            border-radius: 0 60px;
+        }
+
+        .box-windmill div:nth-child(2), .box-windmill div:nth-child(3){
+            border-radius:60% 0 ;
+        }
+
+        .box-windmill:hover {
+            transform: rotate(720deg);
+        }
+
+
+        .box-dialogue {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            margin: 10px;
+            box-sizing: border-box;
+            background: transparent;
+            border: 2px solid black;
+            border-radius:50% ;
+            text-align: center;
+            line-height: 300px;
+        }
+
+        .box-dialogue:before ,
+        .box-dialogue:after{
+            position: absolute;
+            display: block;
+            content: ""; /*none 不产生伪元素, normal 伪元素视为none, 必须有内容才产生伪元素*/
+            border: 2px solid black;
+            border-radius:50% ;
+        }
+
+        .box-dialogue:after{
+            height: 50px;
+            width: 50px;
+            bottom: -30px;
+            right: 25px;
+        }
+
+        .box-dialogue:before{
+            height: 30px;
+            width: 30px;
+            bottom: -70px;
+            right: 0;
+        }
+
+
+        .box-border-img1 {
+            width: 500px;
+            margin: 50px;
+            height: 300px;
+            box-sizing: border-box;
+            border: 50px solid black;
+            border-image-source: url("img/border-image.png");
+        }
+
+        .box-border-img2 {
+            width: 500px;
+            margin: 50px;
+            height: 300px;
+            box-sizing: border-box;
+            border: 50px solid black;
+            border-image-source: url("img/border-image.png");
+            border-image-slice: 33 33 fill;
+        }
+
+
+        .box-border-img3 {
+            width: 500px;
+            height: 300px;
+            margin: 50px;
+            box-sizing: border-box;
+            border: 50px solid black;
+            border-image-source: url("img/border-image.png");
+            border-image-slice: 33 33 fill;
+            border-image-width: 20px;
+            border-image-repeat: repeat;
+        }
+
+        .box-border-img4 {
+            width: 500px;
+            height: 300px;
+            margin: 50px;
+            box-sizing: border-box;
+            border: 50px solid black;
+            border-image-source: url("img/border-image.png");
+            border-image-slice: 33 33 fill;
+            border-image-width: 50px;
+            border-image-outset: 50px;
+        }
+
+        .box-bg {
+            width: 500px;
+            height: 300px;
+            margin: 50px;
+            border: 50px solid black;
+            background: url("img/avatar.jpg");
+            padding: 100px;
+            background-origin: content-box;
+            background-clip: content-box;
+            background-size: 100% auto;
+        }
+
+        .box-bg2 {
+            width: 500px;
+            height: 300px;
+            margin: 50px;
+            border: 5px solid black;
+            background: url("img/avatar.jpg") no-repeat, url("img/zdy.jpg");
+        }
+
+        .box-bg3 {
+            width: 300px;
+            height: 300px;
+            margin: 50px;
+            border: 5px solid black;
+            background: url("img/avatar.jpg") no-repeat;
+            background-size: 300px 300px;
+            font: 120px / 150px "微软雅黑";
+            text-align: center;
+            -webkit-background-clip: text;
+            color: transparent;
+            transition: 1s;
+        }
+
+        .box-bg3:hover {
+            background-position: -200px -200px;
+        }
+
+        .box-bg4 {
+            width: 500px;
+            height: 500px;
+            margin: 50px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .box-bg4:after {
+            content: "";
+            height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .c-img {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+
+</head>
+<body>
+<h1>圆角-圆角</h1>
+<div class="box-rounded"></div>
+
+
+<h1>圆角-风车</h1>
+<div class="box-windmill">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+
+<h1>圆角-对话</h1>
+<div class="box-dialogue">
+    圆角-对话
+</div>
+
+
+<h1 style="margin-top:80px;">边框图片</h1>
+<div class="box-border-img1">
+</div>
+
+<div class="box-border-img2">
+</div>
+
+<div class="box-border-img3">
+</div>
+<div class="box-border-img4">
+</div>
+
+
+<h1>背景</h1>
+背景在盒子的内容部分. 原点也从盒子内容开始.
+<div class="box-bg">
+</div>
+
+
+<h1>背景-多背景</h1>
+<div class="box-bg2">
+</div>
+
+
+<h1>背景-文字背景-移动背景</h1>
+<div class="box-bg3">
+    文字背景
+</div>
+
+
+<h1>图片水平垂直居中</h1>
+<div class="box-bg4">
+    <img src="img/avatar.jpg" class="c-img">
+</div>
+
+
+
+</body>
+</html>

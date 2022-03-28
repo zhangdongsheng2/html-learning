@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的UI方案</title>
+
+  <style type="text/css">
+    .box-1{
+      width: 200px;
+      height: 200px;
+      margin: 50px;
+      background-color: #0c37ba;
+      /*box-shadow: pink 0 0 20px 20px ;*/
+      box-shadow: pink 0 0 20px 20px, inset 0 0 20px 20px yellow;
+    }
+
+    .reflection {
+        width: 200px;
+        height: 200px;
+        /*-webkit-box-reflect: below;*/
+        -webkit-box-reflect: right 10px linear-gradient(-90deg,rgba(0,0,0,1),rgba(0,0,0,0) 80%);
+    }
+
+    .box-2 {
+        width: 200px;
+        height: 200px;
+        background: url("img/zdy.jpg");
+        background-size: 100%;
+        resize: both;
+        overflow: auto;
+    }
+
+    .box-3 {
+        width: 200px;
+        height: 200px;
+        padding: 50px;
+        border: 10px solid yellow;
+        box-sizing: border-box; /* 如果没有这个, 盒子总大小会加上padding的值 */
+    }
+
+    .box-4 {
+        width: 300px;
+        padding: 0 50px;
+        margin-bottom: 100px;
+        border: 2px solid black;
+        box-sizing: border-box; /* 加上这个盒子才能跟限定的width一致 */
+    }
+
+  </style>
+
+</head>
+<body>
+<h1>盒子阴影</h1>
+<div class="box-1"></div>
+
+<h1>倒影</h1>
+<img class="reflection" src="img/周冬雨.jpg">
+
+<h1>resize</h1>
+<div class="box-2"></div>
+
+<h1>怪异的盒子模型</h1>
+<div class="box-3"></div>
+
+
+
+<h1>怪异的盒子模型2</h1>
+<input class="box-4"/>
+
+
+
+</body>
+</html>

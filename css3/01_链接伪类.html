@@ -32,23 +32,22 @@
         :target{
             display: block;
         }
-
+        /*表单相关伪类*/
         .input-text{width: 100px;height: 30px;color: #000}
         .input-text:enabled{color: red}
         .input-text:disabled{color: blue}
         .input-checkbox:checked{width: 100px;height: 100px}
         .input-focus:focus{background-color: #db1717}
 
-        .span-mock{float: left;width: 50px;height: 50px;margin:0 5px;border: 3px solid #000}
-
+        /*模拟单选框*/
+        .span-mock{float: left;width: 50px;height: 50px;margin:0 10px;border: 3px solid #000}
         .label-mock{
             float: left;
-            margin: 0 5px;overflow: hidden;position: relative;
+            overflow: hidden;position: relative;
         }
-
-        /*.label-mock{background-color: red}*/
         .input-mock{position: absolute; left: -50px;top: -50px}
         .input-mock:checked ~ span{background-color: red}
+
 
     </style>
 </head>
@@ -94,50 +93,6 @@
     <input class="input-mock" type="radio" name="mock">
     <span class="span-mock"></span>
 </label>
-
-<div style="overflow: hidden;clear: both"></div>
-<h2>测试子元素浮动</h2>
-<label style="width: 55px;height: 55px;background-color: red;margin: 0 50px;display: inline-block">
-    <span style="width: 50px;height: 50px;background-color: #0c37ba;"></span>
-</label>
-<label style="width: 55px;height: 55px;background-color: red;margin: 0 50px;display: inline-block">
-    <span style="width: 50px;height: 50px;background-color: #0c37ba;"></span>
-</label>
-<label style="width: 55px;height: 55px;background-color: red;position: relative;margin: 0 50px;display: inline-block">
-    <span style="width: 50px;height: 50px;background-color: #0c37ba;"></span>
-</label>
-
-
-<label style="background-color: red;position: relative;margin: 0 50px;clear: both;overflow: hidden">
-    <span style="float:left;width: 50px;height: 50px;background-color: #0c37ba;"></span>
-</label>
-
-
-<div></div>
-<br>
-<h2>测试子元素浮动</h2>
-<label style="width: 55px;height: 55px;background-color: red;position: relative;margin: 0 50px;">
-    <span style="float:left;width: 50px;height: 50px;background-color: #0c37ba;"></span>
-    <span>lkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</span>
-</label>
-
-
-<div></div>
-<br><div></div>
-<br>
-<!--<label>ssssssssssssssssss</label>-->
-<!--<span style="float: left">ddddddddddddddddd</span>-->
-<div style="float: left">ddddddddddddddddd</div>
-
-<!--<span style="width: 50px;height: 50px;background-color: red;">99</span>-->
-
-<div style="width: 50px;height: 50px;background-color: red"></div>
-
-<div style="background-color: #0c37ba"><textarea  style="background-color: red;display: inline-block"></textarea>
-    <span style="position: absolute; left: 10px;top: 90px;">dd<br><br>dd</span>ssssssss</div>
-
-
-
 
 
 

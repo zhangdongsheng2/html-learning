@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新的UI方案</title>
+
+    <style type="text/css">
+        #box-attributes {
+            width: 50px;
+            height: 50px;
+            margin: 50px;
+            background-color: pink;
+            transition-property: width,background;
+            /*transition-property: all;*/
+            /*transition-duration: 3s;*/
+            transition-duration: 3s, 10s;/*必须要加单位,   多个时间会对应多个属性, 对不上的就重复*/
+        }
+        /*body:hover #box-attributes {*/
+        /*    cursor: pointer;*/
+        /*    width: 200px;*/
+        /*    height: 200px;*/
+        /*    background-color: red;*/
+        /*    transition-property: height;*/
+        /*}*/
+        #box-attributes:hover {
+            cursor: pointer;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            transition-property: height;
+        }
+
+
+        #box-time-function {
+            width: 50px;
+            height: 50px;
+            margin: 50px;
+            background-color: pink;
+            transition-property: all;
+            transition-duration: 10s;
+            /*根据函数的时间进行过渡,贝塞尔时间*/
+            transition-timing-function: cubic-bezier(.39,1.27,.65,-0.7);
+            /*把动画分层5段执行, 默认end (从1段开始位置), start(从1段结束位置) */
+            /*transition-timing-function: steps(5,end);*/
+            transition-delay: 2s;/*延迟执行*/
+
+        }
+        #box-time-function:hover {
+            cursor: pointer;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+
+        #box-all-prp {
+            width: 50px;
+            height: 50px;
+            margin: 50px;
+            background-color: pink;
+            /*多个数值, 第一个时执行时间, 第二个是延迟时间*/
+            transition: width 3s 3s,height 2s, background-color 8s;
+        }
+        #box-all-prp:hover {
+            cursor: pointer;
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+
+
+
+        #box-btn-prp {
+            width: 50px;
+            height: 26px;
+            margin: 50px;
+            text-align: center;
+            font: 19px/26px "微软雅黑";
+            padding: 2px 4px;
+            border: 1px solid black;
+            box-shadow: black 2px 2px 1px;
+            color: white;
+            text-decoration: none;
+
+            background-color: gray;
+            transition: 2s;
+        }
+        #box-btn-prp:hover {
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<h1>过度</h1>
+<p>
+    transition-property:
+    指定过渡动画的属性（并不是所有的属性都可以动画）<br>
+    transition-duration:
+    指定过渡动画的时间（0也要带单位）<br>
+    transition-timing-function:
+    指定过渡动画的形式（贝塞尔）<br>
+    transition-delay:
+    指定过渡动画的延迟<br>
+    transition:
+    第一个可以被解析成时间的值会赋给transition-duration<br>
+    transtionend事件（DOM2）:
+    在每个属性完成过渡时都会触发这个事件<br>
+    <br>
+    当属性值的列表长度不一致时:<br>
+    跟时间有关的重复列表<br>
+    transition-timing-function使用默认值<br>
+</p>
+
+
+<h1>过度-属性</h1>
+transition 在首次渲染还未结束时不触发
+<div id="box-attributes"></div>
+
+<h1>过度-贝塞尔时间函数</h1>
+<div id="box-time-function"></div>
+
+<h1>过度-属性集合</h1>
+<div id="box-all-prp"></div>
+
+<h1>过度-按钮高亮</h1>
+<div id="box-btn-prp">按钮</div>
+
+
+
+</body>
+
+<script type="text/javascript">
+    let alerted = ''
+    document.getElementById("box-all-prp").ontransitionend = function (){
+        if (!alerted) {
+            alert("弹出了")
+            alerted = "y"
+        }
+    }
+
+</script>
+</html>
