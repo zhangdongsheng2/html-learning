@@ -1,0 +1,130 @@
+//less语法
+/*
+1. 函数.
+2. 变量  @  变量的延迟加载,变量是块级作用域
+3. 嵌套(&)  带这个前缀的是代表给当前选择器(不是子元素)设置伪元素, 伪类.
+4. 匹配模式.
+5. 参数集合.
+6. 继承. 避免编译.
+ */
+@import "triangle";
+//函数编写示例, 变量编写示例
+@color_box: deeppink;
+@selector_box: box-1;
+
+.juzhong(@w:10px,@h:10px,@c:pink) {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: @c;
+  height: @h;
+  width: @w;
+}
+
+
+.box {
+  width: 300px;
+  height: 300px;
+  border: 1px solid;
+  position: relative;
+
+  //变量获取示例
+  .@{selector_box} {
+    //.juzhong(100px, 100px, @color_box);
+    .juzhong(100px, 100px,@c: @color_box);
+    //添加鼠标事件
+    &:hover {
+      background: pink;
+    }
+
+
+  }
+
+  //选择内部元素 此时的 & 代表 .box
+  &-2 {
+    color: green;
+    font: 30px/300px "微软雅黑";
+  }
+}
+
+
+//变量的延迟加载, 赋值会被后面的覆盖.
+@left-margin: 100px;
+@var: yellow;
+.box {
+  @var: blue;
+
+  .box-var-1 {
+    @var: black;
+    color: @var; //3
+    @var: pink;
+  }
+
+  span {
+    margin-left: (10+@left-margin);
+    color: @var;
+  }
+
+  @var: red;
+}
+
+
+//匹配模式
+.box-match-1{
+
+  .triangle(L,80px,black)
+}
+
+
+//参数集合
+.borderf(@bw:10px,@style:solid,@cl:pink) {
+  border: @arguments;
+}
+
+.box-args{
+  .juzhong(100px, 100px);
+  .borderf(5px,solid,blue);
+}
+
+
+//避免编译
+.box-build{
+  .juzhong(100px, 100px);
+  padding: ~"calc(120px - 100px)";
+}
+
+
+//继承
+.juzhong2{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+
+.juzhong2:hover{
+  background: red!important;
+}
+//继承 所有开头的css
+.inner{
+  &:extend(.juzhong2 all);
+  &:nth-child(1){
+    width: 100px;
+    height: 100px;
+    background: pink;
+  }
+  &:nth-child(2){
+    height: 50px;
+    width: 50px;
+    background: black;
+  }
+}
+
+
+
+

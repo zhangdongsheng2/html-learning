@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex初次邂逅</title>
+    <style>
+        /*
+         * flex容器 (设置属性的盒子)
+         * flex项目 (子元素)
+         * 主轴 默认x轴正方向
+         * 侧轴
+         * 项目永远在主轴的正方向上排列
+         * */
+        .box {
+            width: 500px;
+            height: 500px;
+            border: 1px solid;
+            position: relative;
+            perspective: 200px;
+        }
+
+        .box-inner {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            border: 1px solid;
+
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .box-inner > .item {
+            width: 50px;
+            height: 50px;
+            background: pink;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .box-new {
+            display: flex;
+            /*flex-direction: column;*/
+            flex-direction: row-reverse;
+            /*
+            flex-start  在主轴正方向
+            flex-end    在主轴反方向
+            center    主轴两边
+            space-between  项目之间
+            space-around   项目两边
+             */
+            /*justify-content: space-between;*/
+
+            /*
+            flex-start  在侧轴正方向
+            flex-end    在侧轴反方向
+            center    侧轴两边
+
+            baseline 基线对齐
+            stretch 等高布局, 项目高度充满元素(未设置height的情况下)
+             */
+            /*align-items: stretch;*/
+
+            /*独有侧轴方向*/
+            /*flex-wrap: wrap-reverse;*/
+
+            /*多行多列时, 富裕空间管理, 把多行多列看成一个整体*/
+            /*align-content: flex-start;*/
+        }
+
+        .box-new > .item:nth-child(1) {
+            /*
+            flex-grow
+            box-flex 默认值都为0
+
+            flex-grow：
+                   可用空间 = (容器大小 - 所有相邻项目flex-basis的总和)
+                                   400 - 5*50 = 150
+                                   400 - 5*0  = 400
+                   可扩展空间 = (可用空间/所有相邻项目flex-grow的总和)
+                                   150 / 8 = 18.75
+                                   400 / 8 = 50
+                   每项伸缩大小 = (伸缩基准值 + (可扩展空间 x flex-grow值))
+
+                                50 + 18.75*4 = 125
+                                50 + 18.75*1 = 68.75
+
+                                0 + 50*4 = 200
+                                0 + 50 = 50
+
+        */
+            /*flex-grow: 2;*/
+            order: 3;
+            align-self: flex-end;
+            flex-shrink: inherit;
+        }
+
+        .box-new > .item:nth-child(2) {
+            order: 1;
+        }
+        .box-new > .item:nth-child(3) {
+            order: 5;
+        }
+        .box-new > .item:nth-child(4) {
+            order: 2;
+        }
+        .box-new > .item:nth-child(5) {
+            order: 4;
+            /*在默认宽度之和大于容器的时候才会发生*/
+            /*flex-shrink: .1;*/
+        }
+
+        .box-old {
+            display: -webkit-box;
+            /*-webkit-box-orient: vertical;*/
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: reverse;
+
+            /*主轴
+            start 富裕空间在右边
+            end 富裕空间在左边
+            center 富裕空间在两边
+            justify 富裕空间在之间
+             */
+            /*-webkit-box-pack: justify;*/
+
+            /*侧轴
+            start 富裕空间右边x 下边y
+            end 富裕空间右边x  上边y
+            center 富裕空间两边
+             */
+            -webkit-box-align: center;
+        }
+
+        .box-old > .item:nth-child(1) {
+            -webkit-box-flex: 2;
+        }
+
+        /*对比不同
+       1. 项目被挤压时: 新的尽力适配, 旧的直接超出
+       2. 项目反转时: 新的空白区域也反转, 旧的不处理空白区域需要自己添加属性控制
+       3. 富裕空间中间: 新版本元素在中间, 旧版本如果有反转旧会左边超出容器
+        */
+
+        .box-shrink {
+            width: 100px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .box-shrink > .item {
+            /*
+             * flex-shrink 默认值为1 只有在 flex-wrap:nowrap时才有作用
+             * flex-shrink：
+                   每项flex收缩大小 = 伸展基准值 - (收缩比例 / 收缩比例总和 x 溢出的空间)-->并不是
+
+                                   1/5 * 300 = 60；
+
+                                   200 - 60 = 140
+                                   50 - 60 = -10
+                   1.计算收缩因子与基准值乘的总和
+                           200 + 50*4 = 400
+                   2.计算收缩因数
+                              收缩因数=（项目的收缩因子*项目基准值）/第一步计算总和
+                              1*200 / 400 = 1/2
+                              1*50 / 400 = 1/8
+                   3.移除空间的计算
+                              移除空间= 项目收缩因数 x 负溢出的空间
+                              1/2*300 = 150
+                              1/8*300 = 37.5
+
+                              200 - 150 =50；
+                              50 - 37.5 = 12.5
+
+            */
+            flex-shrink: 1;
+        }
+
+        .box-shrink > .item:nth-child(1) {
+            width: 200px;
+        }
+
+
+
+        .box-equal-parts {
+            width: 100px;
+            display: flex;
+            flex-grow: 1;
+            flex-basis: 0;
+            flex-shrink: 1;
+
+        }
+
+    </style>
+</head>
+<body>
+<h1>flex新对比</h1>
+<div class="box">
+    <div class="box-inner box-new">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div>
+</div>
+
+<h1>flex旧对比</h1>
+<div class="box">
+    <div class="box-inner box-old">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div>
+</div>
+
+
+<h1>flex-shrink</h1>
+<div class="box">
+    <div class="box-inner box-shrink">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div>
+</div>
+
+
+<h1>flex-等分布局</h1>
+<div class="box">
+    <div class="box-inner box-equal-parts">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -122,32 +122,37 @@
 
         .box_clock_wrap > .box_clock_h {
             position: absolute;
-            left: 97px;
-            top:  49%;
+            left: 50%;
+            top:  50%;
             width: 6px;
             height: 30px;
+
             background: black;
             transform-origin: 0 0;
+            transform: rotate(180deg) translate3d(-50%,0,0);
         }
 
         .box_clock_wrap > .box_clock_m {
             position: absolute;
-            left: 97px;
-            top: 49%;
+            left: 50%;
+            top: 50%;
             width: 4px;
             height: 50px;
             background: gray;
             transform-origin: 0 0;
+
+            transform: rotate(180deg) translate3d(-50%,0,0);
         }
 
         .box_clock_wrap > .box_clock_s {
             position: absolute;
-            left: 97px;
-            top:  49%;
+            left: 50%;
+            top: 50%;
             width: 2px;
             height: 70px;
             background: red;
             transform-origin: 0 0;
+            transform: rotate(180deg) translate3d(-50%,0,0);
         }
 
         .box_clock_wrap > .box_clock_icon {
@@ -156,8 +161,8 @@
             top: 0;
             bottom: 0;
             right: 0;
-            width: 15px;
-            height: 15px;
+            width: 10px;
+            height: 10px;
             margin: auto;
             border-radius: 50%;
             background: red;
@@ -313,9 +318,9 @@ transform-origin: 基点的变换<br/>
             const s = date.getSeconds();
             const m = date.getMinutes()+s/ 60;
             const h = date.getHours()+m/60;
-            hourNode.style.transform="rotate("+(30*h+180)+"deg)";
-            minNode.style.transform="rotate("+(6*m +180)+"deg)";
-            secNode.style.transform="rotate("+(6*s+180)+"deg)";
+            hourNode.style.transform="rotate("+(30*h+180)+"deg) translate3d(-50%,0,0)";
+            minNode.style.transform="rotate("+(6*m +180)+"deg)  translate3d(-50%,0,0)";
+            secNode.style.transform="rotate("+(6*s+180)+"deg)  translate3d(-50%,0,0)";
         }
 
     };

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--    ###媒体类型-->
+    <!--    all                  所有媒体（默认值）-->
+    <!--    screen           彩色屏幕-->
+    <!--    print              打印预览-->
+
+    <!--    projection     手持设备-->
+    <!--    tv                   电视-->
+    <!--    braille           盲文触觉设备-->
+    <!--    embossed     盲文打印机-->
+    <!--    speech        “听觉”类似的媒体设备-->
+    <!--    tty                 不适用像素的设备-->
+    <style media="screen">
+        #box {
+            width: 300px;
+            height: 300px;
+            border: 20px solid black;
+        }
+
+        #box_multiple_columns{
+            width: 600px;
+            column-count: 2;
+            border: 2px solid;
+            column-gap: 40px;
+            column-rule: 1px red solid;
+        }
+    </style>
+
+    <style>
+        @media print {
+            #box {
+                width: 300px;
+                height: 300px;
+                border: 20px solid red;
+                border-radius: 50%;
+            }
+        }
+
+        /* width:浏览器窗口的尺寸（min max）
+         * 		min-width:800px   >=800px
+         * 		max-width:800px   <=800px
+         *
+         * device-width:设备独立像素（min max）
+         * 			pc端：分辨率
+         * 			移动端：具体看机器的参数
+         *
+         * device-pixel-ratio（必须加-webkit-前缀），（min max）
+         * 			pc端：1
+         * 			移动端：具体看机器的参数
+         *
+		 * orientation (设备的方向)
+         * */
+
+        /*关键字
+         * 	and：代表与的意思,一般用and来连接媒体类型个媒体属性
+         *
+         * 	only：和浏览器兼容性有关。
+         * 		老版本的浏览器只支持媒体类型，不支持带媒体属性的查询
+         * 				@media screen{}
+         * 				@media only{}
+         *
+         * 	（,）：代表或的意思
+         *
+         *
+         * 	not:取反
+         *
+         *
+         * */
+        @media screen and (device-width: 1920px) {
+            /*规则*/
+            #box {
+                border: 10px solid red;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<h1>打印不显示</h1>
+<div id="box"></div>
+
+<h1>多列布局</h1>
+<div id="box_multiple_columns">
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+    城市套路深，我想回农村，农村路更滑，人心更复杂 城市套路深，我想回农村，农村路更滑，人心更复杂<br />
+</div>
+
+
+</body>
+</html>

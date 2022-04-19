@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D变换</title>
+
+    <style>
+        /*
+         * 景深:让3D场景有近大远小的效果（我们肉眼距离屏幕的距离）
+         * 			是一个不可继承属性，但他可以作用于后代元素（不是作用于本身的）
+         *
+         * 原理：
+         * 		景深越大 灭点越远 元素变形更小
+         * 		景深越小 灭点越近 元素变形更大
+         *
+         * 景深基点
+         * 		视角的位置
+         * */
+        .box-rotate, .box-cube-wrap, .box-3-wrap,.box-many-wrap {
+            width: 500px;
+            height: 500px;
+            border: 1px solid;
+            position: relative;
+
+            /*background-color: black;*/
+            perspective: 200px;
+            transform-style: preserve-3d;
+        }
+
+        .box-inner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid;
+            border-radius: 30%;
+            background: pink;
+
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transition: 5s;
+        }
+
+        .box-rotate:hover .box-inner {
+            /*旋转的参数  x, y, z, a角度*/
+            transform: rotate3d(1, 1, 1, 360deg);
+            /*平移  x, y, z*/
+            /*transform: translate3d(-100px,100px,10px);*/
+
+            /*缩放*/
+            /*transform: translateZ(200px);*/
+            /*transform:  translateZ(100px) scaleZ(2);*/
+            /*transform:  scaleZ(2) translateZ(100px);*/
+        }
+
+        /*=============立方体==================*/
+
+        .box-cube {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transition: 3s;
+            transform-origin: center center -50px;
+            /*必须设置否则子元素没有3D效果*/
+            transform-style: preserve-3d;
+        }
+
+        .box-cube:hover {
+            transform: rotateX(360deg);
+        }
+
+        .box-cube > div {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            font: 50px/100px "微软雅黑";
+            text-align: center;
+            background: pink;
+            border: 1px solid;
+
+            /*元素公共属性抽取*/
+            transform-origin: center center -50px;
+            /*设置后元素不能从背面看*/
+            backface-visibility: hidden;
+
+        }
+
+        .box-cube > div:nth-child(1) {
+            z-index: 1;
+        }
+
+        .box-cube > div:nth-child(2) {
+            transform: rotateY(180deg) rotate(180deg);
+        }
+
+        .box-cube > div:nth-child(3) {
+            transform: rotateY(90deg);
+        }
+
+        .box-cube > div:nth-child(4) {
+            transform: rotateY(-90deg);
+        }
+
+        .box-cube > div:nth-child(5) {
+            transform: rotateX(90deg);
+        }
+
+        .box-cube > div:nth-child(6) {
+            transform: rotateX(-90deg);
+        }
+
+        /*===============三棱柱=============*/
+        .box-3{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transition: 3s;
+            transform-origin: center center -28.867513459481287px;
+            /*必须设置否则子元素没有3D效果*/
+            transform-style: preserve-3d;
+        }
+
+
+        .box-3 > div {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            font: 50px/100px "微软雅黑";
+            text-align: center;
+            background: pink;
+            border: 1px solid;
+
+            /*元素公共属性抽取, 三角形中线的点, 50*tan(30°)*/
+            transform-origin: center center -28.867513459481287px;
+        }
+
+        .box-3 > div:nth-child(1) {
+        }
+
+        .box-3 > div:nth-child(2) {
+            transform: rotateY(120deg);
+        }
+
+        .box-3 > div:nth-child(3) {
+            transform: rotateY(240deg);
+        }
+
+        .box-3:hover {
+            transform: rotateY(360deg);
+        }
+
+        /*===============多棱柱=============*/
+        .box-many{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transition: 3s;
+            /*必须设置否则子元素没有3D效果*/
+            transform-style: preserve-3d;
+        }
+
+
+        .box-many > div {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            font: 50px/100px "微软雅黑";
+            text-align: center;
+            background: pink;
+            border: 1px solid;
+        }
+
+        .box-many:hover {
+            transform: rotateY(360deg);
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>3D旋转</h1>
+<div class="box-rotate">
+    <div class="box-inner"></div>
+</div>
+
+
+<h1>立方体</h1>
+<div class="box-cube-wrap">
+    <div class="box-cube">
+        <div>前</div>
+        <div>后</div>
+        <div>左</div>
+        <div>右</div>
+        <div>上</div>
+        <div>下</div>
+    </div>
+</div>
+
+
+<h1>三棱柱</h1>
+<div class="box-3-wrap">
+    <div class="box-3">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+    </div>
+</div>
+
+
+<h1>多棱柱</h1>
+<div class="box-many-wrap">
+    <div class="box-many"></div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        createM(10)
+    };
+
+    function createM(n){
+        //1. 获取容器, 计算多边形外角, 内角角度
+        const box = document.querySelector(".box-many");
+        const degOut = 360/n;
+        const degIn = 180- degOut;
+
+        const styleNode = document.createElement("style");
+        let divStr = "";
+        let cssStr = "";
+        //2. 循环生产多个面的 div, 并设置对应的旋转角度.
+        for (let i = 0; i < n; i++) {
+            divStr += "<div>"+(i+1)+"</div>"
+            cssStr += ".box-many > div:nth-child("+(i+1)+"){transform: rotateY("+(i*degOut)+"deg);}";
+        }
+        box.innerHTML = divStr;
+        //3. 计算中心点并设置给容器和div.
+        const mainNode = document.querySelector(".box-many > div");
+        const length = mainNode.offsetWidth;
+
+        cssStr+=".box-many {transform-origin: center center -"+(length/2 * Math.tan(degIn/2*Math.PI/180))+"px;}";
+        cssStr+=".box-many > div{transform-origin: center center -"+(length/2 * Math.tan(degIn/2*Math.PI/180))+"px;}";
+
+
+        styleNode.innerHTML=cssStr;
+        document.head.appendChild(styleNode);
+    }
+
+
+
+
+</script>
+
+</html>

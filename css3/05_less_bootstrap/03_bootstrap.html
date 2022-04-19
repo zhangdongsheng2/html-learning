@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bootstrap</title>
+    <!--    响应式必备-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet/less" href="css/damu/damu.less">
+    <style>
+        .container-fluid {
+            background: pink;
+        }
+
+        .container {
+            background: pink;
+        }
+
+        div[class|=col] {
+            border: 1px solid;
+        }
+
+        div[class|=damu] {
+            border: 1px solid;
+        }
+
+        .jumbotron {
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+固定的class
+<h1>流体容器</h1>
+<div class="container-fluid">test</div>
+
+<h1>固定容器</h1>
+<div class="container">test</div>
+
+<h1>栅格系统</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10">col-lg-10</div>
+        <div class="col-lg-2">col-lg-2</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">col-lg-6</div>
+        <div class="col-lg-6">col-lg-6</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">col-lg-5</div>
+        <div class="col-lg-7">col-lg-7</div>
+    </div>
+</div>
+
+
+<h1>栅格示例</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10">col-lg-10</div>
+        <div class="col-lg-2">col-lg-2</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">col-lg-6</div>
+        <div class="col-lg-6">col-lg-6</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">col-lg-5</div>
+        <div class="col-lg-7">col-lg-7</div>
+    </div>
+</div>
+
+
+<h1>自定义栅格</h1>
+<div class="container">
+    <div class="row">
+        <div class="damu-col-lg-10">damu-lg-10</div>
+        <div class="damu-col-lg-2">damu-lg-2</div>
+    </div>
+    <div class="row">
+        <div class="damu-col-lg-6">damu-lg-6</div>
+        <div class="damu-col-lg-6">damu-lg-6</div>
+        <div class="damu-col-lg-16">damu-lg-16</div>
+    </div>
+    <div class="row">
+        <div class="damu-col-lg-5">damu-lg-5</div>
+        <div class="damu-col-lg-7">damu-lg-7</div>
+    </div>
+</div>
+
+
+<h1>响应式工具</h1>
+<div class="container">
+    <div class="jumbotron hidden-xs">
+        <h1>Hello, world!</h1>
+    </div>
+</div>
+
+<h1>列偏移</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">col-lg-10</div>
+    </div>
+</div>
+
+
+
+
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!--处理less-->
+<script src="less/less.min.js"></script>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex导航图标</title>
+    <style>
+        /*
+         * 两行flex, 等分布局. 每个盒子里面图标+文字.
+         * 因为需要点击, 所以采用a标签加伪元素.
+         * */
+        .box {
+            width: 500px;
+            height: 500px;
+            border: 1px solid;
+            position: relative;
+            perspective: 200px;
+        }
+
+        .box-inner {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            border: 1px solid;
+
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+
+        .row {
+            width: 100%;
+            display: flex;
+            flex: 300;
+            justify-content: space-around;
+        }
+
+        .row > .item {
+            width: 50px;
+            text-align: center;
+            margin: 5px;
+        }
+
+
+        .row > .item > a:before{
+            width: 86px;
+            height: 90px;
+            content: "";
+            background: url("img/01.png") no-repeat;
+            display: block;
+            margin: 0 auto;
+        }
+        .row > .item > a{
+            width: 86px;
+            display: block;
+            background: pink;
+        }
+
+
+
+    </style>
+</head>
+<body>
+<div class="nav">
+    <div class="row">
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+        <div class="item">
+            <a href="#">天狗</a>
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

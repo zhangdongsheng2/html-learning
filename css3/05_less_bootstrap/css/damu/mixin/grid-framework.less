@@ -1,0 +1,97 @@
+//循环设置 padding, 定位, 最小高度
+.make-grid-columns() {
+  //2. 首次调用函数, 设置变量
+  .col(@index) {
+    @item: ~".damu-col-xs-@{index}, .damu-col-sm-@{index}, .damu-col-md-@{index}, .damu-col-lg-@{index}";
+    .col((@index + 1), @item);
+  }
+  //3. 12个列以内的不处理, 以外的计算处理样式.
+  .col(@index, @list) when (@index =< @grid-columns) {
+    @item: ~".damu-col-xs-@{index}, .damu-col-sm-@{index}, .damu-col-md-@{index}, .damu-col-lg-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  .col(@index, @list) when (@index > @grid-columns) {
+    @{list} {
+      position: relative;
+      min-height: 1px;
+      padding-left:  ceil((@grid-gutter-width / 2));
+      padding-right: floor((@grid-gutter-width / 2));
+    }
+  }
+  //1. 触发调用.
+  .col(1);
+}
+
+
+//循环设置宽度样式.
+.make-grid(@class) {
+  .float-grid-columns(@class);
+  .loop-grid-columns(@grid-columns, @class, width);
+  .loop-grid-columns(@grid-columns, @class, pull);
+  .loop-grid-columns(@grid-columns, @class, push);
+  .loop-grid-columns(@grid-columns, @class, offset);
+}
+
+//============一个循环调用设置超出的浮动=========
+.float-grid-columns(@class) {
+  //2. 第一次的调用函数, 赋值避免编译变量调用下个函数.
+  .col(@index) {
+    @item: ~".damu-col-@{class}-@{index}";
+    .col((@index + 1), @item);
+  }
+  //3. 在12个以内的列递归调用, 如果大于12的就浮动
+  .col(@index, @list) when (@index =< @grid-columns) { // general
+    @item: ~".damu-col-@{class}-@{index}";
+    .col((@index + 1), ~"@{list}, @{item}");
+  }
+  //4. 超出12 的进行浮动处理, 放在最后空位或者挤压到下一行.
+  .col(@index, @list) when (@index > @grid-columns) { // terminal
+    @{list} {
+      float: left;
+    }
+  }
+  //1. 触发调用, 传入从1开始.
+  .col(1);
+}
+
+//==========循环设置 12 个样式, 命中的就会按照样式显示. ===========
+.loop-grid-columns(@index, @class, @type) when (@index >= 0) {
+  .calc-grid-column(@index, @class, @type);
+  .loop-grid-columns((@index - 1), @class, @type);
+}
+
+//===========下面是匹配模式匹配调用函数=========
+.calc-grid-column(@index, @class, @type) when (@type = width) and (@index > 0) {
+  .damu-col-@{class}-@{index} {
+    width: percentage((@index / @grid-columns));
+  }
+}
+
+.calc-grid-column(@index, @class, @type) when (@type = push) and (@index > 0) {
+  .damu-col-@{class}-push-@{index} {
+    left: percentage((@index / @grid-columns));
+  }
+}
+.calc-grid-column(@index, @class, @type) when (@type = push) and (@index = 0) {
+  .damu-col-@{class}-push-0 {
+    left: auto;
+  }
+}
+.calc-grid-column(@index, @class, @type) when (@type = pull) and (@index > 0) {
+  .damu-col-@{class}-pull-@{index} {
+    right: percentage((@index / @grid-columns));
+  }
+}
+.calc-grid-column(@index, @class, @type) when (@type = pull) and (@index = 0) {
+  .damu-col-@{class}-pull-0 {
+    right: auto;
+  }
+}
+.calc-grid-column(@index, @class, @type) when (@type = offset) {
+  .damu-col-@{class}-offset-@{index} {
+    margin-left: percentage((@index / @grid-columns));
+  }
+}
+
+
+
