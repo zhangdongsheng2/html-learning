@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML5知识点实例</title>
+</head>
+<body>
+<h1>ClassList属性</h1>
+<div id="test1" class="sjs sjs1 sjs2 sjs3"></div>
+
+<h1>自定义属性</h1>
+<div id="test2" data-sjs-ss="zds"></div>
+
+<h1>可编辑</h1>
+<div id="test3" contenteditable="true">asdaslkdjfsaljd</div>
+
+<h1>怪异模式</h1>
+文件开头的 !DOCTYPE html 代表了模式的选择. <br/>
+查看渲染模式: 在 Firefox 中，请从右键菜单选择 查看页面信息，然后查看 渲染模式。<br>
+<ul>document.compatMode
+    <li>"BackCompat"：文档为怪异模式。</li>
+    <li>"CSS1Compat"：文档不是怪异模式，意味着文档处于标准模式或者准标准模式。</li>
+</ul>
+
+<h1>无语义</h1>
+<div id="header">
+    <h3>我是header</h3>
+    <h4>我是header的副标题</h4>
+</div>
+<div id="content">
+    <h3>content</h3>
+    <h4>我是content的副标题</h4>
+</div>
+<div id="footer">
+    <h3>我是footer</h3>
+    <h4>我是footer的副标题</h4>
+</div>
+
+<h1>语义</h1>
+<p>结论：不能因为有了HTML 5标签就弃用了div，每个事物都有它的独有作用的。</p>
+<img src="img/yuyi.png">
+<header>
+    <hgroup>
+        <h3>我是header</h3>
+        <h4>我是header的副标题</h4>
+    </hgroup>
+</header>
+
+<section>
+    <h3>我是header</h3>
+    <h4>我是header的副标题</h4>
+</section>
+
+<footer>
+    <h3>我是header</h3>
+    <h4>我是header的副标题</h4>
+</footer>
+
+
+</body>
+<script type="text/javascript">
+    const test1Node = document.querySelector("#test1");
+    console.log(test1Node.classList);
+    test1Node.classList.add("sjs4");
+    test1Node.classList.remove("sjs1");
+    test1Node.classList.toggle("sjs7");//存在就删除不存在就添加
+    console.log(test1Node.classList);
+
+    console.log("==============================");
+
+    const test2Node = document.querySelector("#test2");
+    console.log(test2Node.dataset);
+
+
+    console.log("渲染模式: ",document.compatMode);
+
+
+
+</script>
+</html>
