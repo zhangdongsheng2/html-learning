@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"></meta>
+    <title>Canvas简单使用</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        ul>li {
+           background: url("img/b.png");
+            background-size: 100% 100%;
+        }
+
+        #wrap,ul,ul>li {
+            height: 100%;
+        }
+
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <canvas></canvas>
+    <ul>
+        <li></li>
+    </ul>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    window.onload = function () {
+        const canvasBase = document.querySelector("canvas");
+        canvasBase.width = document.documentElement.clientWidth;
+        canvasBase.height = document.documentElement.clientHeight;
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+        var image = new Image();
+        image.src = "img/a.png";
+        image.onload = function () {
+            draw();
+        }
+
+
+        function draw() {
+            let flag=0;
+            context.drawImage(image,0,0,canvasBase.width,canvasBase.height);
+
+            canvasBase.addEventListener("touchstart",function (ev){
+                ev = ev||event;
+                console.log("touchstart")
+                let touchC = ev.changedTouches[0];
+
+                let x = touchC.clientX - canvasBase.offsetLeft;
+                let y = touchC.clientY - canvasBase.offsetTop;
+
+                //定义触摸后的绘制样式
+                context.globalCompositeOperation = "destination-out";
+                context.lineWidth=40;
+                context.lineCap = "round";
+                context.lineJoin = "round";
+                context.save();
+                context.beginPath();
+
+                context.moveTo(x, y);
+                context.lineTo(x + 1, y + 1);
+                context.stroke();
+                context.restore();
+
+            })
+
+            canvasBase.addEventListener("touchmove",function (ev){
+                console.log("touchmove")
+                ev = ev||event;
+                let touchC = ev.changedTouches[0];
+
+                let x = touchC.clientX - canvasBase.offsetLeft;
+                let y = touchC.clientY - canvasBase.offsetTop;
+
+                context.save();
+                context.lineTo(x,y)
+                context.stroke();
+                context.restore();
+
+            })
+
+            //判断是否消除了够多的 像素， 就自动清空全部
+            canvasBase.addEventListener("touchend",function (){
+                console.log("end")
+                let imgData = context.getImageData(0,0,canvasBase.width,canvasBase.height)
+                let allPx = imgData.width * imgData.height;
+                for (let i = 0; i < allPx; i++) {
+                    if(imgData.data[4*i+3]===0){
+                        flag++;
+                    }
+                }
+                if (flag >= allPx / 2) {
+                    canvasBase.style.opacity=0;
+                }
+
+            })
+
+            //全部显示后，去掉所有事件
+            canvasBase.addEventListener("transitionend",function (){
+                console.log("transitionend")
+                this.remove();
+            })
+
+
+        }
+    }
+
+
+
+
+
+</script>
+</html>

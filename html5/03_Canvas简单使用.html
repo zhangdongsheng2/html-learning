@@ -131,6 +131,34 @@ canvas在渲染矩形边框时，边框宽度是平均分在偏移位置的两�
     <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
 </canvas>
 
+<h1>像素操作</h1>
+<canvas id="canvas-px" class="canvas-bg" width="300" height="300">
+    <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+</canvas>
+
+<h1>像素操作-getset</h1>
+<canvas id="canvas-pxgetset" class="canvas-bg" width="300" height="300">
+    <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+</canvas>
+
+
+<h1>马赛克</h1>
+<canvas id="canvas-mosaic" class="canvas-bg" width="300" height="300">
+    <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+</canvas>
+
+
+<h1>全局透明-合成</h1>
+<canvas id="canvas-transparent-compose" class="canvas-bg" width="300" height="300">
+    <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+</canvas>
+
+
+<h1>导出图片-事件</h1>
+<canvas id="canvas-ex-le" class="canvas-bg" width="300" height="300">
+    <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+</canvas>
+
 
 </body>
 <script type="text/javascript">
@@ -182,24 +210,228 @@ canvas在渲染矩形边框时，边框宽度是平均分在偏移位置的两�
         canvasLineGradient();
         canvasAsuka();
         canvasText();
+        canvasPx();
+        canvasPxGetSet();
+        canvasMosaic();
+        canvasTransparentCompose();
+        canvasExLe();
     }
+
+    //导出图片-事件
+    function canvasExLe() {
+        const canvasBase = document.querySelector("#canvas-ex-le");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        // 全局透明
+        context.fillStyle = "red";
+        context.globalAlpha=.5;
+        context.beginPath();
+        context.fillRect(0, 0, 100, 100);
+        context.fill();
+        context.beginPath();
+        context.arc(200, 200, 50, 0,360*Math.PI/180);
+        context.fill();
+
+        // console.log(canvasBase.toDataURL());
+
+        canvasBase.onclick=function (ev){
+            console.log("====================");
+            ev = ev||event;
+            console.log("====================",ev);
+            let x = ev.clientX - canvasBase.getBoundingClientRect().left;
+            let y = ev.clientY - canvasBase.getBoundingClientRect().top;
+            if (context.isPointInPath(x, y)) {
+                alert(123);
+            }
+        }
+
+    }
+
+    //全局透明-合成
+    function canvasTransparentCompose() {
+        const canvasBase = document.querySelector("#canvas-transparent-compose");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        //全局透明
+        // context.fillStyle = "red";
+        // context.globalAlpha=.5;
+        // context.fillRect(0, 0, 100, 100);
+        // context.fillRect(100, 100, 100, 100);
+
+        //图片合成， 只显示交集
+        context.fillStyle = "pink";
+        context.fillRect(0,150,100,100);
+        context.globalCompositeOperation = "destination-atop";
+        context.fillStyle = "green";
+        context.fillRect(50, 200, 100,100);
+
+    }
+
+
+    //马赛克
+    function canvasMosaic() {
+        const canvasBase = document.querySelector("#canvas-mosaic");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        let img = new Image();
+        img.src = "img/yuyi.png";
+        img.onload=function (){
+            context.width = img.width*2;
+            context.height = img.height*2;
+
+            context.drawImage(img, 0, 0);
+            let oldImagedata = context.getImageData(0, 0, img.width, img.height);
+            let newImagedata = context.createImageData(img.width, img.height);
+            //马赛克
+            /*
+            1. 选取一个马赛克矩形
+            2. 从马赛克矩形中抽取一个像素点 rgba
+            3. 将整个马赛克矩形中的像素点信息统一调成随机的那个
+             */
+
+            let size = 5;
+            for (let i = 0; i < oldImagedata.width / size; i++) {
+                for (let j = 0; j < oldImagedata.height / size; j++) {
+                    //(i,j) 每一个马赛克矩形的坐标
+                    //0,0  0,1  0,2 ..... width，height
+
+                    //Math.floor(Math.random()*size) 整数随机数
+                    //从小方块中随机抽取一个像素点信息
+                    let color = getPxInfo(oldImagedata,i*size+Math.floor(Math.random()*size),j*size+Math.floor(Math.random()*size));
+
+                    //将马赛克中所有的点，都设置成随机抽取的那一个
+                    for (let k = 0; k < size; k++) {
+                        for (let l = 0; l < size; l++) {
+                            setPxInfo(newImagedata,i*size+k,j*size+l, color);
+                        }
+                    }
+                }
+            }
+
+            context.clearRect(0, 0, canvasBase.width, canvasBase.height);
+            context.putImageData(newImagedata, 0, 0);
+
+        }
+
+    }
+
+    //操作像素GetSet
+    function canvasPxGetSet() {
+        const canvasBase = document.querySelector("#canvas-pxgetset");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        context.save();
+        context.fillStyle = "rgba(255,0,0,1)";
+        context.beginPath();
+        context.fillRect(50, 50, 100, 100);
+        context.restore();
+
+        let imgdata = context.getImageData(0, 0, canvasBase.width, canvasBase.height);
+
+        for (let i = 0; i < imgdata.width; i++) {
+            setPxInfo(imgdata, 100, i, [255, 0, 0, 255]);
+            setPxInfo(imgdata, 20, i, [255, 0, 0, 255]);
+            setPxInfo(imgdata, 10, i, [255, 0, 0, 255]);
+        }
+
+        context.putImageData(imgdata, 0, 0);
+
+    }
+    //获取一个点的像素颜色 的rgba值
+    function getPxInfo(imgdata, x, y) {
+        let color = [];
+        let data = imgdata.data;
+        let w = imgdata.width;
+        let h = imgdata.height;
+
+        color[0] = data[(y * w + x) * 4];
+        color[1] = data[(y * w + x) * 4+1];
+        color[2] = data[(y * w + x) * 4+2];
+        color[3] = data[(y * w + x) * 4+3];
+
+        return color;
+    }
+    //获取一个点的像素颜色 的rgba值
+    function setPxInfo(imgdata, x, y,color) {
+        let data = imgdata.data;
+        let w = imgdata.width;
+        let h = imgdata.height;
+
+        data[(y * w + x) * 4]=color[0];
+        data[(y * w + x) * 4+1]=color[1];
+        data[(y * w + x) * 4+2]=color[2];
+        data[(y * w + x) * 4+3]=color[3];
+    }
+
+
+    //操作像素
+    function canvasPx() {
+        const canvasBase = document.querySelector("#canvas-px");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+        context.fillStyle = "rgba(255,0,0,1)";
+        context.fillRect(0, 0, 100, 100);
+
+        /**
+         * ImageData
+         * width: 横向上像素点的个数。
+         * height: 纵向上像素点的个数。
+         * data: 数组： 每一个像素点的rgba信息。
+         *
+         */
+        let imageData = context.getImageData(0, 0, 100, 100);
+        for (let i = 0; i < imageData.data.length/4; i++) {
+            //rgba 这里修改b 的数值。
+            imageData.data[4*i]=255
+            imageData.data[4*i+1]=0
+            imageData.data[4*i+2]=0
+            imageData.data[4*i+3]=125 //a的值是 0-255
+        }
+        context.putImageData(imageData, 100, 100);
+
+
+        context.fillStyle = "rgba(255,0,0,0.5)";
+        context.fillRect(200, 200, 100, 100);
+
+    }
+
 
     //绘制文本
     function canvasText() {
         const canvasBase = document.querySelector("#canvas-text");
-        canvasBase.width = document.documentElement.clientWidth;
         if (!canvasBase.getContext) return;
         const context = canvasBase.getContext("2d");
         context.fillStyle = "green";
         context.font = "40px sans-serif";
+        // context.textAlign="right";
+        context.textBaseline="middle";
+        context.fillText("Hello",150,100);
+        context.strokeText("Hello",150,100);
 
+        //字体测量
+        let textMetrics = context.measureText("Hello");
+        console.log(textMetrics);
+
+        //字体居中
+        context.fillText("Hello",(canvasBase.width - textMetrics.width) /2, canvasBase.height/2);
+
+        //阴影
+        context.shadowOffsetX= 20;
+        context.shadowOffsetY=20;
+        context.shadowBlur = 30;
+        context.shadowColor = "yellow";
+        context.fillRect(0, 0, 100, 100);
     }
 
 
     //飞鸟
     function canvasAsuka() {
         const canvasBase = document.querySelector("#canvas-asuka");
-        canvasBase.width = document.documentElement.clientWidth;
+        canvasBase.width = document.documentElement.clientWidth-20;
         if (!canvasBase.getContext) return;
         const context = canvasBase.getContext("2d");
         //第几个图片, 绘制的位置
