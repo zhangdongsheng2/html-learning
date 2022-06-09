@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>音视频</title>
+</head>
+<body>
+<h1>音视频</h1>
+<video src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/test.mp4" width="500" height="500" controls></video>
+<audio src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/test.mp3" controls></audio>
+
+<h1>兼容性写法</h1>
+<video controls width="300" height="300">
+    <source src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.mp4" type="video/mp4">
+    <source src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.ogv" type="video/ogg">
+    <source src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.webm" type="video/webm">
+    当前浏览器不支持 video直接播放, 点击下载视频 <a href="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.mp4">下载视频</a>
+</video>
+
+<audio controls>
+    <source src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.mp3" type="audio/mpeg">
+    <source src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.aac" type='audio/aac; codecs="aac"'>
+    <source src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.ogg" type='audio/ogg; codecs="vorbis"'>
+    当前浏览器不支持 音频直接播放, 点击下载音频 <a href="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.mp3">下载视频</a>
+</audio>
+<audio controls src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/OUTPUT.ogg" ></audio>
+
+
+<h1>属性设置</h1>
+自动播放和循环播放 <br/><br/>
+<audio  id="pro_audio" controls src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/test.mp3" autoplay loop ></audio>
+
+
+<h1>property</h1>
+<video id="pro_video" src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/test.mp4" width="500" height="500" controls></video>
+
+
+</body>
+
+<script type="application/javascript">
+    window.onload = function (){
+        let video = document.querySelector("#pro_video");
+        let audio = document.querySelector("#pro_audio");
+
+        video.play();
+
+        //视频加载完, 输出视频时长
+        video.addEventListener("loadeddata",function (){
+            console.log(video.duration);
+        })
+
+        setInterval(function (){
+            console.log(video.currentTime);
+            console.log(audio.currentTime);
+        },1000)
+
+        //音量控制, muted 和 volume之间不会同步, muted(静音)优先级高.
+        video.muted = true;
+        audio.muted = true;
+
+        console.log(video.muted);
+        console.log(video.volume);
+
+        console.log(video.paused);
+        console.log(audio.paused);
+        console.log(audio.ended);
+        console.log(audio.error);
+        console.log(audio.currentSrc);
+
+        video.poster = "img/yuyi.png";
+        console.log(video.poster);
+        console.log(video.width);
+        console.log(video.height);
+
+        video.addEventListener("loadeddata",function (){
+            console.log(video.videoWidth);
+            console.log(video.videoHeight);
+        })
+
+
+        setTimeout(function (){
+            video.pause();
+            audio.pause();
+        },5000)
+
+        video.src = "xxx";
+    }
+
+
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
