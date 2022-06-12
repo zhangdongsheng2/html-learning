@@ -3,6 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>音视频</title>
+    <style>
+
+        a {
+            text-decoration: none;
+            display: block;
+            color: black;
+        }
+        .nav{
+            list-style: none;
+            width: 608px;
+            height: 38px;
+            border: 1px solid;
+            padding: 0;
+            overflow: hidden;
+        }
+        .nav > li{
+            float: left;
+            height: 100%;
+            width: 100px;
+            text-align: center;
+            line-height: 38px;
+        }
+
+        .nav > li:not(:last-child){
+            border-right: 1px solid;
+        }
+
+
+        .nav > li >.down{
+            height: 100px;
+            background: yellow;
+            transition: .5s;
+        }
+
+        ul>li:hover .down{
+            transform: translateY(-38px);
+        }
+
+    </style>
 </head>
 <body>
 <h1>音视频</h1>
@@ -34,6 +73,47 @@
 <h1>property</h1>
 <video id="pro_video" src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/test.mp4" width="500" height="500" controls></video>
 
+
+<h1>音阶导航</h1>
+<div id="yjwrap">
+<!--    ul li 导航-->
+    <audio class="nav-audio"></audio>
+    <ul class="nav">
+        <li data-flag="a">
+<!--            <div class="down">00</div>-->
+            <a href="javacript:;">我的主页</a>
+            <div class="down">00</div>
+        </li>
+        <li data-flag="b">
+            <a href="javacript:;">新闻头条</a>
+            <div class="down"></div>
+        </li>
+        <li data-flag="c">
+            <a href="javacript:;">电视剧</a>
+            <div class="down"></div>
+        </li>
+
+        <li data-flag="d">
+            <a href="javacript:;">最新电影</a>
+            <div class="down"></div>
+        </li>
+        <li data-flag="e">
+            <a href="javacript:;">小说大全</a>
+            <div class="down"></div>
+        </li>
+        <li data-flag="f">
+            <a href="javacript:;">今日团购</a>
+            <div class="down"></div>
+        </li>
+    </ul>
+
+
+    <h1>与canvas结合</h1>
+    <video id="canvas_video" src="https://zhuhaibus.oss-cn-shenzhen.aliyuncs.com/2021-03/test.mp4" width="0" height="0" controls></video>
+    <canvas id="video_canvas" width="500" height="300"></canvas>
+
+
+</div>
 
 </body>
 
@@ -84,6 +164,38 @@
         },5000)
 
         video.src = "xxx";
+        video.load();
+
+
+        let liNodes = document.querySelectorAll(".nav>li");
+        let audioNav = document.querySelector(".nav-audio");
+
+        for (let i = 0; i < liNodes.length; i++) {
+            liNodes[i].addEventListener("mouseenter",function (){
+                let flag = this.getAttribute("data-flag");
+                audioNav.src = "http://s8.qhimg.com/share/audio/piano1/" + flag + "4.mp3";
+                audioNav.play();
+            })
+        }
+
+
+
+        const canvasVideo = document.querySelector("#canvas_video");
+        const canvasBase = document.querySelector("#video_canvas");
+
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        canvasVideo.addEventListener("loadeddata",function (){
+            setInterval(function () {
+                context.drawImage(canvasVideo,0,0, canvasBase.width, canvasBase.height);
+            });
+
+            canvasVideo.play();
+        })
+
+
+
     }
 
 

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽</title>
+    <style>
+       *{
+           margin: 0;
+           padding: 0;
+       }
+
+       .damu-1,.damu-test{
+           /*position: relative;*/
+           width: 500px;
+           height: 500px;
+           background: pink;
+       }
+
+       .damu-in{
+           position: absolute;
+           width: 50px;
+           height: 50px;
+           left: 0;
+           top: 40px;
+           background: red;
+       }
+
+       #zaw{
+           width: 100px;
+           height: 100px;
+           position: absolute;
+           left: 200px;
+           top: 200px;
+       }
+
+       .div_in{
+           width: 200px;
+           height: 200px;
+           background: red;
+       }
+
+    </style>
+</head>
+<body>
+<h1>拖拽</h1>
+<div class="damu-1">
+    送送
+    <div class="damu-in"></div>
+    <img src="img/a.png" id="zaw" alt="ss">
+</div>
+
+<h1>状态标签</h1>
+<div class="damu-1">
+    <meter value="60" min="20" max="100"></meter>
+    <meter value="80" min="20" max="100" low="40" high="60"></meter>
+    <meter value="30" min="20" max="100" low="40" high="60" optimum="80"></meter>
+    <br>
+    <progress value="50" max="100"></progress>
+    <progress max="100"></progress>
+</div>
+
+<h1>列表标签</h1>
+<div class="damu-1">
+    <input type="text" placeholder="你看看的和和" list="zdy">
+    <datalist id="zdy">
+        <option value="1">10sui的长得送</option>
+        <option value="2">20sui的长得送</option>
+        <option value="3">30sui的长得送</option>
+        <option value="4">40sui的长得送</option>
+    </datalist>
+
+    <br><br><br>
+
+    <details>
+        <summary>尚硅谷男生嘻嘻嘻</summary>
+        <p>一个下一页的人</p>
+        <p>一个下一页的人</p>
+        <p>一个下一页的人</p>
+        <p>一个下一页的人</p>
+    </details>
+
+    <br><br><br>
+    <span><ruby>看制<rt>0</rt>定方案</ruby></span>
+
+    <br><br><br>
+    <span>asgasdg<mark>laskdjalsk</mark>asdfasgda</span>
+
+</div>
+
+<h1>事件流</h1>
+<div class="damu-test">
+    <div class="div_in"></div>
+
+</div>
+
+
+
+
+</body>
+<script src="js/damu.js"></script>
+<script type="application/javascript">
+
+    /*
+    思路:
+    1. 拿到鼠标点击的元素, 一开始的位置.
+    2. 拿到鼠标移动的距离
+        鼠标点击的位置
+        鼠标移动时,实时位置
+        鼠标移动时实时距离=(实时位置-点击位置)
+    3. 确定鼠标移动后,元素的位置, 元素开始位置+鼠标移动距离
+     */
+
+    window.onload = function (){
+        let damuIn = document.querySelector(".damu-in");
+        let zaw = document.querySelector("#zaw");
+
+        // 全局捕获, 会把全局的鼠标事件传递给某个元素.
+        // damuIn.setCapture();
+
+        damu.drag(damuIn, true, 100, zaw);
+
+    }
+
+   //事件流
+    const damu1 = document.querySelector(".damu-test");
+    const divIn = document.querySelector(".div_in");
+    //绑定事件的函数第三个参数, 可以指定事件回调在哪一个阶段执行
+    //false 冒泡
+    //true  捕获
+    damu1.addEventListener("click", function () {
+        console.log(1);
+    },false);
+    damu1.addEventListener("click", function () {
+        console.log(2);
+    },true);
+    damu1.addEventListener("click", function () {
+        console.log(3);
+    },false);
+
+    divIn.addEventListener("click", function () {
+        console.log("a");
+    },false);
+    divIn.addEventListener("click", function () {
+        console.log("b");
+    },true);
+    divIn.addEventListener("click", function () {
+        console.log("c");
+    },false);
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
