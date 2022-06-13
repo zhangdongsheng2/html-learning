@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>位置尺寸曲线鼠标等</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body,html{
+            margin-left: 15px;
+        }
+
+        .box_wrap_3{
+            width: 300px;
+            height: 300px;
+            background: pink;
+        }
+
+        .list_ul{
+            list-style: inside;
+        }
+
+        .box_2{
+            width: 200px;
+            height: 200px;
+        }
+
+        .box_wrap_2{
+            position: absolute;
+            background: pink;
+            top: 750px;
+            left: 10px;
+        }
+        .box_2_inner{
+            position: absolute;
+            background: red;
+            top: 90px;
+            left: 100px;
+        }
+        .inner_bounding{
+            border: 3px solid;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1>parentNode</h1>
+<div class="box_wrap_3">
+    <div id="inner1" class="inner1111">inner1
+        <div id="inner2">inner2</div>
+    </div>
+</div>
+
+<h1>列表删除</h1>
+<div class="box_wrap_3">
+    <ul class="list_ul">
+        <li>xfz <a href="javascript:;">删除</a></li>
+        <li>xfz888 <a href="javascript:;">删除</a></li>
+        <li>xfz8888 <a href="javascript:;">删除</a></li>
+        <li>xfz88888<a href="javascript:;">删除</a></li>
+        <li>xfz888888 <a href="javascript:;">删除</a></li>
+        <li>xfz9999999 <a href="javascript:;">删除</a></li>
+    </ul>
+</div>
+
+<h1>获取元素的绝对位置</h1>
+<div class="box_2 box_wrap_2 ">
+    <div class="box_2 box_2_inner ">inner11</div>
+</div>
+
+
+<h1 style="margin-top: 350px">滚动条滚动的距离</h1>
+<div class="box_wrap_3">
+    <div class="inner_scroll">inner11</div>
+</div>
+
+
+<h1>getBoundingClientRect</h1>
+<div class="box_wrap_3">
+    <div class="inner_bounding">inner11</div>
+</div>
+
+
+
+</body>
+<script type="text/javascript">
+
+    window.onload = function () {
+        //================parentNode==================
+        let inner2 = document.querySelector("#inner2");
+        console.log(inner2.parentNode.id);
+        console.log(inner2.parentNode.className);
+
+        //=============列表删除=============
+        const listUl = document.querySelectorAll(".list_ul > li > a");
+        for (let i = 0; i < listUl.length; i++) {
+            listUl[i].onclick = function () {
+                //假删除, 数据比较重要
+                this.parentNode.style.display = "none";
+            };
+        }
+
+        //=============获取元素的准确位置==============
+        /*
+        绝对位置: 到body的距离.
+        相对位置: 到视口的而距离
+        本身定位胃fixed
+            ==> offsetParent:null(不是火狐)
+            ==> offsetTop和offsetLeft也是参照body
+            ==> offsetParent: body(火狐)
+         本身不为fixed
+            ==> 父级没有定位: offsetParent: body
+            ==> 父级有定位: offsetParent: 父级定位
+         */
+
+        const box2Inner = document.querySelector(".box_2_inner");
+
+        console.log(getPointAb(box2Inner))
+
+        function getPointAb(node) {
+            let x = 0;
+            let y = 0;
+            while (node) {
+                x+=node.offsetLeft;
+                y+=node.offsetTop;
+
+                node = node.offsetParent;
+            }
+
+            return {x:x, y: y}
+        }
+
+        //==============滚动条滚动时, 元素滚动的距离================
+        const inner_scroll = document.querySelector(".inner_scroll");
+        window.onscroll = function () {
+            let L = document.documentElement.scrollLeft||document.body.scrollLeft;
+            let T = document.documentElement.scrollTop||document.body.scrollTop;
+            console.log(L,T);
+            console.log(getPointRe(inner_scroll));
+        };
+
+        //=============元素相对于窗口位置===============
+        console.log(getPointRe(inner_scroll));
+        function getPointRe(node) {
+            let x = 0;
+            let y = 0;
+            while (node) {
+                x+=node.offsetLeft;
+                y+=node.offsetTop;
+                node = node.offsetParent;
+            }
+            let L = document.documentElement.scrollLeft||document.body.scrollLeft;
+            let T = document.documentElement.scrollTop||document.body.scrollTop;
+            return {x:x-L, y: y-T}
+        }
+
+        //===========getBoundingClientRect=============
+        const inner_bounding = document.querySelector(".inner_bounding");
+
+        /*
+        getBoundingClientRect : 一个元素四个角的相对位置, 相对窗口
+        getBoundingClientRect + 滚动距离 --> 绝对位置
+        height, width 盒子尺寸.
+        left, top 左上角相对位置.
+        right, bottom 右下角位置.
+         */
+        console.log(inner_bounding.getBoundingClientRect());
+
+        //===========clientW&H-offsetW&H=============
+        //clientWidth padding box区域
+        console.log(inner_bounding.clientWidth,inner_bounding.clientHeight);
+        //offsetWidth  padding box 区域 + border
+        console.log(inner_bounding.offsetWidth,inner_bounding.offsetHeight);
+
+        //===================获取可视口尺寸===================
+        //视口的大小
+        var clientWidth = document.documentElement.clientWidth;
+        //跟标签的border-box 边框的盒子大小, 不包括margin
+        var offsetWidth = document.documentElement.offsetWidth;
+        console.log(clientWidth, offsetWidth);
+
+
+
+    };
+
+</script>
+
+</html>

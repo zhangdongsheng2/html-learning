@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义视频控制</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+<!--
+全屏盒子-> 上部视频,下部控制器
+控制器, 开始关闭按钮, 进度条两个, 时间线上, 声音按钮, 声音进度两个 ,全屏按钮
+-->
+<div id="wrap">
+    <video src="http://www.17sucai.com/preview/501914/2017-08-04/%E9%A1%B5%E9%9D%A2/media/mov_bbb.mp4"></video>
+    <div class="control">
+        <div class="btns">
+            <span class="start"></span>
+            <span class="stop"></span>
+        </div>
+        <div class="progress">
+            <div class="wrap">
+                <div class="inner"></div>
+            </div>
+            <div class="deeppink"></div>
+        </div>
+        <div class="others">
+            <div class="time">
+                <span class="now">00:00:00</span>/<span class="all">00:00:00</span>
+            </div>
+            <div class="sound">
+                <div class="switch">
+                    <span></span>
+                </div>
+                <div class="progress">
+                    <div class="wrap">
+                        <div class="inner"></div>
+                    </div>
+                    <div class="deeppink"></div>
+                </div>
+            </div>
+            <div class="full-screen">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<script src="js/drag.js"></script>
+<script type="application/javascript">
+
+    window.onload = function (){
+        const video = document.querySelector("video");
+        const control = document.querySelector(".control");
+        const progress = document.querySelector(".control > .progress");
+        const inner = document.querySelector(".control > .progress >.wrap >.inner");
+        const deeppink = document.querySelector(".control > .progress > .deeppink");
+        const start = document.querySelector(".control > .btns > .start ");
+        const stop = document.querySelector(".control > .btns > .stop");
+        const allSpan = document.querySelector(".control > .others .all ");
+        const nowSpan = document.querySelector(".control > .others .now");
+        const switchNode = document.querySelector(".control > .others > .sound > .switch");
+        const switchSpan = document.querySelector(".control > .others > .sound > .switch > span");
+        const progress2 = document.querySelector(".control > .others > .sound > .progress");
+        const deeppink2 = document.querySelector(".control > .others > .sound > .progress > .deeppink");
+        const inner2 = document.querySelector(".control > .others > .sound > .progress > .wrap > .inner");
+        const fullScreen = document.querySelector(".control > .others > .full-screen");
+        const fullScreenSpan = document.querySelector(".control > .others > .full-screen > span");
+
+
+        video.width=document.documentElement.clientWidth;
+        video.height=document.documentElement.clientHeight - control.offsetHeight;
+
+        window.onresize=function (){
+            if (document.documentElement.clientWidth >= 600) {
+                video.width=document.documentElement.clientWidth;
+                video.height=document.documentElement.clientHeight - control.offsetHeight;
+            }
+        }
+
+        //功能
+        let timer = 0;
+
+        let flag = 0;
+
+        let isFullScreen = false;
+        //拖拽功能
+        const callback={
+            move: function () {
+                console.log("==============")
+                deeppink.style.width = this.offsetLeft + "px";
+                const scale = this.offsetLeft / (progress.clientWidth - inner.offsetWidth);
+                video.currentTime = video.duration*scale;
+                nowSpan.innerHTML = changeTime(video.currentTime);
+            },
+        }
+
+        $.drag(inner,callback);
+
+        const callback2 = {
+            move: function () {
+                deeppink2.style.width = this.offsetLeft + "px";
+                const scale = this.offsetLeft / (progress2.clientWidth - inner2.offsetWidth);
+                flag = scale;
+                video.volume = scale;
+                if (video.volume === 0) {
+                    video.muted = true;
+                    addClass(switchSpan, "active");
+                }else{
+                    removeClass(switchSpan, "active");
+                    video.muted=false;
+                }
+            },
+        }
+        $.drag(inner2, callback2);
+
+
+        fullScreen.onclick = function () {
+            if (isFullScreen) {
+                removeClass(fullScreenSpan, "active");
+                isFullScreen = false;
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                }else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }else {
+                addClass(fullScreenSpan, "active");
+                isFullScreen = true;
+                const docElm = document.documentElement;
+                //W3C
+                if (docElm.requestFullscreen) {
+                    docElm.requestFullscreen();
+                }
+                //FireFox
+                else if (docElm.mozRequestFullScreen) {
+                    docElm.mozRequestFullScreen();
+                }
+                //Chrome等
+                else if (docElm.webkitRequestFullScreen) {
+                    docElm.webkitRequestFullScreen();
+                }
+                //IE11
+                else if (docElm.msRequestFullscreen) {
+                    docElm.msRequestFullscreen();
+                }
+
+            }
+        };
+
+        progress.onclick = function (ev) {
+            ev=ev||event;
+            addClass(start, "active");
+            video.play();
+            timer = setInterval(move, 100);
+
+            const scala =  (ev.clientX-this.offsetLeft) / (progress.clientWidth-inner.offsetWidth)
+            video.currentTime = video.duration * scala;
+        };
+
+        inner2.style.left = deeppink2.style.width = progress2.clientWidth - inner2.offsetWidth + "px";
+        switchNode.onclick = function () {
+            if (video.muted) {
+                video.muted = false;
+                video.volume=1;
+                removeClass(switchSpan, "active");
+                flag = flag===0?1:flag;
+                inner2.style.left = deeppink2.style.width=(progress2.clientWidth-inner2.offsetWidth)*flag+"px";
+            } else {
+                video.muted = true;
+                video.volume = 0;
+                addClass(switchSpan, "active");
+                inner2.style.left = deeppink2.style.width = 0 + "px";
+            }
+
+        };
+
+        video.addEventListener("loadeddata", function () {
+            allSpan.innerHTML = changeTime(video.duration);
+        });
+
+        //停止按钮
+        stop.onclick = function () {
+            removeClass(start, "active");
+            video.pause();
+            clearInterval(timer);
+
+            inner.style.left = deeppink.style.width = 0 + "px";
+            video.currentTime=0;
+        };
+        //播放暂停按钮
+        start.onclick = function () {
+            //开始视频, 判断当前是暂停就播放, 是播放就暂停
+            if (video.paused) {
+                //不会触发元素的伪类选择器
+                addClass(this,"active");
+                video.play();
+                timer = setInterval(move, 100);
+            }else {
+                removeClass(this, "active");
+                video.pause();
+                clearInterval(timer)
+            }
+        };
+
+
+        function move() {
+            inner.style.left = deeppink.style.width = (video.currentTime/video.duration)*(progress.clientWidth - inner.offsetWidth)+"px"
+            nowSpan.innerHTML = changeTime(video.currentTime)
+        }
+
+        function changeTime(time) {
+            time = parseInt(time);
+            const h = toZero(Math.floor(time / 3600));
+            const m = toZero(Math.floor(time % 3600 / 60));
+            const s = toZero(Math.round(time % 3600));
+            return h+":"+m+":"+s;
+        }
+
+        function toZero(num) {
+            let val = "";
+            if (num < 10) {
+                val = "0"+num;
+            }else {
+                val = val+num;
+            }
+            return val;
+        }
+
+
+
+    }
+
+    function addClass(node, className) {
+        const regExp = new RegExp("\\b" + className + "\\b");
+        if(!regExp.test(node.className)){
+            node.className += (" " + className);
+        }
+    }
+
+    function removeClass(node, className) {
+        if (node.className) {
+            const regExp = new RegExp("\\b" + className + "\\b");
+            const classes = node.className;
+            node.className = classes.replace(regExp, "");
+            if (/^\s*$/g.test(node.className)) {
+                node.removeAttribute("class")
+            }
+        }else{
+            node.removeAttribute("class")
+        }
+    }
+
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

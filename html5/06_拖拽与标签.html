@@ -93,6 +93,21 @@
 
 </div>
 
+<h1>h5新增表单属性</h1>
+<div class="damu-1">
+    <!--
+    新增一下类型, 时间类的比较多
+    type: number , color, datetime(移动端), datetime-local, time, date, week, month
+     -->
+    <input type="time" value="11:22">
+    <input type="submit" value="提交">
+
+    <form action="http://www.baidu.com">
+        <input id="test_input" type="text" maxlength="3">
+        <input type="submit" value="提交baidu">
+        <input id="test_submit" type="submit" value="提交谷歌" formaction="http://www.google.com">
+    </form>
+</div>
 
 
 
@@ -118,6 +133,23 @@
         // damuIn.setCapture();
 
         damu.drag(damuIn, true, 100, zaw);
+
+
+        const inputEL = document.querySelector("#test_input");
+        const submit = document.querySelector("#test_submit");
+
+        submit.onclick = function () {
+            const val = inputEL.value;
+            if (val == "xfz") {
+                submit.setCustomValidity("请不要输入敏感词");
+            }else {
+                submit.setCustomValidity("");
+            }
+        };
+        submit.addEventListener("invalid",function (){
+            console.log(submit.validity);
+        })
+
 
     }
 
@@ -146,6 +178,11 @@
     divIn.addEventListener("click", function () {
         console.log("c");
     },false);
+
+
+
+
+
 </script>
 
 </html>
