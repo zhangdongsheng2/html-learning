@@ -52,6 +52,18 @@
             border: 3px solid;
         }
 
+        .qx_test{
+            position: absolute;
+            width: 10px;
+            top: 2750px;
+            height: 10px;
+            background: black;
+        }
+
+        .dian_box{
+            position: absolute;
+            border: 1px solid;
+        }
 
     </style>
 </head>
@@ -102,6 +114,15 @@
     <img src="img/5.png">
 </div>
 
+<h1>鼠标事件绑定</h1>
+<div class="box_wrap_3 box_mouse">
+
+</div>
+
+<h1>曲线效果</h1>
+<div class="box_wrap_3 box_mouse">
+    <div class="qx_test"></div>
+</div>
 
 
 </body>
@@ -217,6 +238,64 @@
             }
         };
 
+
+        //===========鼠标事件=============
+        const boxMouse = document.querySelector(".box_mouse");
+        //火狐浏览器
+        if (boxMouse.addEventListener) {
+            boxMouse.addEventListener("DOMMouseScroll", fn);
+        }
+        //非火狐浏览器
+        boxMouse.onmousewheel =fn;
+
+        function fn(ev){
+            ev=ev||event;
+            let dir = "";
+            if (ev.detail) {
+                console.log("我在滚动,火狐")
+                console.log(ev.detail)
+                dir = ev.detail < 0 ? "up" : "down";
+            }
+            if (ev.wheelDelta) {
+                console.log("我在滚动")
+                console.log(ev.wheelDelta)
+                dir = ev.wheelDelta > 0 ? "up" : "down";
+            }
+
+            switch (dir) {
+                case "up":
+                    boxMouse.style.height = boxMouse.offsetHeight - 10 + "px";
+                    break;
+                case "down":
+                    boxMouse.style.height = boxMouse.offsetHeight + 10 + "px";
+                    break;
+            }
+
+
+            return false;
+        }
+
+       //===========曲线运动=============
+        const qxTest = document.querySelector(".qx_test");
+        const offsetLeft = qxTest.offsetLeft;
+        const offsetTop = qxTest.offsetTop;
+
+        let deg = 0;
+        let step = 50;
+        setInterval(function () {
+            deg++;
+
+            qxTest.style.left = offsetLeft + (deg * Math.PI / 180) * step / 2 + "px";
+            qxTest.style.top = offsetTop + Math.sin(deg * Math.PI / 180) * step / 2 + "px";
+
+            const htmlDivElement = document.createElement("div");
+            htmlDivElement.classList.add("dian_box");
+            htmlDivElement.style.left = qxTest.offsetLeft + "px";
+            htmlDivElement.style.top = qxTest.offsetTop + "px";
+            document.body.appendChild(htmlDivElement);
+
+
+        },1000/60);
 
 
     };
