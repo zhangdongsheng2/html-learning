@@ -4,20 +4,22 @@
     <meta charset="UTF-8">
     <title>位置尺寸曲线鼠标等</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        body,html{
+
+        body, html {
             margin-left: 15px;
         }
 
-        .box_wrap_3{
+        .box_wrap_3 {
             width: 300px;
             height: 300px;
             background: pink;
         }
-        .box_wrap_6{
+
+        .box_wrap_6 {
             width: 800px;
             height: 200px;
             text-align: center;
@@ -26,33 +28,34 @@
         }
 
 
-
-        .list_ul{
+        .list_ul {
             list-style: inside;
         }
 
-        .box_2{
+        .box_2 {
             width: 200px;
             height: 200px;
         }
 
-        .box_wrap_2{
+        .box_wrap_2 {
             position: absolute;
             background: pink;
             top: 750px;
             left: 10px;
         }
-        .box_2_inner{
+
+        .box_2_inner {
             position: absolute;
             background: red;
             top: 90px;
             left: 100px;
         }
-        .inner_bounding{
+
+        .inner_bounding {
             border: 3px solid;
         }
 
-        .qx_test{
+        .qx_test {
             position: absolute;
             width: 10px;
             top: 2750px;
@@ -60,7 +63,7 @@
             background: black;
         }
 
-        .dian_box{
+        .dian_box {
             position: absolute;
             border: 1px solid;
         }
@@ -125,6 +128,29 @@
 </div>
 
 
+<h1>Canvas动画</h1>
+<div class="box_wrap_3">
+    <canvas id="canvas-transform-demo" class="canvas-bg" width="300" height="300">
+        <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+    </canvas>
+</div>
+
+
+<h1>Canvas动画-阳光下的气泡</h1>
+<div class="box_wrap_3">
+    <canvas id="canvas-bubbles-in-he-sun" class="canvas-bg" width="300" height="300">
+        <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+    </canvas>
+</div>
+
+<h1>Canvas动画-气泡效果</h1>
+<div class="box_wrap_3">
+    <canvas id="canvas-bubbles-effect" class="canvas-bg" width="300" height="300">
+        <span>您的浏览器不支持画布元素, 请使用谷歌浏览器</span>
+    </canvas>
+</div>
+
+
 </body>
 <script type="text/javascript">
 
@@ -164,37 +190,38 @@
             let x = 0;
             let y = 0;
             while (node) {
-                x+=node.offsetLeft;
-                y+=node.offsetTop;
+                x += node.offsetLeft;
+                y += node.offsetTop;
 
                 node = node.offsetParent;
             }
 
-            return {x:x, y: y}
+            return {x: x, y: y}
         }
 
         //==============滚动条滚动时, 元素滚动的距离================
         const inner_scroll = document.querySelector(".inner_scroll");
         window.onscroll = function () {
-            let L = document.documentElement.scrollLeft||document.body.scrollLeft;
-            let T = document.documentElement.scrollTop||document.body.scrollTop;
-            console.log(L,T);
+            let L = document.documentElement.scrollLeft || document.body.scrollLeft;
+            let T = document.documentElement.scrollTop || document.body.scrollTop;
+            console.log(L, T);
             console.log(getPointRe(inner_scroll));
         };
 
         //=============元素相对于窗口位置===============
         console.log(getPointRe(inner_scroll));
+
         function getPointRe(node) {
             let x = 0;
             let y = 0;
             while (node) {
-                x+=node.offsetLeft;
-                y+=node.offsetTop;
+                x += node.offsetLeft;
+                y += node.offsetTop;
                 node = node.offsetParent;
             }
-            let L = document.documentElement.scrollLeft||document.body.scrollLeft;
-            let T = document.documentElement.scrollTop||document.body.scrollTop;
-            return {x:x-L, y: y-T}
+            let L = document.documentElement.scrollLeft || document.body.scrollLeft;
+            let T = document.documentElement.scrollTop || document.body.scrollTop;
+            return {x: x - L, y: y - T}
         }
 
         //===========getBoundingClientRect=============
@@ -211,9 +238,9 @@
 
         //===========clientW&H-offsetW&H=============
         //clientWidth padding box区域
-        console.log(inner_bounding.clientWidth,inner_bounding.clientHeight);
+        console.log(inner_bounding.clientWidth, inner_bounding.clientHeight);
         //offsetWidth  padding box 区域 + border
-        console.log(inner_bounding.offsetWidth,inner_bounding.offsetHeight);
+        console.log(inner_bounding.offsetWidth, inner_bounding.offsetHeight);
 
         //===================获取可视口尺寸===================
         //视口的大小
@@ -226,10 +253,10 @@
         let macIcon = document.querySelectorAll(".box_wrap_6 > img");
         let box_wrap_6 = document.querySelector(".box_wrap_6");
         box_wrap_6.onmousemove = function (ev) {
-            ev = ev||event
+            ev = ev || event
             for (let i = 0; i < macIcon.length; i++) {
-                const a = macIcon[i].getBoundingClientRect().left + macIcon[i].offsetWidth/2 - ev.clientX;
-                const b = macIcon[i].getBoundingClientRect().top + macIcon[i].offsetHeight/2 - ev.clientY;
+                const a = macIcon[i].getBoundingClientRect().left + macIcon[i].offsetWidth / 2 - ev.clientX;
+                const b = macIcon[i].getBoundingClientRect().top + macIcon[i].offsetHeight / 2 - ev.clientY;
                 let c = Math.sqrt(a * a + b * b);
                 if (c >= 300) {
                     c = 300;
@@ -246,10 +273,10 @@
             boxMouse.addEventListener("DOMMouseScroll", fn);
         }
         //非火狐浏览器
-        boxMouse.onmousewheel =fn;
+        boxMouse.onmousewheel = fn;
 
-        function fn(ev){
-            ev=ev||event;
+        function fn(ev) {
+            ev = ev || event;
             let dir = "";
             if (ev.detail) {
                 console.log("我在滚动,火狐")
@@ -275,7 +302,7 @@
             return false;
         }
 
-       //===========曲线运动=============
+        //===========曲线运动=============
         const qxTest = document.querySelector(".qx_test");
         const offsetLeft = qxTest.offsetLeft;
         const offsetTop = qxTest.offsetTop;
@@ -295,10 +322,152 @@
             document.body.appendChild(htmlDivElement);
 
 
-        },1000/60);
+        }, 1000 / 60);
+
+        //=================canvas动画====================
+        transformDemo();
+
+        //===============阳光下的气泡====================
+        bubblesInHeSun();
+
+        //===============气泡效果====================
+        bubblesEffect();
 
 
     };
+    //===============气泡效果====================
+    function bubblesEffect() {
+        const canvasBase = document.querySelector("#canvas-bubbles-effect");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        //定时添加圆的数据到数组
+        const arr = [];
+        setInterval(function () {
+            const x =  Math.random() * canvasBase.width;
+            const r =  Math.random()*6+2;
+            const y =  canvasBase.height -r;
+            arr.push({
+                x: x,
+                y: y,
+                r: r,
+                red: Math.round(Math.random() * 255),
+                green: Math.round(Math.random() * 255),
+                blue: Math.round(Math.random() * 255),
+                alp: 1,
+                deg:0,
+                startX:x,
+                startY:y,
+                step:Math.random()*20+3
+            });
+        }, 50);
+
+
+        //定时绘制圆到页面, 透明的清理掉, 不透明的慢慢透明
+        setInterval(function () {
+            for (let i = 0; i < arr.length; i++) {
+                arr[i].deg += 5;
+                arr[i].x = arr[i].startX + Math.sin(arr[i].deg * Math.PI/180)*arr[i].step*2;
+                arr[i].y = arr[i].startY - (arr[i].deg * Math.PI/180)*arr[i].step*2;
+
+
+                if (arr[i].y <= 30) {
+                    arr.splice(i, 1);
+                }
+
+            }
+
+            context.clearRect(0, 0, canvasBase.width, canvasBase.height);
+
+            for (let i = 0; i < arr.length; i++) {
+                context.save();
+                context.fillStyle = "rgba("+arr[i].red+","+arr[i].green+","+arr[i].blue+","+arr[i].alp+")";
+
+                context.beginPath();
+                context.arc(arr[i].x, arr[i].y, arr[i].r, 0,2*Math.PI);
+                context.fill();
+                context.restore();
+            }
+
+
+        }, 1000 / 60);
+
+
+    }
+
+
+    //===============阳光下的气泡====================
+    function bubblesInHeSun() {
+        const canvasBase = document.querySelector("#canvas-bubbles-in-he-sun");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        //定时添加圆的数据到数组
+        const arr = [];
+        setInterval(function () {
+            arr.push({
+                x: Math.random() * canvasBase.width,
+                y: Math.random() * canvasBase.height,
+                r: 10,
+                red: Math.round(Math.random() * 255),
+                green: Math.round(Math.random() * 255),
+                blue: Math.round(Math.random() * 255),
+                alp: 1
+            });
+        }, 50);
+
+
+        //定时绘制圆到页面, 透明的清理掉, 不透明的慢慢透明
+        setInterval(function () {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i].alp <= 0) {
+                    arr.splice(i, 1);
+                }
+                arr[i].r++;
+                arr[i].alp-=0.01;
+            }
+
+            context.clearRect(0, 0, canvasBase.width, canvasBase.height);
+
+            for (let i = 0; i < arr.length; i++) {
+                context.save();
+                context.fillStyle = "rgba("+arr[i].red+","+arr[i].green+","+arr[i].blue+","+arr[i].alp+")";
+
+                context.beginPath();
+                context.arc(arr[i].x, arr[i].y, arr[i].r, 0,2*Math.PI);
+                context.fill();
+                context.restore();
+            }
+
+
+        }, 1000 / 60);
+
+
+    }
+
+    //=================canvas动画====================
+    function transformDemo() {
+        const canvasBase = document.querySelector("#canvas-transform-demo");
+        if (!canvasBase.getContext) return;
+        const context = canvasBase.getContext("2d");
+
+        let transValue = 0;
+        setInterval(function () {
+            transValue++;
+            context.clearRect(0, 0, canvasBase.width, canvasBase.height);
+            context.save();
+            context.translate(transValue, transValue);
+            context.strokeStyle = "black";
+            context.beginPath();
+            context.rect(0, 0, 100, 100);
+            context.stroke();
+            context.restore();
+
+            if (transValue >= 300) {
+                transValue = 0;
+            }
+        }, 1000 / 60)
+    }
 
 </script>
 
