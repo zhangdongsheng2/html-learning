@@ -1,0 +1,454 @@
+@import "reset";
+
+//common css 开始
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.commonTitle {
+  color: #009ee0;
+  font: bold 80px/0.8 "微软雅黑" !important; //这里优先级无法超越,标签的样式, 如 reset设置的span
+  letter-spacing: -5px;
+}
+
+.commonText {
+  color: white;
+  font: normal 14px/1.5 "微软雅黑"
+}
+
+//common css 结束
+
+
+//头部样式开始
+#head {
+  background-color: white;
+  width: 100%;
+
+  .headerMain {
+    height: 80px;
+    width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    //background: black;
+
+    .logo > a {
+      margin-top: 30px;
+      float: left;
+      display: inline-block;
+      height: 31px;
+      width: 188px;
+      background: url("../img/logo.png");
+    }
+
+    .arrow {
+      width: 21px;
+      height: 11px;
+      bottom: -11px;
+      background: url("../img/menuIndicator.png");
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      transition: left 1s;
+    }
+
+    .nav {
+      padding-top: 50px;
+      height: 80px;
+      float: right;
+
+
+      & > ul > li {
+        float: left;
+        margin-left: 40px;
+        position: relative;
+
+        .up {
+          width: 0;
+          position: absolute;
+          color: black;
+          overflow: hidden;
+          transition: width 1s;
+        }
+
+        &:hover .up {
+          width: 100%
+        }
+      }
+    }
+  }
+}
+
+//头部样式结束
+
+
+//内容样式开始
+#content {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  top: -50px;
+
+  .list {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    transition: top 1s;
+
+    & > li {
+      position: relative;
+      background-position: 50% 50%;
+
+      & > section {
+        width: 1100px;
+        height: 520px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
+
+    .home {
+      background: url("../img/bg1.jpg") no-repeat;
+      .home1 {
+        width: 100%;
+        height: 100%;
+        perspective: 1500px;
+        transform-origin: center center;
+        /*必须设置否则子元素没有3D效果*/
+        transform-style: preserve-3d;
+
+
+        .item {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          padding-top: 200px;
+          box-sizing: border-box;
+          visibility: hidden;
+
+          &:nth-of-type(1) {
+            background: black;
+          }
+
+          &:nth-of-type(2) {
+            background: white;
+
+          }
+
+          &:nth-of-type(3) {
+            background: yellow;
+          }
+
+          &:nth-of-type(4) {
+            background: blue;
+          }
+        }
+        .active{
+          visibility: visible;
+        }
+        .leftHide {
+          visibility: hidden;
+          animation: 1s leftHide 1 linear;
+        }
+
+        .rightShow {
+          visibility: visible;
+          animation: 1s rightShow 1 linear;
+        }
+
+
+        .leftShow {
+          visibility: visible;
+          animation: 1s leftShow 1 linear;
+        }
+
+        .rightHide {
+          visibility: hidden;
+          animation: 1s rightHide 1 linear;
+        }
+
+        @keyframes leftHide {
+          0% {
+            visibility: visible
+          }
+          50% {
+            transform: translateX(-40%) rotateY(30deg) scale(.8)
+          }
+          100% {
+            transform: translateZ(-200px)
+          }
+        }
+
+        @keyframes rightShow {
+          0% {
+            transform: translateZ(-200px);
+          }
+          50% {
+            transform: translateX(40%) rotateY(-30deg) scale(.8)
+          }
+          100% {}
+        }
+
+        @keyframes leftShow {
+          0% {
+            transform: translateZ(-200px)
+          }
+          50% {
+            transform: translateX(-40%) rotateY(30deg) scale(.8)
+          }
+          100% {
+          }
+        }
+
+        @keyframes rightHide {
+          0% {
+            visibility: visible
+          }
+          50% {
+            transform: translateX(40%) rotateY(-30deg) scale(.8)
+          }
+          100% {
+            transform: translateZ(-200px);
+          }
+        }
+
+
+      }
+
+
+      .home2 {
+        width: 180px;
+        height: 50px;
+        position: absolute;
+        top: 500px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: 0 auto;
+
+        & > li {
+          float: left;
+          margin: 0 5px;
+          width: 20px;
+          height: 20px;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 50%;
+          box-shadow: 0 0 4px rgba(25, 25, 25, 0.8);
+          cursor: pointer;
+
+          &.active {
+            background: white;
+          }
+        }
+      }
+
+    }
+
+    .course {
+      background: url("../img/bg2.jpg") no-repeat;
+
+      .course2 {
+        width: 400px;
+        margin-top: 100px;
+      }
+
+      .course3 {
+        position: absolute;
+        width: 480px;
+        left: 500px;
+        top: 0;
+        margin: 50px;
+
+        .item {
+          position: relative;
+          width: 120px;
+          height: 132px;
+          float: left;
+          border-top: 5px solid black;
+          border-image-source: url("../img/plus_row_one.png");
+          box-sizing: border-box;
+          border-image-width: 10px 10px 10px 10px;
+
+          perspective: 200px;
+          transition: 1s;
+          transform-origin: center center;
+          /*必须设置否则子元素没有3D效果*/
+          transform-style: preserve-3d;
+
+          &:nth-of-type(4n), &:nth-of-type(4n-1), &:nth-of-type(4n-2) {
+            border-image-width: 10px 10px 10px 0;
+          }
+
+          &:nth-child(n+5):nth-child(-n+8) {
+            border-image-width: 0;
+          }
+
+          &:hover {
+            transform: rotateY(180deg);
+          }
+
+          .backFace {
+            background-color: #0c37ba;
+            transform: rotateY(180deg);
+          }
+
+          .face {
+            z-index: 1;
+          }
+
+          .backFace, .face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 15px;
+            box-sizing: border-box;
+            backface-visibility: hidden;
+          }
+
+          &:nth-of-type(2n) .face {
+            background-image: url("../img/apcoa.png");
+          }
+
+          &:nth-of-type(2n-1) .face {
+            background-image: url("../img/gu.png");
+          }
+
+          &:nth-of-type(4n) .face {
+            background-image: url("../img/lbs.png");
+          }
+
+          &:nth-of-type(4n-1) .face {
+            background-image: url("../img/bks.png");
+          }
+
+        }
+      }
+
+    }
+
+    //整体布局 title+列表+动画, 整体默认div布局, 机器人动画用定位+css3动画偏移.
+    .works {
+      position: relative;
+      background: url("../img/bg1.jpg") no-repeat;
+
+      .works2 {
+        margin-top: 90px;
+
+        .item {
+          float: left;
+          position: relative;
+          overflow: hidden;
+          //width: 220px;
+          //height: 133px;
+          //margin: 0 1px;
+          & > img {
+            opacity: 1;
+            transition: 1s;
+          }
+
+          .mask {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            opacity: 0;
+            color: white;
+            padding: 5px;
+            background: black;
+            transition: opacity 1s;
+
+            .icon {
+              width: 32px;
+              height: 34px;
+              background: url("../img/zoomico.png");
+              margin: 20px auto;
+              transition: background-position 1s;
+
+              &:hover {
+                background-position: 0 34px;
+              }
+            }
+          }
+
+          &:hover .mask {
+            opacity: .8;
+          }
+
+          &:hover img {
+            transform: rotate(30deg) scale(1.5); //放大, 旋转
+          }
+        }
+
+      }
+
+      .works3 {
+        width: 167px;
+        height: 191px;
+        position: absolute;
+        bottom: 220px;
+        left: 900px;
+        background: url("../img/robot.png") no-repeat;
+        animation: move-translate 4s linear infinite;
+
+
+        @keyframes move-translate {
+          0% {
+            transform: translateX(0px) rotateY(0deg);
+          }
+          49% {
+            transform: translateX(-490px) rotateY(0deg);
+          }
+          50% {
+            transform: translateX(-500px) rotateY(180deg);
+          }
+          100% {
+            transform: translateX(0px) rotateY(180deg);
+          }
+        }
+
+      }
+    }
+    .about {
+      background: url("../img/bg1.jpg") no-repeat;
+    }
+
+    .team {
+      background: url("../img/bg1.jpg") no-repeat;
+    }
+  }
+
+}
+
+
+
+
+
+
+//内容样式结束
+
+
+
+
+
+
+
+
+
+
+
+
+

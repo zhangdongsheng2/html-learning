@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VoxelAir</title>
+    <!--
+    1. 确定分辨率, 内容大小和外部大小, 编写样式
+        * 支持的分辨率 1200 到 2000 (背景图最大尺寸要到 2000)
+        * 内容固定尺寸 1100 * 520
+    2. 头部样式编写. 骨架编写.
+        a. 通用 css 样式: 清楚默认值, 清楚浮动, 通用title, 通用字体
+        b. 整体的外部盒子骨架, 头部内容编写, 内容滚轮交互.
+        c. 内容固定大小, 所有页面采用定位偏移方式, 监听鼠标滚动, 进行偏移.
+    3. 编写内容样式, 和动画
+        a. 第三屏: 整体布局 title+列表+动画, 整体默认div布局, 机器人动画用定位+css3动画偏移.
+        b. 第二屏: 整体布局 title+段落+动画, 整体默认div, 动画列表部分用定位, 设置item大小,边框浮动, 内容背景然后做鼠标触发3D变换动画.
+        c. 第一屏: 整体布局 四个图片切换
+    5. JS涉及 鼠标交互和一些动画.
+    5. 总体技术: 浮动,定位,动画,事件
+    -->
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+<section id="warp">
+    <header id="head">
+        <div class="headerMain">
+            <h1 class="logo">
+                <a href="javascript:"></a>
+            </h1>
+
+            <nav class="nav">
+                <ul class="list clearfix">
+                    <li><a href="javascript:;">
+                        <div class="up"><img src="img/home_gruen.png"></div>
+                        <div class="down"><img src="img/home.png"></div>
+                    </a></li>
+                    <li><a href="javascript:;">
+                        <div class="up">Course</div>
+                        <div class="down">Course</div>
+                    </a></li>
+                    <li><a href="javascript:;">
+                        <div class="up">Works</div>
+                        <div class="down">Works</div>
+                    </a></li>
+                    <li><a href="javascript:;">
+                        <div class="up">About</div>
+                        <div class="down">About</div>
+                    </a></li>
+                    <li><a href="javascript:;">
+                        <div class="up">Team</div>
+                        <div class="down">Team</div>
+                    </a></li>
+                </ul>
+            </nav>
+            <div class="arrow"></div>
+        </div>
+    </header>
+
+    <section id="content">
+        <ul class="list">
+            <li class="home">
+                <section>
+                    <div class="commonTitle home1">
+                        <div class="item active">one layer</div>
+                        <div class="item">two layer</div>
+                        <div class="item">three layer</div>
+                        <div class="item">four layer</div>
+                    </div>
+                    <ul class="home2">
+                        <li class="active"></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </section>
+            </li>
+            <li class="course">
+                <section>
+                    <header class="course1 commonTitle">
+                        <span>EINIGE</span><br>
+                        <span>UNSERER</span><br>
+                        <span>KUNDEN</span><br>
+                    </header>
+                    <div class="course2 commonText">
+                        <p>Das Kundenvertrauen in unsere Kompetenz ist die notwendige Basis einer erfolgreichen
+                            Zusammenarbeit, gleichzeitig aber auch das größte Lob, das man uns entgegenbringen kann.</p>
+
+                        <p>Diese und viele weitere große und kleine Kunden vertrauen uns seit Jahren, was uns stolz
+                            macht, und dafür sagen wir an dieser Stelle einfach mal.</p>
+                    </div>
+                    <div class="course3">
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+                        <div class="item">
+                            <div class="face"></div>
+                            <div class="backFace">我是一头球队去</div>
+                        </div>
+
+                    </div>
+
+
+                </section>
+            </li>
+            <li class="works">
+                <section>
+                    <div class="works1 commonTitle">
+                        <span>EINBLICK</span><br>
+                        <span>ERKENNTNIS</span><br>
+                        <span>ERGEBNIS</span><br>
+                    </div>
+                    <div class="works2">
+                        <div class="item">
+                            <img src="img/worksimg1.jpg">
+                            <div class="mask">
+                                <span>我从来不起</span>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="img/worksimg2.jpg">
+                            <div class="mask">
+                                <span>突然一个人心血来此</span>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="img/worksimg3.jpg">
+                            <div class="mask">
+                                <span>其他去感激</span>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="img/worksimg4.jpg">
+                            <div class="mask">
+                                <span>即使很热闹</span>
+                                <div class="icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="works3"></div>
+                </section>
+            </li>
+            <li class="about">
+                <section>about</section>
+            </li>
+            <li class="team">
+                <section>team</section>
+            </li>
+        </ul>
+
+
+    </section>
+
+</section>
+
+
+</body>
+<script type="text/javascript">
+    window.onload = function () {
+        /*
+        1. 获取元素, 跟根据分辨率, 设置屏幕只显示一屏.
+        2. head点击事件, 内容点击后偏移到对应位置, 根据鼠标滚动偏移内容.
+         */
+        const head = document.querySelector("#head")
+        const headLiNodes = document.querySelectorAll("#head .headerMain > .nav > .list > li")
+        const headLiUPNodes = document.querySelectorAll("#head .headerMain > .nav > .list > li .up")
+        const firstHeadLiNode = headLiNodes[0];
+        const firstUpNode = firstHeadLiNode.querySelector(".up");
+        const arrowEl = document.querySelector("#head .headerMain > .arrow")
+        const content = document.querySelector("#content")
+        const cLiNodes = document.querySelectorAll("#content .list > li")
+        const cList = document.querySelector("#content .list")
+
+        const home1 = document.querySelector("#content .list")
+        const home1ItemNodes = document.querySelectorAll("#content .list .home .home1 .item")
+        const home2LiNodes = document.querySelector("#content .list .home .home2 > li ")
+
+
+
+        //=====================第一屏点击与轮播========================
+        let autoIndex = 0;
+        let oldIndex = 0;
+        let timer3D = 0;
+        home3D();
+        function home3D() {
+        }
+
+        homeMove();
+        //从左向右轮播
+        function homeMove() {
+            for (let i = 0; i < home1ItemNodes.length; i++) {
+            }
+
+            timer3D = setInterval(function () {
+                autoIndex ++;
+                if(autoIndex === home1ItemNodes.length){
+                    autoIndex = 0;
+                }
+                home1ItemNodes[autoIndex].classList.remove("leftHide");
+                home1ItemNodes[autoIndex].classList.remove("rightHide");
+                home1ItemNodes[autoIndex].classList.remove("leftShow");
+                home1ItemNodes[autoIndex].classList.add("active");
+                home1ItemNodes[autoIndex].classList.add("rightShow");
+
+
+                home1ItemNodes[oldIndex].classList.remove("leftShow");
+                home1ItemNodes[oldIndex].classList.remove("rightHide");
+                home1ItemNodes[oldIndex].classList.remove("rightShow");
+                home1ItemNodes[oldIndex].classList.remove("active");
+                home1ItemNodes[oldIndex].classList.add("leftHide");
+
+                oldIndex = autoIndex;
+            },2000);
+
+        }
+
+
+
+
+
+
+
+        //=========================head与骨架=============================
+        //当前显示的页面
+        let currentPage = 0;
+        //鼠标滚动执行器
+        let timer = 0;
+
+
+        //设置 head 点击效果
+        headBind();
+
+        function headBind() {
+            firstUpNode.style.width = "100%";
+            arrowEl.style.left = firstHeadLiNode.offsetLeft + firstHeadLiNode.offsetWidth / 2 - arrowEl.offsetWidth / 2 + "px";
+            for (let i = 0; i < headLiNodes.length; i++) {
+                // headLiNodes[i].index = i;
+                headLiNodes[i].onclick = function () {
+                    move(i);
+                };
+            }
+        }
+
+        contentBind();
+
+        //设置内容区域大小
+        function contentBind() {
+            const cHeight = document.documentElement.clientHeight - head.offsetHeight + "px";
+            content.style.height = cHeight
+            cLiNodes.forEach(function (b) {
+                b.style.height = cHeight;
+            })
+        }
+
+        //当屏幕大小改变时, 设置内容区域大小
+        window.onresize = function () {
+            contentBind();
+            cList.style.top = -currentPage * (document.documentElement.clientHeight - head.offsetHeight) + "px"
+            arrowEl.style.left = headLiNodes[currentPage].offsetLeft + headLiNodes[currentPage].offsetWidth / 2 - arrowEl.offsetWidth / 2 + "px"
+        };
+
+        //鼠标滚轮事件
+        if (content.addEventListener) {
+            //火狐浏览器
+            content.addEventListener("DOMMouseScroll", function (ev) {
+                ev = ev || event;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    fn(ev);
+                }, 200);
+
+            });
+
+        }
+
+        //非火狐浏览器
+        content.onmousewheel = function (ev) {
+            ev = ev || event;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                fn(ev);
+            }, 200);
+        };
+
+        function fn(ev) {
+            ev = ev || event;
+            let dir = "";
+            if (ev.detail) {
+                dir = ev.detail < 0 ? "up" : "down";
+            } else if (ev.wheelDelta) {
+                dir = ev.wheelDelta > 0 ? "up" : "down";
+            }
+
+            switch (dir) {
+                case "up":
+                    if (currentPage > 0) {
+                        currentPage--;
+                        move(currentPage);
+                    }
+                    break;
+                case "down":
+                    if (currentPage < cLiNodes.length - 1) {
+                        currentPage++;
+                        move(currentPage);
+                    }
+                    break;
+            }
+
+
+            return false;
+        }
+
+
+        move(0);
+
+        //设置滚动到某个页面
+        function move(index) {
+            currentPage = index;
+            headLiUPNodes.forEach(it => it.style.width = 0);
+            headLiUPNodes[index].style.width = "100%";
+            cList.style.top = -currentPage * (document.documentElement.clientHeight - head.offsetHeight) + "px"
+            arrowEl.style.left = headLiNodes[index].offsetLeft + headLiNodes[index].offsetWidth / 2 - arrowEl.offsetWidth / 2 + "px"
+
+        }
+
+
+    };
+</script>
+</html>

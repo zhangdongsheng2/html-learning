@@ -141,3 +141,18 @@
 		               先按来源排序
 		               在按选择器的特殊性排序
 		               最终按顺序
+
+优先级问题: 
+	1. 优先级提升无效.
+```css
+span{
+	font: normal 14px "微软雅黑" !important;
+}
+.commonTitle {
+	color: #009ee0;
+	/*line-height: 0.8; 样式如果有简写,需要放简写中, 不然不生效*/ 
+	font: bold 80px/0.8 "微软雅黑" !important; //这里优先级无法超越,标签的样式, 如 reset设置的span
+	letter-spacing: -5px;
+}
+
+```
