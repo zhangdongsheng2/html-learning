@@ -184,7 +184,41 @@
                 </section>
             </li>
             <li class="about">
-                <section>about</section>
+                <section>
+                    <header class="about1 commonTitle">
+                        <span>DIE</span><br>
+                        <span>SPEZIELLE</span><br>
+                        <span>VIELFAL</span><br>
+                    </header>
+                    <div class="about2 commonText">
+                        <p>Der bunte Medienmix ist die Faszination die uns antreibt und das, was man an uns schätzt.
+                            Von A bis Z und von vorne bis hinten nehmen wir Ihr Projekt unter unsere Fittiche und
+                            lassen es zu etwas Großartigem heranwachsen.</p>
+
+                    </div>
+                    <div class="about3">
+                        <div class="item1">
+                            <div ></div>
+                            <div ></div>
+                            <div ></div>
+                            <div ></div>
+                            <div ></div>
+                        </div>
+
+                        <div class="item2">
+                            <div ></div>
+                            <div ></div>
+                            <div ></div>
+                            <div ></div>
+                            <div ></div>
+                        </div>
+                    </div>
+
+                    <div class="about4"></div>
+
+
+
+                </section>
             </li>
             <li class="team">
                 <section>team</section>
@@ -216,9 +250,9 @@
 
         const home1 = document.querySelector("#content .list")
         const home1ItemNodes = document.querySelectorAll("#content .list .home .home1 .item")
-        const home2LiNodes = document.querySelector("#content .list .home .home2 > li ")
+        const home2LiNodes = document.querySelectorAll("#content .list .home .home2 > li")
 
-
+        //=====================第四屏动画========================
 
         //=====================第一屏点击与轮播========================
         let autoIndex = 0;
@@ -226,43 +260,84 @@
         let timer3D = 0;
         home3D();
         function home3D() {
-        }
+            for (let i = 0; i < home2LiNodes.length; i++) {
+                home2LiNodes[i].onclick = function () {
+                    if (autoIndex > i) {//从右向左
+                        autoIndex = i;
+                        home1ItemNodes[autoIndex].classList.remove("leftHide");
+                        home1ItemNodes[autoIndex].classList.remove("rightHide");
+                        home1ItemNodes[autoIndex].classList.remove("rightShow");
+                        home1ItemNodes[autoIndex].classList.add("active");
+                        home1ItemNodes[autoIndex].classList.add("leftShow");
+                        home2LiNodes[autoIndex].classList.add("active");
 
-        homeMove();
-        //从左向右轮播
-        function homeMove() {
-            for (let i = 0; i < home1ItemNodes.length; i++) {
+                        home1ItemNodes[oldIndex].classList.remove("leftShow");
+                        home1ItemNodes[oldIndex].classList.remove("leftHide");
+                        home1ItemNodes[oldIndex].classList.remove("rightShow");
+                        home1ItemNodes[oldIndex].classList.remove("active");
+                        home1ItemNodes[oldIndex].classList.add("rightHide");
+                        home2LiNodes[oldIndex].classList.remove("active");
+
+                        oldIndex = autoIndex;
+                    }else if (autoIndex < i) {//从左向右
+                        autoIndex = i;
+                        home1ItemNodes[autoIndex].classList.remove("leftHide");
+                        home1ItemNodes[autoIndex].classList.remove("rightHide");
+                        home1ItemNodes[autoIndex].classList.remove("leftShow");
+                        home1ItemNodes[autoIndex].classList.add("active");
+                        home1ItemNodes[autoIndex].classList.add("rightShow");
+                        home2LiNodes[autoIndex].classList.add("active");
+
+                        home1ItemNodes[oldIndex].classList.remove("leftShow");
+                        home1ItemNodes[oldIndex].classList.remove("rightHide");
+                        home1ItemNodes[oldIndex].classList.remove("rightShow");
+                        home1ItemNodes[oldIndex].classList.remove("active");
+                        home1ItemNodes[oldIndex].classList.add("leftHide");
+                        home2LiNodes[oldIndex].classList.remove("active");
+
+                        oldIndex = autoIndex;
+                    }
+                };
             }
 
-            timer3D = setInterval(function () {
-                autoIndex ++;
-                if(autoIndex === home1ItemNodes.length){
-                    autoIndex = 0;
-                }
-                home1ItemNodes[autoIndex].classList.remove("leftHide");
-                home1ItemNodes[autoIndex].classList.remove("rightHide");
-                home1ItemNodes[autoIndex].classList.remove("leftShow");
-                home1ItemNodes[autoIndex].classList.add("active");
-                home1ItemNodes[autoIndex].classList.add("rightShow");
 
 
-                home1ItemNodes[oldIndex].classList.remove("leftShow");
-                home1ItemNodes[oldIndex].classList.remove("rightHide");
-                home1ItemNodes[oldIndex].classList.remove("rightShow");
-                home1ItemNodes[oldIndex].classList.remove("active");
-                home1ItemNodes[oldIndex].classList.add("leftHide");
 
-                oldIndex = autoIndex;
-            },2000);
+            //从左向右自动轮播
+            homeMove();
+            function homeMove() {
+                clearInterval(timer3D);
+                timer3D = setInterval(function () {
+                    autoIndex ++;
+                    if(autoIndex === home1ItemNodes.length){
+                        autoIndex = 0;
+                    }
+                    home1ItemNodes[autoIndex].classList.remove("leftHide");
+                    home1ItemNodes[autoIndex].classList.remove("rightHide");
+                    home1ItemNodes[autoIndex].classList.remove("leftShow");
+                    home1ItemNodes[autoIndex].classList.add("active");
+                    home1ItemNodes[autoIndex].classList.add("rightShow");
+                    home2LiNodes[autoIndex].classList.add("active");
 
+                    home1ItemNodes[oldIndex].classList.remove("leftShow");
+                    home1ItemNodes[oldIndex].classList.remove("rightHide");
+                    home1ItemNodes[oldIndex].classList.remove("rightShow");
+                    home1ItemNodes[oldIndex].classList.remove("active");
+                    home1ItemNodes[oldIndex].classList.add("leftHide");
+                    home2LiNodes[oldIndex].classList.remove("active");
+
+                    oldIndex = autoIndex;
+                },2000);
+
+            }
+
+            home1.onmouseover=function (ev) {
+                clearInterval(timer3D);
+            }
+            home1.onmouseout=function (ev) {
+                homeMove();
+            }
         }
-
-
-
-
-
-
-
         //=========================head与骨架=============================
         //当前显示的页面
         let currentPage = 0;
@@ -354,7 +429,7 @@
         }
 
 
-        move(0);
+        move(3);
 
         //设置滚动到某个页面
         function move(index) {

@@ -67,6 +67,7 @@
         float: left;
         margin-left: 40px;
         position: relative;
+        font: normal 14px "微软雅黑";
 
         .up {
           width: 0;
@@ -118,6 +119,7 @@
 
     .home {
       background: url("../img/bg1.jpg") no-repeat;
+
       .home1 {
         width: 100%;
         height: 100%;
@@ -153,9 +155,11 @@
             background: blue;
           }
         }
-        .active{
+
+        .active {
           visibility: visible;
         }
+
         .leftHide {
           visibility: hidden;
           animation: 1s leftHide 1 linear;
@@ -196,7 +200,8 @@
           50% {
             transform: translateX(40%) rotateY(-30deg) scale(.8)
           }
-          100% {}
+          100% {
+          }
         }
 
         @keyframes leftShow {
@@ -422,8 +427,119 @@
 
       }
     }
+
     .about {
-      background: url("../img/bg1.jpg") no-repeat;
+      background: url("../img/bg3.jpg") no-repeat;
+
+
+      .about1, .about2 {
+        width: 370px;
+        margin-top: 80px;
+      }
+
+      .about3 {
+        position: absolute;
+        width: 480px;
+        height: 100%;
+        left: 500px;
+        top: 0;
+        margin: 50px;
+
+        .item1 {
+          width: 260px;
+          height: 200px;
+          background: #0c37ba;
+          position: absolute;
+          left: 200px;
+          top: 50px;
+          z-index: 2;
+
+          & > div:nth-child(1) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            background: #e70f74;
+          }
+
+          & > div:nth-child(2) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            left: 130px;
+            background: #3d242f;
+          }
+
+          & > div:nth-child(3) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            top: 100px;
+            background: #237aa9;
+          }
+
+          & > div:nth-child(4) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            background: #99fc49;
+            top: 100px;
+            left: 130px;
+          }
+        }
+
+        .item2 {
+          width: 260px;
+          height: 200px;
+          //background: #e70f74;
+          position: absolute;
+          top: 300px;
+          left: 50px;
+          z-index: 2;
+
+          & > div:nth-child(1) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            background: #e70f74;
+          }
+
+          & > div:nth-child(2) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            left: 130px;
+            background: #3d242f;
+          }
+
+          & > div:nth-child(3) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            top: 100px;
+            background: #237aa9;
+          }
+
+          & > div:nth-child(4) {
+            position: absolute;
+            width: 130px;
+            height: 100px;
+            background: #99fc49;
+            top: 100px;
+            left: 130px;
+          }
+        }
+
+
+      }
+
+      .about4 {
+        position: absolute;
+        width: 357px;
+        height: 998px;
+        background: url("../img/greenLine.png") no-repeat;
+        top: -170px;
+        left: 600px;
+      }
     }
 
     .team {
@@ -432,10 +548,6 @@
   }
 
 }
-
-
-
-
 
 
 //内容样式结束
