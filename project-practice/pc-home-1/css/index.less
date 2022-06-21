@@ -36,7 +36,15 @@
     margin: 0 auto;
     position: relative;
     //background: black;
-
+    //logo边上的音乐图标.
+    .music{
+      width: 14px;
+      height: 14px;
+      float: left;
+      margin: 50px 0 0 5px ;
+      background: url("../img/musicon.gif");
+    }
+    //logo图片
     .logo > a {
       margin-top: 30px;
       float: left;
@@ -46,6 +54,7 @@
       background: url("../img/logo.png");
     }
 
+    //白色向下的小箭头, 导航栏下边
     .arrow {
       width: 21px;
       height: 11px;
@@ -57,12 +66,13 @@
       transition: left 1s;
     }
 
+    //导航栏
     .nav {
       padding-top: 50px;
       height: 80px;
       float: right;
 
-
+      //导航文字的样式
       & > ul > li {
         float: left;
         margin-left: 40px;
@@ -76,7 +86,7 @@
           overflow: hidden;
           transition: width 1s;
         }
-
+        //导航文字悬浮动画
         &:hover .up {
           width: 100%
         }
@@ -94,13 +104,14 @@
   width: 100%;
   overflow: hidden;
   top: -50px;
-
+  //最外层内容列表, 包含五个页面
   .list {
     width: 100%;
     position: absolute;
     left: 0;
     transition: top 1s;
 
+    //五个页面的公共样式
     & > li {
       position: relative;
       background-position: 50% 50%;
@@ -117,6 +128,7 @@
       }
     }
 
+    //第一个页面, 切换轮播图.
     .home {
       background: url("../img/bg1.jpg") no-repeat;
 
@@ -127,8 +139,9 @@
         transform-origin: center center;
         /*必须设置否则子元素没有3D效果*/
         transform-style: preserve-3d;
-
-
+        //进场出场
+        transition: 1s transform,1s opacity;
+        //轮播图公共样式
         .item {
           position: absolute;
           width: 100%;
@@ -155,11 +168,11 @@
             background: blue;
           }
         }
-
+        //默认只显示激活的
         .active {
           visibility: visible;
         }
-
+        //左右切换时的动画, 需要动画的添加 class
         .leftHide {
           visibility: hidden;
           animation: 1s leftHide 1 linear;
@@ -226,11 +239,8 @@
             transform: translateZ(-200px);
           }
         }
-
-
       }
-
-
+      //轮播图下面的导航小圆点.
       .home2 {
         width: 180px;
         height: 50px;
@@ -240,7 +250,9 @@
         bottom: 0;
         right: 0;
         margin: 0 auto;
-
+        //进场出场
+        transition: 1s transform,1s opacity;
+        //四个小圆点,激活的使用白色
         & > li {
           float: left;
           margin: 0 5px;
@@ -259,21 +271,32 @@
 
     }
 
+    //第二个页面
     .course {
       background: url("../img/bg2.jpg") no-repeat;
-
+      overflow: hidden;
+      //标题文字
+      .course1{
+        position: relative;
+        z-index: 2;
+      }
+      //描述段落
       .course2 {
         width: 400px;
         margin-top: 100px;
+        z-index: 2;
       }
 
+      //右边鼠标悬浮动画, 右边logo鼠标悬浮翻转.
       .course3 {
         position: absolute;
         width: 480px;
         left: 500px;
         top: 0;
         margin: 50px;
+        z-index: 2;
 
+        //右侧logo列表
         .item {
           position: relative;
           width: 120px;
@@ -298,10 +321,12 @@
             border-image-width: 0;
           }
 
+          //鼠标悬浮翻转, 沿着Y轴旋转
           &:hover {
             transform: rotateY(180deg);
           }
 
+          //对背面的 处理一下
           .backFace {
             background-color: #0c37ba;
             transform: rotateY(180deg);
@@ -342,6 +367,35 @@
         }
       }
 
+      //进场出场动画的小飞机
+      .plane1{
+        width: 359px;
+        height: 283px;
+        position: absolute;
+        top: -100px;
+        left: 350px;
+        background: url("../img/plane1.png") no-repeat;
+        transition: 1s;
+      }
+      .plane2{
+        width: 359px;
+        height: 283px;
+        top: 80px;
+        left: -100px;
+        position: absolute;
+        background: url("../img/plane2.png") no-repeat;
+        transition: 1s;
+      }
+      .plane3{
+        width: 359px;
+        height: 283px;
+        left: 230px;
+        top: 400px;
+        position: absolute;
+        background: url("../img/plane3.png") no-repeat;
+        transition: 1s;
+      }
+
     }
 
     //整体布局 title+列表+动画, 整体默认div布局, 机器人动画用定位+css3动画偏移.
@@ -349,16 +403,21 @@
       position: relative;
       background: url("../img/bg1.jpg") no-repeat;
 
+      //标题文字
+      .works1{
+        position: relative;
+        z-index: 2;
+      }
+      //下方图片列表, 鼠标悬浮控制透明度和动画.
       .works2 {
         margin-top: 90px;
+        position: relative;
+        z-index: 2;
 
         .item {
           float: left;
           position: relative;
           overflow: hidden;
-          //width: 220px;
-          //height: 133px;
-          //margin: 0 1px;
           & > img {
             opacity: 1;
             transition: 1s;
@@ -389,18 +448,20 @@
             }
           }
 
+          //鼠标悬浮透明度修改
           &:hover .mask {
             opacity: .8;
           }
-
+          //鼠标悬浮做变换动画
           &:hover img {
             transform: rotate(30deg) scale(1.5); //放大, 旋转
           }
         }
 
       }
-
+      //持续动画的小机器人
       .works3 {
+        z-index: 2;
         width: 167px;
         height: 191px;
         position: absolute;
@@ -426,17 +487,49 @@
         }
 
       }
+
+      //进场出场的铅笔,变换动画.
+      .pencel1{
+        width: 180px;
+        height: 79px;
+        position: absolute;
+        top: -60px;
+        left: 450px;
+        background: url("../img/pencel1.png") no-repeat;
+        transition: 1s;
+      }
+      .pencel2{
+        width: 268px;
+        height: 38px;
+        top: 200px;
+        left: 150px;
+        position: absolute;
+        background: url("../img/pencel2.png") no-repeat;
+        transition: 1s;
+      }
+      .pencel3{
+        width: 441px;
+        height: 231px;
+        left: 530px;
+        top: 250px;
+        position: absolute;
+        background: url("../img/pencel3.png") no-repeat;
+        transition: 1s;
+      }
+
+
     }
 
+    //第四页, 两个图片叠加的内容动画
     .about {
       background: url("../img/bg3.jpg") no-repeat;
 
-
-      .about1, .about2 {
+      .about1, .about2 {//标题和详细段落
         width: 370px;
         margin-top: 80px;
       }
 
+      //两个图片内容的动画
       .about3 {
         position: absolute;
         width: 480px;
@@ -445,7 +538,8 @@
         top: 0;
         margin: 50px;
 
-        .item1 {
+        //两个大的内容盒子, 里面五个子盒子, 对应五个图片, 四个小的覆盖一个大的,做鼠标悬浮过度动画.
+        .item1,.item2 {
           width: 260px;
           height: 200px;
           background: #0c37ba;
@@ -453,85 +547,104 @@
           left: 200px;
           top: 50px;
           z-index: 2;
+          overflow: hidden;
+          border: 5px solid rgba(255,255,255,0.5);
+          border-radius: 8px;
+          transition: 1s;
 
-          & > div:nth-child(1) {
+          & > div{
             position: absolute;
             width: 130px;
             height: 100px;
-            background: #e70f74;
+            overflow: hidden;
+
+            &>img{
+              position: absolute;
+              transition: 2s top,2s left;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+            }
+          }
+
+          & > div:nth-child(1){
+            top: 0;
+            &>img{
+
+            }
           }
 
           & > div:nth-child(2) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
             left: 130px;
-            background: #3d242f;
+            &>img{
+              left: -130px;
+            }
           }
 
           & > div:nth-child(3) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
             top: 100px;
-            background: #237aa9;
+            left:0;
+            &>img{
+              top: -100px;
+            }
           }
 
           & > div:nth-child(4) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
-            background: #99fc49;
             top: 100px;
             left: 130px;
+            &>img{
+              top: -100px;
+              left: -130px;
+            }
           }
+
+          & > div:nth-child(5) {
+            width: 260px;
+            height: 200px;
+            overflow: hidden;
+            z-index: -1;
+            background: url("../img/about2.jpg");
+            transform: scale(1.5);
+            transition: 2s transform;
+          }
+
+          //鼠标悬浮,五个内容盒子和图片做过渡和变换动画.
+          &:hover{
+            & > div:nth-child(1)  > img  {
+              top: 100px;
+            }
+
+            & > div:nth-child(2)  > img  {
+              left: -260px;
+            }
+
+            & > div:nth-child(3)  > img  {
+              left: 130px;
+            }
+
+            & > div:nth-child(4) > img {
+              top: -200px;
+            }
+            & > div:nth-child(5) {
+              transform: scale(1);
+            }
+          }
+
         }
 
+        //第二个单独的位置和样式
         .item2 {
-          width: 260px;
-          height: 200px;
-          //background: #e70f74;
-          position: absolute;
           top: 300px;
           left: 50px;
-          z-index: 2;
 
-          & > div:nth-child(1) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
-            background: #e70f74;
-          }
-
-          & > div:nth-child(2) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
-            left: 130px;
-            background: #3d242f;
-          }
-
-          & > div:nth-child(3) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
-            top: 100px;
-            background: #237aa9;
-          }
-
-          & > div:nth-child(4) {
-            position: absolute;
-            width: 130px;
-            height: 100px;
-            background: #99fc49;
-            top: 100px;
-            left: 130px;
+          & > div:nth-child(5) {
+            background: url("../img/about4.jpg");
           }
         }
-
-
       }
 
+      //背景的斜线
       .about4 {
         position: absolute;
         width: 357px;
@@ -542,20 +655,130 @@
       }
     }
 
+    //第五页, 八个人物, 鼠标悬浮叠加canvas气泡动画.
     .team {
       background: url("../img/bg1.jpg") no-repeat;
+      .team1, .team2 {//标题, 和描述
+        width: 370px;
+        float: left;
+        transition: 1s;
+      }
+      .team2{
+        float: right;
+      }
+
+      //对canvas做定位,通过偏移位置修改动画
+      .team3>canvas{
+        position: absolute;
+      }
+
+      //八个人物,用一个背景图位置偏移一个盒子展示一个人
+      .team3{
+        position: relative;
+        float: left;
+        margin-top: 50px;
+        margin-left: 50px;
+        width: 944px;
+        height: 448px;
+
+        //位置偏移固定样式后, 动画用JS做
+        &>ul{
+          &>li{
+            float: left;
+            width: 118px;
+            height: 448px;
+            background: url("../img/team.png");
+
+            &:nth-child(2){
+              background-position: -120px 0;
+            }
+            &:nth-child(3){
+              background-position: -236px 0;
+            }
+            &:nth-child(4){
+              background-position: -354px 0;
+            }
+            &:nth-child(5){
+              background-position: -472px 0;
+            }
+            &:nth-child(6){
+              background-position: -590px 0;
+            }
+            &:nth-child(7){
+              background-position: -708px 0;
+            }
+            &:nth-child(8){
+              background-position: -826px 0;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  //最右侧的导航圆点, js触发激活, 和点击事件
+  .dot{
+    position: fixed;
+    right: 10px;
+    top: 50%;
+
+    & > li {
+      margin: 10px 5px;
+      width: 20px;
+      height: 20px;
+      border: 5px solid pink;
+      border-radius: 50%;
+      box-shadow: 0 0 4px rgba(25, 25, 25, 0.8);
+      cursor: pointer;
+
+      &.active {
+        background: white;
+      }
     }
   }
+
+
 
 }
 
 
 //内容样式结束
 
+//开机动画开始
+#mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
 
+  .up{
+    width: 100%;
+    height: 50%;
+    background: deepskyblue;
+    transition: 1s height;
+  }
+  .down{
+    width: 100%;
+    height: 50%;
+    background: deepskyblue;
+    transition: 1s height;
+    position: absolute;
+    bottom: 0; //从下向上绘制
+  }
 
+  .line{
+    background: white;
+    position: absolute;
+    z-index: 101;
+    width: 0;
+    height: 4px;
+    top: 50%;
+    transition: 1s width;
+  }
+}
 
-
+//开机动画结束
 
 
 

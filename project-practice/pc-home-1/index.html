@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>VoxelAir</title>
-    <!--
-    1. 确定分辨率, 内容大小和外部大小, 编写样式
-        * 支持的分辨率 1200 到 2000 (背景图最大尺寸要到 2000)
-        * 内容固定尺寸 1100 * 520
-    2. 头部样式编写. 骨架编写.
-        a. 通用 css 样式: 清楚默认值, 清楚浮动, 通用title, 通用字体
-        b. 整体的外部盒子骨架, 头部内容编写, 内容滚轮交互.
-        c. 内容固定大小, 所有页面采用定位偏移方式, 监听鼠标滚动, 进行偏移.
-    3. 编写内容样式, 和动画
-        a. 第三屏: 整体布局 title+列表+动画, 整体默认div布局, 机器人动画用定位+css3动画偏移.
-        b. 第二屏: 整体布局 title+段落+动画, 整体默认div, 动画列表部分用定位, 设置item大小,边框浮动, 内容背景然后做鼠标触发3D变换动画.
-        c. 第一屏: 整体布局 四个图片切换
-    5. JS涉及 鼠标交互和一些动画.
-    5. 总体技术: 浮动,定位,动画,事件
-    -->
     <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
 <section id="warp">
+    <div id="mask">
+        <div class="up"></div>
+        <div class="down"></div>
+        <div class="line"></div>
+    </div>
+
     <header id="head">
         <div class="headerMain">
             <h1 class="logo">
                 <a href="javascript:"></a>
             </h1>
+            <div class="music">
+                <audio src="img/audio.mp3" loop autoplay></audio>
+            </div>
 
             <nav class="nav">
                 <ul class="list clearfix">
@@ -140,6 +134,9 @@
 
                     </div>
 
+                    <div class="plane1"></div>
+                    <div class="plane2"></div>
+                    <div class="plane3"></div>
 
                 </section>
             </li>
@@ -181,6 +178,11 @@
                         </div>
                     </div>
                     <div class="works3"></div>
+
+                    <div class="pencel1"></div>
+                    <div class="pencel2"></div>
+                    <div class="pencel3"></div>
+
                 </section>
             </li>
             <li class="about">
@@ -198,31 +200,60 @@
                     </div>
                     <div class="about3">
                         <div class="item1">
-                            <div ></div>
-                            <div ></div>
-                            <div ></div>
-                            <div ></div>
-                            <div ></div>
+                            <div><img src="img/about1.jpg"></div>
+                            <div><img src="img/about1.jpg"></div>
+                            <div><img src="img/about1.jpg"></div>
+                            <div><img src="img/about1.jpg"></div>
+                            <div></div>
                         </div>
 
                         <div class="item2">
-                            <div ></div>
-                            <div ></div>
-                            <div ></div>
-                            <div ></div>
-                            <div ></div>
+                            <div><img src="img/about3.jpg"></div>
+                            <div><img src="img/about3.jpg"></div>
+                            <div><img src="img/about3.jpg"></div>
+                            <div><img src="img/about3.jpg"></div>
+                            <div></div>
                         </div>
                     </div>
 
                     <div class="about4"></div>
-
-
-
                 </section>
             </li>
             <li class="team">
-                <section>team</section>
+                <section>
+                    <header class="team1 commonTitle">
+                        <span>WIR SIND</span><br>
+                        <span>VOXELAIR</span><br>
+                    </header>
+                    <div class="team2 commonText">
+                        <p>Wir sind seit 2002 eine Full-Service-Werbeagentur mit Stammsitz in Heimsheim, zwischen
+                            Stuttgart und Karlsruhe.</p>
+                        <p>Über 60 Jahre Erfahrung vereinen das gesamte VoxelAir-Team. Dabei hat jedes Voxel neben
+                            professionellem
+                            Allroundwissen auch sein ganz spezielles Gebiet, um selbst die individuellsten Kundenwünsche
+                            schnell und kompetent umzusetzen.</p>
+                    </div>
+                    <div class="team3">
+                        <ul>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </section>
             </li>
+        </ul>
+        <ul class="dot">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
         </ul>
 
 
@@ -244,6 +275,8 @@
         const firstHeadLiNode = headLiNodes[0];
         const firstUpNode = firstHeadLiNode.querySelector(".up");
         const arrowEl = document.querySelector("#head .headerMain > .arrow")
+        const music = document.querySelector("#head .headerMain > .music")
+        const audio = document.querySelector("#head .headerMain > .music > audio")
         const content = document.querySelector("#content")
         const cLiNodes = document.querySelectorAll("#content .list > li")
         const cList = document.querySelector("#content .list")
@@ -251,14 +284,255 @@
         const home1 = document.querySelector("#content .list")
         const home1ItemNodes = document.querySelectorAll("#content .list .home .home1 .item")
         const home2LiNodes = document.querySelectorAll("#content .list .home .home2 > li")
+        const home1Node = document.querySelector("#content .list .home .home1")
+        const home2Node = document.querySelector("#content .list .home .home2")
 
-        //=====================第四屏动画========================
+        const team1 = document.querySelector("#content .list .team .team1")
+        const team2 = document.querySelector("#content .list .team .team2")
+        const team3 = document.querySelector("#content .list .team .team3")
+        const team3LiNodes = document.querySelectorAll("#content .list .team .team3 > ul > li")
+
+        const plane1 = document.querySelector("#content .list .course .plane1")
+        const plane2 = document.querySelector("#content .list .course .plane2")
+        const plane3 = document.querySelector("#content .list .course .plane3")
+
+        const pencel1 = document.querySelector("#content .list .works .pencel1")
+        const pencel2 = document.querySelector("#content .list .works .pencel2")
+        const pencel3 = document.querySelector("#content .list .works .pencel3")
+
+        const aboutItem1 = document.querySelector("#content .list .about .about3 .item1")
+        const aboutItem2 = document.querySelector("#content .list .about .about3 .item2")
+
+        const dotLiNodes = document.querySelectorAll("#content .dot > li")
+
+        const line = document.querySelector("#mask .line")
+        const mask = document.querySelector("#mask")
+        const maskDiv = document.querySelectorAll("#mask > div")
+
+        //=====================开机动画========================
+        loadingAn();
+
+        function loadingAn() {
+            let flag = 0;
+            const arr = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'about1.jpg', 'about2.jpg', 'about3.jpg', 'about4.jpg', 'worksimg1.jpg', 'worksimg2.jpg', 'worksimg3.jpg', 'worksimg4.jpg', 'team.png', 'greenLine.png'];
+            for (let i = 0; i < arr.length; i++) {
+                const image = new Image()
+                image.src = "img/"+arr[i];
+                image.onload = function () {
+                    flag ++;
+                    line.style.width = flag / arr.length * 100 + "%";
+                };
+            }
+
+            line.addEventListener("transitionend", function () {
+                if (flag === arr.length) {
+                    maskDiv.forEach(function (d) {
+                        d.style.height = "0px";
+                    })
+                    this.style.display = "none";
+                }
+            });
+
+
+            maskDiv[0].addEventListener("transitionend", function () {
+                mask.remove();
+                audio.play();
+                // home3D();
+            });
+        }
+
+
+        //=====================音频========================
+        music.onclick = function () {
+            if (audio.paused) {
+                audio.play();
+                music.style.background = "url(img/musicon.gif)";
+            } else {
+                audio.pause();
+                music.style.background = "url(img/musicoff.gif)";
+            }
+        };
+
+        //=====================进场出场========================
+        const anArr = [
+            {
+                inAn: function () {
+                    home1Node.style.transform = "translateY(0px)";
+                    home1Node.style.opacity = 1;
+                    home2Node.style.transform = "translateY(0px)";
+                    home2Node.style.opacity = 1;
+                },
+                outAn: function () {
+                    home1Node.style.transform = "translateY(-400px)";
+                    home1Node.style.opacity = 0;
+                    home2Node.style.transform = "translateY(100px)";
+                    home2Node.style.opacity = 0;
+                },
+            },
+            {
+                inAn: function () {
+                    plane1.style.transform = "translate(0px,0px)";
+                    plane2.style.transform = "translate(0px,0px)";
+                    plane3.style.transform = "translate(0px,0px)";
+                },
+                outAn: function () {
+                    plane1.style.transform = "translate(-200px,-200px)";
+                    plane2.style.transform = "translate(-200px,200px)";
+                    plane3.style.transform = "translate(200px,-200px)";
+                },
+            },
+            {
+                inAn: function () {
+                    pencel1.style.transform = "translateY(0px)";
+                    pencel2.style.transform = "translateY(0px)";
+                    pencel3.style.transform = "translateY(0px)";
+                },
+                outAn: function () {
+                    pencel1.style.transform = "translateY(-100px)";
+                    pencel2.style.transform = "translateY(100px)";
+                    pencel3.style.transform = "translateY(100px)";
+                },
+            },
+            {
+                inAn: function () {
+                    aboutItem1.style.transform = "rotate(0deg)";
+                    aboutItem2.style.transform = "rotate(0deg)";
+                },
+                outAn: function () {
+                    aboutItem1.style.transform = "rotate(45deg)";
+                    aboutItem2.style.transform = "rotate(-45deg)";
+                },
+            },
+            {
+                inAn: function () {
+                    team1.style.transform = "translateX(0px)";
+                    team2.style.transform = "translateX(0px)";
+                },
+                outAn: function () {
+                    team1.style.transform = "translateX(-200px)";
+                    team2.style.transform = "translateX(200px)";
+                },
+            }
+        ]
+
+        for (let i = 0; i < anArr.length; i++) {
+            anArr[i]["outAn"]();
+        }
+        setTimeout(function () {
+            anArr[0].inAn();
+        }, 2000);
+
+
+        //=====================第五屏canvas气泡动画========================
+        teamCanvas();
+
+        function teamCanvas() {
+            //遍历添加事件, 鼠标悬浮添加canvas,产生气泡, 离开删除canvas, 高亮悬浮元素
+            let canvasBase = null;
+            let teamTime1 = 0;
+            let teamTime2 = 0;
+            console.log('=====================', team3LiNodes)
+            for (let i = 0; i < team3LiNodes.length; i++) {
+                console.log('=====================')
+                team3LiNodes[i].onmouseenter = function () {
+                    for (let j = 0; j < team3LiNodes.length; j++) {
+                        team3LiNodes[j].style.opacity = .2;
+                    }
+                    this.style.opacity = 1;
+                    addCanvas();
+                    canvasBase.style.left = this.offsetLeft + "px";
+                }
+            }
+
+            team3.onmouseleave = function () {
+                for (let j = 0; j < team3LiNodes.length; j++) {
+                    team3LiNodes[j].style.opacity = 1;
+                }
+                canvasBase.remove();
+                canvasBase = null;
+                clearInterval(teamTime2);
+                clearInterval(teamTime1);
+
+            };
+
+            function addCanvas() {
+                if (!canvasBase) {
+                    canvasBase = document.createElement("canvas");
+                    canvasBase.width = team3LiNodes[0].offsetWidth;
+                    canvasBase.height = team3LiNodes[0].offsetHeight;
+
+                    team3.appendChild(canvasBase)
+                    bubblesEffect();
+                }
+            }
+
+            function bubblesEffect() {
+                if (!canvasBase.getContext) return;
+                const context = canvasBase.getContext("2d");
+
+                //定时添加圆的数据到数组
+                const arr = [];
+                teamTime2 = setInterval(function () {
+                    const x = Math.random() * canvasBase.width;
+                    const r = Math.random() * 6 + 2;
+                    const y = canvasBase.height - r;
+                    arr.push({
+                        x: x,
+                        y: y,
+                        r: r,
+                        red: Math.round(Math.random() * 255),
+                        green: Math.round(Math.random() * 255),
+                        blue: Math.round(Math.random() * 255),
+                        alp: 1,
+                        deg: 0,
+                        startX: x,
+                        startY: y,
+                        step: Math.random() * 20 + 3
+                    });
+                }, 50);
+
+
+                //定时绘制圆到页面, 透明的清理掉, 不透明的慢慢透明
+                teamTime1 = setInterval(function () {
+                    for (let i = 0; i < arr.length; i++) {
+                        arr[i].deg += 5;
+                        arr[i].x = arr[i].startX + Math.sin(arr[i].deg * Math.PI / 180) * arr[i].step * 2;
+                        arr[i].y = arr[i].startY - (arr[i].deg * Math.PI / 180) * arr[i].step * 2;
+
+
+                        if (arr[i].y <= 30) {
+                            arr.splice(i, 1);
+                        }
+
+                    }
+
+                    context.clearRect(0, 0, canvasBase.width, canvasBase.height);
+
+                    for (let i = 0; i < arr.length; i++) {
+                        context.save();
+                        context.fillStyle = "rgba(" + arr[i].red + "," + arr[i].green + "," + arr[i].blue + "," + arr[i].alp + ")";
+
+                        context.beginPath();
+                        context.arc(arr[i].x, arr[i].y, arr[i].r, 0, 2 * Math.PI);
+                        context.fill();
+                        context.restore();
+                    }
+
+
+                }, 1000 / 60);
+
+
+            }
+
+
+        }
 
         //=====================第一屏点击与轮播========================
         let autoIndex = 0;
         let oldIndex = 0;
         let timer3D = 0;
         home3D();
+
         function home3D() {
             for (let i = 0; i < home2LiNodes.length; i++) {
                 home2LiNodes[i].onclick = function () {
@@ -279,7 +553,7 @@
                         home2LiNodes[oldIndex].classList.remove("active");
 
                         oldIndex = autoIndex;
-                    }else if (autoIndex < i) {//从左向右
+                    } else if (autoIndex < i) {//从左向右
                         autoIndex = i;
                         home1ItemNodes[autoIndex].classList.remove("leftHide");
                         home1ItemNodes[autoIndex].classList.remove("rightHide");
@@ -301,15 +575,14 @@
             }
 
 
-
-
             //从左向右自动轮播
             homeMove();
+
             function homeMove() {
                 clearInterval(timer3D);
                 timer3D = setInterval(function () {
-                    autoIndex ++;
-                    if(autoIndex === home1ItemNodes.length){
+                    autoIndex++;
+                    if (autoIndex === home1ItemNodes.length) {
                         autoIndex = 0;
                     }
                     home1ItemNodes[autoIndex].classList.remove("leftHide");
@@ -327,23 +600,25 @@
                     home2LiNodes[oldIndex].classList.remove("active");
 
                     oldIndex = autoIndex;
-                },2000);
+                }, 2000);
 
             }
 
-            home1.onmouseover=function (ev) {
+            home1.onmouseover = function (ev) {
                 clearInterval(timer3D);
             }
-            home1.onmouseout=function (ev) {
+            home1.onmouseout = function (ev) {
                 homeMove();
             }
         }
+
         //=========================head与骨架=============================
         //当前显示的页面
         let currentPage = 0;
         //鼠标滚动执行器
         let timer = 0;
-
+        //上一屏
+        let preIndex = 0;
 
         //设置 head 点击效果
         headBind();
@@ -354,6 +629,14 @@
             for (let i = 0; i < headLiNodes.length; i++) {
                 // headLiNodes[i].index = i;
                 headLiNodes[i].onclick = function () {
+                    preIndex = currentPage;
+                    move(i);
+                };
+            }
+
+            for (let i = 0; i < dotLiNodes.length; i++) {
+                dotLiNodes[i].onclick = function () {
+                    preIndex = currentPage;
                     move(i);
                 };
             }
@@ -408,7 +691,7 @@
             } else if (ev.wheelDelta) {
                 dir = ev.wheelDelta > 0 ? "up" : "down";
             }
-
+            preIndex = currentPage;
             switch (dir) {
                 case "up":
                     if (currentPage > 0) {
@@ -429,7 +712,7 @@
         }
 
 
-        move(3);
+        // move(4);
 
         //设置滚动到某个页面
         function move(index) {
@@ -439,6 +722,15 @@
             cList.style.top = -currentPage * (document.documentElement.clientHeight - head.offsetHeight) + "px"
             arrowEl.style.left = headLiNodes[index].offsetLeft + headLiNodes[index].offsetWidth / 2 - arrowEl.offsetWidth / 2 + "px"
 
+            for (let i = 0; i < dotLiNodes.length; i++) {
+                dotLiNodes[i].classList.remove("active");
+            }
+            dotLiNodes[index].classList.add("active");
+
+            if (anArr[index] && typeof anArr[index]["inAn"] === "function") {
+                anArr[index].inAn();
+            }
+            anArr[preIndex].outAn();
         }
 
 
