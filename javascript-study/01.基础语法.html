@@ -17,6 +17,9 @@
     <li>命名规范</li>
     <li>数据类型简介</li>
     <li>Number类型</li>
+    <li>Boolean类型</li>
+    <li>强制类型转换</li>
+    <li>运算符</li>
 </ul>
 
 
@@ -162,17 +165,17 @@ console.log('============================Number类型开始=====================
  * 		使用typeof检查一个NaN也会返回number
  */
 
+const numD = NaN;
+console.log(typeof numD);//number
 
+const numE = 23243+23435;
+console.log(numE);//整数运算基本没有问题
 
+//问题0: 浮点运算
+const numC = 0.1+0.2;
+console.log(numC);//0.30000000000000004
 
-
-
-
-
-
-
-
-//问题: js 最大long类型16位, java最大long类型18位,会有精度丢失,所以推荐解决:后端转json时序列化为字符串.
+//问题1: js 最大long类型16位, java最大long类型18位,会有精度丢失,所以推荐解决:后端转json时序列化为字符串.
 let numA = 9223372036854775807;
 console.log(numA);
 console.log(numA+"")
@@ -184,9 +187,160 @@ console.log(JSON.parse(jsonStr)) // 1245953273786007600
 // JSONBig 可以处理数据中超出 JavaScript 安全整数范围的问题
 // console.log(JSONBig.parse(jsonStr)) // 把 JSON 格式的字符串转为 JavaScript 对象
 
+console.log('============================Number类型结束===================================');
+console.log('============================Boolean类型开始===================================');
+/*
+ * Boolean 布尔值
+ * 	布尔值只有两个，主要用来做逻辑判断
+ * 	true
+ * 		- 表示真
+ * 	false
+ * 		- 表示假
+ *
+ * 使用typeof检查一个布尔值时，会返回boolean
+ */
+let boolA = false;
+console.log(typeof boolA);
+console.log(boolA);
+console.log('============================Boolean类型结束===================================');
+console.log('============================强制类型转换开始===================================');
+/*
+ * 强制类型转换
+ * 	- 指将一个数据类型强制转换为其他的数据类型
+ * 	- 类型转换主要指，将其他的数据类型，转换为
+ * 		String Number Boolean
+ *
+ */
 
+/*
+ * 将其他的数据类型转换为String
+ * 	方式一：
+ * 		- 调用被转换数据类型的toString()方法
+ * 		- 该方法不会影响到原变量，它会将转换的结果返回
+ * 		- 但是注意：null和undefined这两个值没有toString()方法，
+ * 			如果调用他们的方法，会报错
+ *
+ *  方式二：
+ * 		- 调用String()函数，并将被转换的数据作为参数传递给函数
+ * 		- 使用String()函数做强制类型转换时，
+ * 			对于Number和Boolean实际上就是调用的toString()方法
+ * 			但是对于null和undefined，就不会调用toString()方法
+ * 				它会将 null 直接转换为 "null"
+ * 				将 undefined 直接转换为 "undefined"
+ *
+ * 将其他的数据类型转换为Number
+ * 	 转换方式一：
+ * 		使用Number()函数
+ * 			- 字符串 --> 数字
+ * 				1.如果是纯数字的字符串，则直接将其转换为数字
+ * 				2.如果字符串中有非数字的内容，则转换为NaN
+ * 				3.如果字符串是一个空串或者是一个全是空格的字符串，则转换为0
+ * 			- 布尔 --> 数字
+ * 				true 转成 1
+ * 				false 转成 0
+ *
+ * 			- null --> 数字     0
+ *
+ * 			- undefined --> 数字 NaN
+ *
+ * 转换方式二：
+ * 		- 这种方式专门用来对付字符串
+ * 		- parseInt() 把一个字符串转换为一个整数
+ * 		- parseFloat() 把一个字符串转换为一个浮点数
+ *
+ *
+ * 将其他的数据类型转换为Boolean
+ * 	- 使用Boolean()函数
+ * 		- 数字 ---> 布尔
+ * 			- 除了0和NaN，其余的都是true
+ *
+ * 		- 字符串 ---> 布尔
+ * 			- 除了空串，其余的都是true
+ *
+ * 		- null和undefined都会转换为false
+ *
+ * 		- 对象也会转换为true
+ *
+ *
+ */
+//转换为String
+let typeChange = 123;
+typeChange = typeChange.toString();
+true.toString();
+console.log("null + \"\": ",null + "");
+console.log("undefined + \"\": ",undefined + "");
+typeChange = 63566;
+console.log("String(typeChange): ",String(typeChange));
+console.log("String(undefined): ",String(undefined));
 
+//转换为Number
+console.log("(Number(\"232\") + 2: ",Number("232") + 2);
+console.log("Number(true): ",Number(true));
+console.log("parseInt(\"232\"): ",parseInt("232"));
+console.log("parseInt(\"232.3\"): ",parseInt("232.3"));
+console.log("parseInt(232.3): ",parseInt(232.3));
+console.log("parseInt(\"232.3.89px\"): ",parseInt("232.3.89px"));
+//转换为BigInt
+console.log(BigInt("098"));
 
+//进制转换
+typeChange = 0x2A;//十六进制
+console.log("parseInt(typeChange, 10): ",parseInt(typeChange, 10));
+typeChange = 110001;//二进制  0b110001
+console.log("parseInt(typeChange, 2): ",parseInt(typeChange, 2));
+console.log(typeof typeChange)
+
+console.log("Boolean(typeChange)", Boolean(typeChange));
+console.log("Boolean(null)", Boolean(null));
+console.log("Boolean(undefined)", Boolean(undefined));
+console.log("Boolean(0)", Boolean(0));
+console.log("Boolean(1)", Boolean(1));
+console.log("Boolean(console.log)", Boolean(console.log));
+console.log('============================强制类型转换结束===================================');
+
+console.log('============================运算符开始===================================');
+/*
+ * JS中为我们提供了三种逻辑运算符
+ * ! 非
+ * 	-可以用来对一个值进行非运算: 布尔取反操作; 非布尔会先转布尔在操作
+ * && 与
+ * 	-可以对符号两侧的值进行与运算并返回结果: 有两个值都为true时，才会返回true;如果第一个值为false，则不会看第二个值
+ * || 或
+ * 	-可以对符号两侧的值进行或运算并返回结果: 两个值中只要有一个true，就返回true;如果第一个值为true，则不会检查第二个值
+ * && || 非布尔值的情况
+ * 	- 对于非布尔值进行与或运算时，会先将其转换为布尔值，然后再运算，并且返回原值.
+ *
+ * 赋值运算: = += -+ *= /= %=, 等价于 a=a+x
+ * 关系运算: > >= < <= 通过关系运算符可以比较两个值之间的大小关系，返回true或者false
+ *
+ */
+console.log("逻辑运算符")
+console.log("!true", !true);
+console.log(" true && console.log(\"test&&\")", true && console.log("test&&"));
+console.log("true && undefined", true && undefined);
+console.log("true && true", true && true);
+console.log("true && null", true && null);
+console.log("true && NaN", true && NaN);
+console.log("0 && NaN", 0 && NaN);
+console.log("true && null", true && false);
+console.log(" true && console.log(\"test||\")", true || console.log("test||"));
+console.log("true || true", true || false);
+console.log("null || true", null || true);
+console.log("NaN || true", NaN || true);
+console.log("undefined || true: ", undefined || true);
+
+console.log("赋值运算")
+let res = 0;
+console.log("res=",res," res+=3: ",res+=3);
+
+console.log("关系运算")
+console.log("2 > 9: ",2 > 9);
+console.log("2 >= 9: ",2 >= 9);
+console.log("2 <= 9: ",2 <= 9);
+
+console.log("编码 Unicode, \\u四位编码")
+console.log("\u2620")
+console.log('============================运算符结束===================================');
 
 
 
