@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS基础语法</title>
+</head>
+<body>
+<h1>html中写js</h1>
+<button onclick="alert('讨厌，你点我干嘛~~');">点我一下</button>
+<a href="javascript:alert('让你点你就点！！');">你也点我一下</a>
+<a href='javascript:console.log("你点我了");'>你也点我一下</a>
+
+<h1>语法简单目录</h1>
+<ul>
+    <li>注释</li>
+    <li>变量</li>
+    <li>命名规范</li>
+    <li>数据类型简介</li>
+    <li>Number类型</li>
+</ul>
+
+
+</body>
+
+
+<script type="text/javascript">
+console.log('=================注释==================');
+// 单行注释
+/**
+ * 多行文档注释
+ */
+/*
+多行注释
+ */
+
+console.log('=================变量==================');
+let a = 0;//可以修改的变量
+const b = 1;//不可重新赋值的变量
+var c = 2;//旧版本变量
+let d=2,e = 8;//多个变量赋值
+c = 9;
+console.log(a, b, c, d, e);
+
+console.log('================命名规范=================');
+/*
+ * 标识符
+ * 	- 在JS中所有的可以由我们自主命名的都可以称为是标识符
+ * 	- 例如：变量名、函数名、属性名都属于标识符
+ * 	- 命名一个标识符时需要遵守如下的规则：
+ * 		1.标识符中可以含有字母、数字、_、$
+ * 		2.标识符不能以数字开头
+ * 		3.标识符不能是ES中的关键字或保留字
+ * 		4.标识符一般都采用驼峰命名法
+ * 			- 首字母小写，每个单词的开头字母大写，其余字母小写
+ * 			helloWorld xxxYyyZzz
+ *
+ * 	- JS底层保存标识符时实际上是采用的Unicode编码，
+ * 		所以理论上讲，所有的utf-8中含有的内容都可以作为标识符,也支持中文但不建议使用.
+ */
+
+console.log('===========数据类型简介开始============');
+/*
+1. 分类
+  * 基本(值)类型
+    * String: 任意字符串
+    * Number: 任意的数字
+    * boolean: true/false
+    * undefined: undefined
+    * null: null
+  * 对象(引用)类型
+    * Object: 任意对象
+    * Function: 一种特别的对象(可以执行)
+    * Array: 一种特别的对象(数值下标, 内部数据是有序的)
+2. 判断
+  * typeof:
+    * 可以判断: undefined/ 数值 / 字符串 / 布尔值 / function
+    * 不能判断: null与object  object与array
+  * instanceof:
+    * 判断对象的具体类型
+  * ===
+    * 可以判断: undefined, null
+ */
+/*
+1. undefined与null的区别?
+  * undefined代表定义未赋值
+  * nulll定义并赋值了, 只是值为null
+2. 什么时候给变量赋值为null呢?
+  * 初始赋值, 表明将要赋值为对象
+  * 结束前, 让对象成为垃圾对象(被垃圾回收器回收)
+3. 严格区别变量类型与数据类型?
+  * 数据的类型
+    * 基本类型
+    * 对象类型
+  * 变量的类型(变量内存值的类型)
+    * 基本类型: 保存就是基本类型的数据
+    * 引用类型: 保存的是地址值
+ */
+
+//基本类型, typeof 示例
+let bla;
+console.log(bla, typeof bla, typeof bla === "undefined", bla === undefined);
+console.log(undefined === 'undefined');
+bla=4;
+console.log(typeof bla === 'number');
+bla=null;
+console.log(typeof bla, bla === null);
+
+//对象类型示例
+let blb = {
+    blb2:[1,'abc',console.log],
+    blb3: function () {
+        console.log('blb3');
+        return function () {
+            return 'lsadjfal';
+        };
+    },
+}
+
+console.log(blb instanceof Object, blb instanceof Array);
+console.log(blb.blb2 instanceof Array, blb.blb2 instanceof Object);
+console.log(blb.blb3 instanceof Function, blb.blb3 instanceof Object);
+
+console.log(typeof blb.blb2, typeof blb.blb3 === 'function');
+console.log(typeof blb.blb2[2] === 'function');
+blb.blb2[2](4);
+console.log(blb.blb3()());
+
+//实例: 实例对象; 类型: 类型对象
+function Person(name, age) {//构造函数
+    this.name = name;
+    this.age = age;
+}
+let p = new Person('tom',12);
+console.log(Person('jack', 12));
+console.log(p.age, p.name);
+p = null;
+// console.log(p.age, p.name);
+
+let blc = function () {
+
+};
+console.log(typeof blc);
+console.log('=========================数据类型简介结束=================================');
+
+console.log('============================Number类型开始===================================');
+/*
+ * 在JS中所有的数值都是Number类型，
+ * 	包括整数和浮点数（小数）
+ *
+ * JS中可以表示的数字的最大值
+ * 	Number.MAX_VALUE
+ * 		1.7976931348623157e+308
+ *
+ * 	Number.MIN_VALUE 大于0的最小值
+ * 		5e-324
+ *
+ *  如果使用Number表示的数字超过了最大值，则会返回一个
+ * 		Infinity 表示正无穷
+ * 		-Infinity 表示负无穷
+ * 		使用typeof检查Infinity也会返回number
+ *  NaN 是一个特殊的数字，表示Not A Number
+ * 		使用typeof检查一个NaN也会返回number
+ */
+
+
+
+
+
+
+
+
+
+
+
+//问题: js 最大long类型16位, java最大long类型18位,会有精度丢失,所以推荐解决:后端转json时序列化为字符串.
+let numA = 9223372036854775807;
+console.log(numA);
+console.log(numA+"")
+//es6的bigint可以保留精度, 如果解决后端问题可以使用 npm i json-bigint
+let numB = BigInt(9223372036854775807);
+console.log(numB)
+const jsonStr = '{ "art_id": 1245953273786007552 }'
+console.log(JSON.parse(jsonStr)) // 1245953273786007600
+// JSONBig 可以处理数据中超出 JavaScript 安全整数范围的问题
+// console.log(JSONBig.parse(jsonStr)) // 把 JSON 格式的字符串转为 JavaScript 对象
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>
+
+
+
+
+
+
+
