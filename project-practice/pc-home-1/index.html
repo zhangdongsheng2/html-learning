@@ -711,8 +711,8 @@
             return false;
         }
 
-
-        // move(4);
+        //网页初始显示第一页, 如果不执行这个, 会导致第一屏没有过渡动画
+        move(0);
 
         //设置滚动到某个页面
         function move(index) {
