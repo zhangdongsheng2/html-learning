@@ -20,6 +20,8 @@
     <li>Boolean类型</li>
     <li>强制类型转换</li>
     <li>运算符</li>
+    <li>流程控制if_switch语句</li>
+    <li>循环语句for_while语句</li>
 </ul>
 
 
@@ -27,325 +29,498 @@
 
 
 <script type="text/javascript">
-console.log('=================注释==================');
-// 单行注释
-/**
- * 多行文档注释
- */
-/*
-多行注释
- */
+    console.log('=================注释==================');
+    // 单行注释
+    /**
+     * 多行文档注释
+     */
+    /*
+    多行注释
+     */
 
-console.log('=================变量==================');
-let a = 0;//可以修改的变量
-const b = 1;//不可重新赋值的变量
-var c = 2;//旧版本变量
-let d=2,e = 8;//多个变量赋值
-c = 9;
-console.log(a, b, c, d, e);
+    console.log('=================变量==================');
+    let a = 0;//可以修改的变量
+    const b = 1;//不可重新赋值的变量
+    var c = 2;//旧版本变量
+    let d = 2, e = 8;//多个变量赋值
+    c = 9;
+    console.log(a, b, c, d, e);
 
-console.log('================命名规范=================');
-/*
- * 标识符
- * 	- 在JS中所有的可以由我们自主命名的都可以称为是标识符
- * 	- 例如：变量名、函数名、属性名都属于标识符
- * 	- 命名一个标识符时需要遵守如下的规则：
- * 		1.标识符中可以含有字母、数字、_、$
- * 		2.标识符不能以数字开头
- * 		3.标识符不能是ES中的关键字或保留字
- * 		4.标识符一般都采用驼峰命名法
- * 			- 首字母小写，每个单词的开头字母大写，其余字母小写
- * 			helloWorld xxxYyyZzz
- *
- * 	- JS底层保存标识符时实际上是采用的Unicode编码，
- * 		所以理论上讲，所有的utf-8中含有的内容都可以作为标识符,也支持中文但不建议使用.
- */
+    console.log('================命名规范=================');
+    /*
+     * 标识符
+     * 	- 在JS中所有的可以由我们自主命名的都可以称为是标识符
+     * 	- 例如：变量名、函数名、属性名都属于标识符
+     * 	- 命名一个标识符时需要遵守如下的规则：
+     * 		1.标识符中可以含有字母、数字、_、$
+     * 		2.标识符不能以数字开头
+     * 		3.标识符不能是ES中的关键字或保留字
+     * 		4.标识符一般都采用驼峰命名法
+     * 			- 首字母小写，每个单词的开头字母大写，其余字母小写
+     * 			helloWorld xxxYyyZzz
+     *
+     * 	- JS底层保存标识符时实际上是采用的Unicode编码，
+     * 		所以理论上讲，所有的utf-8中含有的内容都可以作为标识符,也支持中文但不建议使用.
+     */
 
-console.log('===========数据类型简介开始============');
-/*
-1. 分类
-  * 基本(值)类型
-    * String: 任意字符串
-    * Number: 任意的数字
-    * boolean: true/false
-    * undefined: undefined
-    * null: null
-  * 对象(引用)类型
-    * Object: 任意对象
-    * Function: 一种特别的对象(可以执行)
-    * Array: 一种特别的对象(数值下标, 内部数据是有序的)
-2. 判断
-  * typeof:
-    * 可以判断: undefined/ 数值 / 字符串 / 布尔值 / function
-    * 不能判断: null与object  object与array
-  * instanceof:
-    * 判断对象的具体类型
-  * ===
-    * 可以判断: undefined, null
- */
-/*
-1. undefined与null的区别?
-  * undefined代表定义未赋值
-  * nulll定义并赋值了, 只是值为null
-2. 什么时候给变量赋值为null呢?
-  * 初始赋值, 表明将要赋值为对象
-  * 结束前, 让对象成为垃圾对象(被垃圾回收器回收)
-3. 严格区别变量类型与数据类型?
-  * 数据的类型
-    * 基本类型
-    * 对象类型
-  * 变量的类型(变量内存值的类型)
-    * 基本类型: 保存就是基本类型的数据
-    * 引用类型: 保存的是地址值
- */
+    console.log('===========数据类型简介开始============');
+    /*
+    1. 分类
+      * 基本(值)类型
+        * String: 任意字符串
+        * Number: 任意的数字
+        * boolean: true/false
+        * undefined: undefined
+        * null: null
+      * 对象(引用)类型
+        * Object: 任意对象
+        * Function: 一种特别的对象(可以执行)
+        * Array: 一种特别的对象(数值下标, 内部数据是有序的)
+    2. 判断
+      * typeof:
+        * 可以判断: undefined/ 数值 / 字符串 / 布尔值 / function
+        * 不能判断: null与object  object与array
+      * instanceof:
+        * 判断对象的具体类型
+      * ===
+        * 可以判断: undefined, null
+     */
+    /*
+    1. undefined与null的区别?
+      * undefined代表定义未赋值
+      * nulll定义并赋值了, 只是值为null
+    2. 什么时候给变量赋值为null呢?
+      * 初始赋值, 表明将要赋值为对象
+      * 结束前, 让对象成为垃圾对象(被垃圾回收器回收)
+    3. 严格区别变量类型与数据类型?
+      * 数据的类型
+        * 基本类型
+        * 对象类型
+      * 变量的类型(变量内存值的类型)
+        * 基本类型: 保存就是基本类型的数据
+        * 引用类型: 保存的是地址值
+     */
 
-//基本类型, typeof 示例
-let bla;
-console.log(bla, typeof bla, typeof bla === "undefined", bla === undefined);
-console.log(undefined === 'undefined');
-bla=4;
-console.log(typeof bla === 'number');
-bla=null;
-console.log(typeof bla, bla === null);
+    //基本类型, typeof 示例
+    let bla;
+    console.log(bla, typeof bla, typeof bla === "undefined", bla === undefined);
+    console.log(undefined === 'undefined');
+    bla = 4;
+    console.log(typeof bla === 'number');
+    bla = null;
+    console.log(typeof bla, bla === null);
 
-//对象类型示例
-let blb = {
-    blb2:[1,'abc',console.log],
-    blb3: function () {
-        console.log('blb3');
-        return function () {
-            return 'lsadjfal';
-        };
-    },
-}
+    //对象类型示例
+    let blb = {
+        blb2: [1, 'abc', console.log],
+        blb3: function () {
+            console.log('blb3');
+            return function () {
+                return 'lsadjfal';
+            };
+        },
+    }
 
-console.log(blb instanceof Object, blb instanceof Array);
-console.log(blb.blb2 instanceof Array, blb.blb2 instanceof Object);
-console.log(blb.blb3 instanceof Function, blb.blb3 instanceof Object);
+    console.log(blb instanceof Object, blb instanceof Array);
+    console.log(blb.blb2 instanceof Array, blb.blb2 instanceof Object);
+    console.log(blb.blb3 instanceof Function, blb.blb3 instanceof Object);
 
-console.log(typeof blb.blb2, typeof blb.blb3 === 'function');
-console.log(typeof blb.blb2[2] === 'function');
-blb.blb2[2](4);
-console.log(blb.blb3()());
+    console.log(typeof blb.blb2, typeof blb.blb3 === 'function');
+    console.log(typeof blb.blb2[2] === 'function');
+    blb.blb2[2](4);
+    console.log(blb.blb3()());
 
-//实例: 实例对象; 类型: 类型对象
-function Person(name, age) {//构造函数
-    this.name = name;
-    this.age = age;
-}
-let p = new Person('tom',12);
-console.log(Person('jack', 12));
-console.log(p.age, p.name);
-p = null;
-// console.log(p.age, p.name);
+    //实例: 实例对象; 类型: 类型对象
+    function Person(name, age) {//构造函数
+        this.name = name;
+        this.age = age;
+    }
 
-let blc = function () {
+    let p = new Person('tom', 12);
+    console.log(Person('jack', 12));
+    console.log(p.age, p.name);
+    p = null;
+    // console.log(p.age, p.name);
 
-};
-console.log(typeof blc);
-console.log('=========================数据类型简介结束=================================');
+    let blc = function () {
 
-console.log('============================Number类型开始===================================');
-/*
- * 在JS中所有的数值都是Number类型，
- * 	包括整数和浮点数（小数）
- *
- * JS中可以表示的数字的最大值
- * 	Number.MAX_VALUE
- * 		1.7976931348623157e+308
- *
- * 	Number.MIN_VALUE 大于0的最小值
- * 		5e-324
- *
- *  如果使用Number表示的数字超过了最大值，则会返回一个
- * 		Infinity 表示正无穷
- * 		-Infinity 表示负无穷
- * 		使用typeof检查Infinity也会返回number
- *  NaN 是一个特殊的数字，表示Not A Number
- * 		使用typeof检查一个NaN也会返回number
- */
+    };
+    console.log(typeof blc);
+    console.log('=========================数据类型简介结束=================================');
 
-const numD = NaN;
-console.log(typeof numD);//number
+    console.log('============================Number类型开始===================================');
+    /*
+     * 在JS中所有的数值都是Number类型，
+     * 	包括整数和浮点数（小数）
+     *
+     * JS中可以表示的数字的最大值
+     * 	Number.MAX_VALUE
+     * 		1.7976931348623157e+308
+     *
+     * 	Number.MIN_VALUE 大于0的最小值
+     * 		5e-324
+     *
+     *  如果使用Number表示的数字超过了最大值，则会返回一个
+     * 		Infinity 表示正无穷
+     * 		-Infinity 表示负无穷
+     * 		使用typeof检查Infinity也会返回number
+     *  NaN 是一个特殊的数字，表示Not A Number
+     * 		使用typeof检查一个NaN也会返回number
+     */
 
-const numE = 23243+23435;
-console.log(numE);//整数运算基本没有问题
+    const numD = NaN;
+    console.log(typeof numD);//number
 
-//问题0: 浮点运算
-const numC = 0.1+0.2;
-console.log(numC);//0.30000000000000004
+    const numE = 23243 + 23435;
+    console.log(numE);//整数运算基本没有问题
 
-//问题1: js 最大long类型16位, java最大long类型18位,会有精度丢失,所以推荐解决:后端转json时序列化为字符串.
-let numA = 9223372036854775807;
-console.log(numA);
-console.log(numA+"")
-//es6的bigint可以保留精度, 如果解决后端问题可以使用 npm i json-bigint
-let numB = BigInt(9223372036854775807);
-console.log(numB)
-const jsonStr = '{ "art_id": 1245953273786007552 }'
-console.log(JSON.parse(jsonStr)) // 1245953273786007600
-// JSONBig 可以处理数据中超出 JavaScript 安全整数范围的问题
-// console.log(JSONBig.parse(jsonStr)) // 把 JSON 格式的字符串转为 JavaScript 对象
+    //问题0: 浮点运算
+    const numC = 0.1 + 0.2;
+    console.log(numC);//0.30000000000000004
 
-console.log('============================Number类型结束===================================');
-console.log('============================Boolean类型开始===================================');
-/*
- * Boolean 布尔值
- * 	布尔值只有两个，主要用来做逻辑判断
- * 	true
- * 		- 表示真
- * 	false
- * 		- 表示假
- *
- * 使用typeof检查一个布尔值时，会返回boolean
- */
-let boolA = false;
-console.log(typeof boolA);
-console.log(boolA);
-console.log('============================Boolean类型结束===================================');
-console.log('============================强制类型转换开始===================================');
-/*
- * 强制类型转换
- * 	- 指将一个数据类型强制转换为其他的数据类型
- * 	- 类型转换主要指，将其他的数据类型，转换为
- * 		String Number Boolean
- *
- */
+    //问题1: js 最大long类型16位, java最大long类型18位,会有精度丢失,所以推荐解决:后端转json时序列化为字符串.
+    let numA = 9223372036854775807;
+    console.log(numA);
+    console.log(numA + "")
+    //es6的bigint可以保留精度, 如果解决后端问题可以使用 npm i json-bigint
+    let numB = BigInt(9223372036854775807);
+    console.log(numB)
+    const jsonStr = '{ "art_id": 1245953273786007552 }'
+    console.log(JSON.parse(jsonStr)) // 1245953273786007600
+    // JSONBig 可以处理数据中超出 JavaScript 安全整数范围的问题
+    // console.log(JSONBig.parse(jsonStr)) // 把 JSON 格式的字符串转为 JavaScript 对象
 
-/*
- * 将其他的数据类型转换为String
- * 	方式一：
- * 		- 调用被转换数据类型的toString()方法
- * 		- 该方法不会影响到原变量，它会将转换的结果返回
- * 		- 但是注意：null和undefined这两个值没有toString()方法，
- * 			如果调用他们的方法，会报错
- *
- *  方式二：
- * 		- 调用String()函数，并将被转换的数据作为参数传递给函数
- * 		- 使用String()函数做强制类型转换时，
- * 			对于Number和Boolean实际上就是调用的toString()方法
- * 			但是对于null和undefined，就不会调用toString()方法
- * 				它会将 null 直接转换为 "null"
- * 				将 undefined 直接转换为 "undefined"
- *
- * 将其他的数据类型转换为Number
- * 	 转换方式一：
- * 		使用Number()函数
- * 			- 字符串 --> 数字
- * 				1.如果是纯数字的字符串，则直接将其转换为数字
- * 				2.如果字符串中有非数字的内容，则转换为NaN
- * 				3.如果字符串是一个空串或者是一个全是空格的字符串，则转换为0
- * 			- 布尔 --> 数字
- * 				true 转成 1
- * 				false 转成 0
- *
- * 			- null --> 数字     0
- *
- * 			- undefined --> 数字 NaN
- *
- * 转换方式二：
- * 		- 这种方式专门用来对付字符串
- * 		- parseInt() 把一个字符串转换为一个整数
- * 		- parseFloat() 把一个字符串转换为一个浮点数
- *
- *
- * 将其他的数据类型转换为Boolean
- * 	- 使用Boolean()函数
- * 		- 数字 ---> 布尔
- * 			- 除了0和NaN，其余的都是true
- *
- * 		- 字符串 ---> 布尔
- * 			- 除了空串，其余的都是true
- *
- * 		- null和undefined都会转换为false
- *
- * 		- 对象也会转换为true
- *
- *
- */
-//转换为String
-let typeChange = 123;
-typeChange = typeChange.toString();
-true.toString();
-console.log("null + \"\": ",null + "");
-console.log("undefined + \"\": ",undefined + "");
-typeChange = 63566;
-console.log("String(typeChange): ",String(typeChange));
-console.log("String(undefined): ",String(undefined));
+    console.log('============================Number类型结束===================================');
+    console.log('============================Boolean类型开始===================================');
+    /*
+     * Boolean 布尔值
+     * 	布尔值只有两个，主要用来做逻辑判断
+     * 	true
+     * 		- 表示真
+     * 	false
+     * 		- 表示假
+     *
+     * 使用typeof检查一个布尔值时，会返回boolean
+     */
+    let boolA = false;
+    console.log(typeof boolA);
+    console.log(boolA);
+    console.log('============================Boolean类型结束===================================');
+    console.log('============================强制类型转换开始===================================');
+    /*
+     * 强制类型转换
+     * 	- 指将一个数据类型强制转换为其他的数据类型
+     * 	- 类型转换主要指，将其他的数据类型，转换为
+     * 		String Number Boolean
+     *
+     */
 
-//转换为Number
-console.log("(Number(\"232\") + 2: ",Number("232") + 2);
-console.log("Number(true): ",Number(true));
-console.log("parseInt(\"232\"): ",parseInt("232"));
-console.log("parseInt(\"232.3\"): ",parseInt("232.3"));
-console.log("parseInt(232.3): ",parseInt(232.3));
-console.log("parseInt(\"232.3.89px\"): ",parseInt("232.3.89px"));
-//转换为BigInt
-console.log(BigInt("098"));
+    /*
+     * 将其他的数据类型转换为String
+     * 	方式一：
+     * 		- 调用被转换数据类型的toString()方法
+     * 		- 该方法不会影响到原变量，它会将转换的结果返回
+     * 		- 但是注意：null和undefined这两个值没有toString()方法，
+     * 			如果调用他们的方法，会报错
+     *
+     *  方式二：
+     * 		- 调用String()函数，并将被转换的数据作为参数传递给函数
+     * 		- 使用String()函数做强制类型转换时，
+     * 			对于Number和Boolean实际上就是调用的toString()方法
+     * 			但是对于null和undefined，就不会调用toString()方法
+     * 				它会将 null 直接转换为 "null"
+     * 				将 undefined 直接转换为 "undefined"
+     *
+     * 将其他的数据类型转换为Number
+     * 	 转换方式一：
+     * 		使用Number()函数
+     * 			- 字符串 --> 数字
+     * 				1.如果是纯数字的字符串，则直接将其转换为数字
+     * 				2.如果字符串中有非数字的内容，则转换为NaN
+     * 				3.如果字符串是一个空串或者是一个全是空格的字符串，则转换为0
+     * 			- 布尔 --> 数字
+     * 				true 转成 1
+     * 				false 转成 0
+     *
+     * 			- null --> 数字     0
+     *
+     * 			- undefined --> 数字 NaN
+     *
+     * 转换方式二：
+     * 		- 这种方式专门用来对付字符串
+     * 		- parseInt() 把一个字符串转换为一个整数
+     * 		- parseFloat() 把一个字符串转换为一个浮点数
+     *
+     *
+     * 将其他的数据类型转换为Boolean
+     * 	- 使用Boolean()函数
+     * 		- 数字 ---> 布尔
+     * 			- 除了0和NaN，其余的都是true
+     *
+     * 		- 字符串 ---> 布尔
+     * 			- 除了空串，其余的都是true
+     *
+     * 		- null和undefined都会转换为false
+     *
+     * 		- 对象也会转换为true
+     *
+     *
+     */
+    //转换为String
+    let typeChange = 123;
+    typeChange = typeChange.toString();
+    true.toString();
+    console.log("null + \"\": ", null + "");
+    console.log("undefined + \"\": ", undefined + "");
+    typeChange = 63566;
+    console.log("String(typeChange): ", String(typeChange));
+    console.log("String(undefined): ", String(undefined));
 
-//进制转换
-typeChange = 0x2A;//十六进制
-console.log("parseInt(typeChange, 10): ",parseInt(typeChange, 10));
-typeChange = 110001;//二进制  0b110001
-console.log("parseInt(typeChange, 2): ",parseInt(typeChange, 2));
-console.log(typeof typeChange)
+    //转换为Number
+    console.log("(Number(\"232\") + 2: ", Number("232") + 2);
+    console.log("Number(true): ", Number(true));
+    console.log("parseInt(\"232\"): ", parseInt("232"));
+    console.log("parseInt(\"232.3\"): ", parseInt("232.3"));
+    console.log("parseInt(232.3): ", parseInt(232.3));
+    console.log("parseInt(\"232.3.89px\"): ", parseInt("232.3.89px"));
+    //转换为BigInt
+    console.log(BigInt("098"));
 
-console.log("Boolean(typeChange)", Boolean(typeChange));
-console.log("Boolean(null)", Boolean(null));
-console.log("Boolean(undefined)", Boolean(undefined));
-console.log("Boolean(0)", Boolean(0));
-console.log("Boolean(1)", Boolean(1));
-console.log("Boolean(console.log)", Boolean(console.log));
-console.log('============================强制类型转换结束===================================');
+    //进制转换
+    typeChange = 0x2A;//十六进制
+    console.log("parseInt(typeChange, 10): ", parseInt(typeChange, 10));
+    typeChange = 110001;//二进制  0b110001
+    console.log("parseInt(typeChange, 2): ", parseInt(typeChange, 2));
+    console.log(typeof typeChange)
 
-console.log('============================运算符开始===================================');
-/*
- * JS中为我们提供了三种逻辑运算符
- * ! 非
- * 	-可以用来对一个值进行非运算: 布尔取反操作; 非布尔会先转布尔在操作
- * && 与
- * 	-可以对符号两侧的值进行与运算并返回结果: 有两个值都为true时，才会返回true;如果第一个值为false，则不会看第二个值
- * || 或
- * 	-可以对符号两侧的值进行或运算并返回结果: 两个值中只要有一个true，就返回true;如果第一个值为true，则不会检查第二个值
- * && || 非布尔值的情况
- * 	- 对于非布尔值进行与或运算时，会先将其转换为布尔值，然后再运算，并且返回原值.
- *
- * 赋值运算: = += -+ *= /= %=, 等价于 a=a+x
- * 关系运算: > >= < <= 通过关系运算符可以比较两个值之间的大小关系，返回true或者false
- *
- */
-console.log("逻辑运算符")
-console.log("!true", !true);
-console.log(" true && console.log(\"test&&\")", true && console.log("test&&"));
-console.log("true && undefined", true && undefined);
-console.log("true && true", true && true);
-console.log("true && null", true && null);
-console.log("true && NaN", true && NaN);
-console.log("0 && NaN", 0 && NaN);
-console.log("true && null", true && false);
-console.log(" true && console.log(\"test||\")", true || console.log("test||"));
-console.log("true || true", true || false);
-console.log("null || true", null || true);
-console.log("NaN || true", NaN || true);
-console.log("undefined || true: ", undefined || true);
+    console.log("Boolean(typeChange)", Boolean(typeChange));
+    console.log("Boolean(null)", Boolean(null));
+    console.log("Boolean(undefined)", Boolean(undefined));
+    console.log("Boolean(0)", Boolean(0));
+    console.log("Boolean(1)", Boolean(1));
+    console.log("Boolean(console.log)", Boolean(console.log));
+    console.log('============================强制类型转换结束===================================');
 
-console.log("赋值运算")
-let res = 0;
-console.log("res=",res," res+=3: ",res+=3);
+    console.log('============================运算符开始===================================');
+    /*
+     * JS中为我们提供了三种逻辑运算符
+     * ! 非
+     * 	-可以用来对一个值进行非运算: 布尔取反操作; 非布尔会先转布尔在操作
+     * && 与
+     * 	-可以对符号两侧的值进行与运算并返回结果: 有两个值都为true时，才会返回true;如果第一个值为false，则不会看第二个值
+     * || 或
+     * 	-可以对符号两侧的值进行或运算并返回结果: 两个值中只要有一个true，就返回true;如果第一个值为true，则不会检查第二个值
+     * && || 非布尔值的情况
+     * 	- 对于非布尔值进行与或运算时，会先将其转换为布尔值，然后再运算，并且返回原值.
+     *
+     * 赋值运算: = += -+ *= /= %=, 等价于 a=a+x
+     * 关系运算: > >= < <= 通过关系运算符可以比较两个值之间的大小关系，返回true或者false
+     * 相等运算: ==  != :(相等和不相等,对比值会自动转换类型比较) ;   ===  !==: (不会自动转换类型比较)
+     * 三目运算: 条件表达式?结果1:结果2  ; 2>3?a:b
+     *
+     * 优先级: 先乘除后加减, 优先级一样的从左向右, 可以用()改变优先级.
+     *
+     */
+    console.log("逻辑运算符")
+    console.log("!true", !true);
+    console.log(" true && console.log(\"test&&\")", true && console.log("test&&"));
+    console.log("true && undefined", true && undefined);
+    console.log("true && true", true && true);
+    console.log("true && null", true && null);
+    console.log("true && NaN", true && NaN);
+    console.log("0 && NaN", 0 && NaN);
+    console.log("true && null", true && false);
+    console.log(" true && console.log(\"test||\")", true || console.log("test||"));
+    console.log("true || true", true || false);
+    console.log("null || true", null || true);
+    console.log("NaN || true", NaN || true);
+    console.log("undefined || true: ", undefined || true);
 
-console.log("关系运算")
-console.log("2 > 9: ",2 > 9);
-console.log("2 >= 9: ",2 >= 9);
-console.log("2 <= 9: ",2 <= 9);
+    console.log("赋值运算")
+    let res = 0;
+    console.log("res=", res, " res+=3: ", res += 3);
 
-console.log("编码 Unicode, \\u四位编码")
-console.log("\u2620")
-console.log('============================运算符结束===================================');
+    console.log("关系运算")
+    console.log("2 > 9: ", 2 > 9);
+    console.log("2 >= 9: ", 2 >= 9);
+    console.log("2 <= 9: ", 2 <= 9);
+
+    console.log("编码 Unicode, \\u四位编码")
+    console.log("\u2620")
+
+    console.log("相等运算");
+    console.log("2 == \"2\"", 2 == "2");
+    console.log("2 === \"2\"", 2 === "2");
+
+    console.log("三元运算符");
+    console.log("2>3? \"a\":\"b\" 结果:", 2 > 3 ? "a" : "b");
+
+    console.log('============================运算符结束===================================');
+
+    console.log('============================流程控制if_switch语句开始===================================');
+    /*
+     * 流程控制语句
+     * 	- JS中的程序是从上到下一行一行执行的
+     * 	- 通过流程控制语句可以控制程序执行流程，
+     * 		使程序可以根据一定的条件来选择执行
+     *  - 语句的分类：
+     * 		1.条件判断语句
+     * 		2.条件分支语句
+     * 		3.循环语句
+     *
+     * 条件判断语句：
+     * 	- 使用条件判断语句可以在执行某个语句之前进行判断，
+     * 		如果条件成立才会执行语句，条件不成立则语句不执行。
+     *  - if语句
+     * 	- 语法一：
+     * 		if(条件表达式){
+     * 			语句...
+     * 		}
+     *  - switch语句
+     * 	- 语法：
+     * 		switch(条件表达式){
+     * 			case 表达式:
+     * 				语句...
+     * 				break;
+     *  		case 表达式:
+     * 				语句...
+     * 				break;
+     * 			default:
+     * 				语句...
+     * 				break;
+     * 		}
+     */
+    console.log("if语句")
+    let ifA = 25;
+    if (ifA > 10 && ifA <= 30) {
+        console.log("if: 值大于10,并且小于等于30")
+    } else {
+        console.log("if: 值不大于10,或者不小于等于30")
+    }
+
+    let ifAge = 500;
+    if (ifAge > 17 && ifAge <= 30) {
+        console.log("你已经成年了")
+    } else if (ifAge > 30 && ifAge <= 60) {
+        console.log("你已经中年了")
+    } else if (ifAge > 60 && ifAge <= 80) {
+        console.log("你已经退休了")
+    } else {
+        console.log("你岁数挺大的了")
+    }
+
+    console.log("switch语句")
+
+    let switchNum = 3
+    switch (switchNum) {
+        case 1:
+            console.log("一")
+            break;
+        case 2:
+            console.log("二")
+            break;
+        case 3:
+            console.log("三")
+            break;
+        default:
+            console.log("非法输入~~")
+            break
+    }
 
 
+    console.log('============================流程控制if_switch语句结束===================================');
 
+    console.log('============================循环语句for_while语句开始===================================');
+    /*
+     * 循环语句：
+     * while循环
+     * 	- 语法：
+     * 		while(条件表达式){
+     * 			语句...
+     * 		}
+     *
+     * do...while循环
+     * 	- 语法：
+     * 		do{
+     * 			语句...  do...while语句在执行时，会先执行循环体，环体执行完毕以后，在对while后的条件表达式进行判断
+     * 		}while(条件表达式)
+     *
+     *  for循环的语法：执行顺序如标号
+     * 		for(①初始化表达式;②条件表达式;④更新表达式){
+     * 			③语句...
+     * 		}
+     *
+     */
+    console.log("while语句")
+    let whileA = 0;
+    let arr = [];
+    while (whileA < 10) {
+        arr.push(++whileA);
+        if (whileA === 8) {
+            break; //跳出循环
+        }
+    }
+    console.log(arr)
+    console.log("do while语句")
+    arr = [];
+    do {
+        arr.push(0);
+    } while (0)
+    console.log(arr)
+    console.log("假如投资的年利率为5%，试求从1000块增长到5000块，需要花费多少年")
+    whileA = 1000;
+    let countY = 0;
+    while (whileA < 5000) {
+        whileA *= 1.05;
+        countY++;
+    }
+    console.log("一个需要:" + countY + "年");
+    // 根据输入成绩判断奖励, prompt可以弹窗输入数据.
+    // let score = NaN;
+    // while (true) {
+    //     score = prompt("请输入成绩");
+    //     if (score <= 100 && score >= 0) {
+    //         break
+    //     }
+    // }
+    // if (score > 60) {
+    //     console.log("奖励")
+    // }
 
+    console.log("for循环语句")
+    arr = [];
+    for (let i = 0; i < 10; i++) {
+        arr.push(i);
+    }
+    console.log(arr)
 
+    console.log("for (;;){}", "件语句可以不写, 会一直循环")
+    //条件语句可以不写, 会一直循环
+    // for (;;){}
+    // for (let i = 0;; i++) {}
+
+    const obj = {
+        aa: 2,
+        bb: function () {
+            console.log("bb")
+        },
+        cc: "cc",
+        dd: {ddaa:2233}
+    }
+    console.log("for in 对象: 遍历对象的属性key")
+    arr = []
+    for (const objKey in obj) {
+        arr.push(objKey)
+    }
+    console.log(arr)
+    console.log("for in 数组: 遍历数组的下标,类型string")
+    for (const indexV in arr) {
+        if (indexV == 2){
+            console.log(typeof indexV,indexV)
+        }
+    }
+
+    console.log('============================循环语句for_while语句结束===================================');
 
 
 </script>
