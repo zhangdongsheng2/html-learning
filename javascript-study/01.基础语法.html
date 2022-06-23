@@ -450,6 +450,13 @@
      * 			③语句...
      * 		}
      *
+     * break关键字: 用来退出switch或循环语句. 会终止循环.
+     *             多层循环可以用label标识当前循环, 用break语句指定终止.
+     *               outer:
+     *               for (let i = 1; i < 10; i++) {}
+     *
+     * continue关键字: 可以用来跳出当前循环, 只是跳出最近的一次循环进行下一次的处理.
+     *
      */
     console.log("while语句")
     let whileA = 0;
@@ -519,14 +526,113 @@
             console.log(typeof indexV,indexV)
         }
     }
+    console.log("for of 数组: 遍历数组的内容,直接拿到值")
+    for (const arrElement of arr) {
+        if (arrElement === 'bb'){
+            console.log(typeof arrElement,arrElement)
+        }
+    }
+
+    console.log("forEach 数组(value, index, array): 遍历数组的内容,可以有值,下标,和全量集合")
+    arr.forEach(function (value, index, array) {
+        if (index === 2){
+            console.log(value, index,array)
+        }
+    })
+    arr.forEach(function (value) {
+        if (value === 'bb'){
+            console.log(value)
+        }
+    })
+
+    console.log('九九乘法表')
+    for (let i = 1; i < 10; i++) {
+        let str = ''
+        for (let j = i; j < 10; j++) {
+            str += ""+i+"*"+j+" ";
+        }
+        console.log(str)
+    }
+
+    console.log("label标识循环语句")
+    outer:
+    for (let i = 1; i < 10; i++) {
+        let str = ''
+        for (let j = i; j < 10; j++) {
+            str += ""+i+"*"+j+" ";
+            if(j === 3) {
+                console.log(str)
+                break outer;
+                // continue outer;
+            }
+        }
+    }
 
     console.log('============================循环语句for_while语句结束===================================');
+
+
 
 
 </script>
 </html>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+    function FN() {
+    }
+    console.log(FN.prototype) // 此值是在第一次展开时评估得出的。之后可能已发生更改。
+    FN.prototype.test = function () {
+        return "aaa";
+    };
+
+    function Persion() {
+
+    }
+    Persion.prototype.a = "aa"
+    let adb = new Persion()
+    let adc = new Persion()
+
+    console.log(FN.prototype.__proto__)
+    console.log(Function.prototype.__proto__)
+
+    console.log(FN.__proto__ === Function.__proto__)
+
+
+    console.log(adb.prototype === Persion.prototype)//实例对象的原型, 与方法对象的原型
+
+    console.log(typeof Persion,typeof adb)
+
+    console.log(Persion.prototype === adc.__proto__)
+    console.log(Persion.prototype.aa === adc.__proto__.aa)
+    console.log(Persion.prototype === Function.prototype)
+
+
+    console.log(adb.prototype) //实例对象没有 原型属性, 只有隐士原型
+
+    //每个函数都有一个特殊的属性叫作原型（prototype）
+    console.log(Persion.prototype)//显示原型在构造函数上
+    console.log(adb)
+
+-->
 
 
 
