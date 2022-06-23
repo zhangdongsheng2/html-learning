@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象函数</title>
+</head>
+<body>
+<h1>JS对象函数语法</h1>
+<ul>
+    <li>对象: Object对象类型数据</li>
+    <li>函数</li>
+    <li>对象函数高级</li>
+    <li>this</li>
+    <li>数据类型_Array数组</li>
+    <li>arguments</li>
+    <li>Data对象</li>
+    <li>Math对象</li>
+    <li>String对象</li>
+    <li>正则表达式</li>
+</ul>
+
+
+</body>
+<script type="text/javascript">
+    console.log('============================对象开始===================================');
+    console.log("简介: 对象是一个符合的数据类型, 在对象中可以保持多个不同类型的数据的属性");
+    /**
+     * 对象的分类：
+     * 	1.内建对象
+     * 		- 由ES标准中定义的对象，在任何的ES的实现中都可以使用
+     * 		- 比如：Math String Number Boolean Function Object....
+     *
+     * 	2.宿主对象
+     * 		- 由JS的运行环境提供的对象，目前来讲主要指由浏览器提供的对象
+     * 		- 比如 BOM DOM
+     *
+     * 	3.自定义对象
+     * 		- 由开发人员自己创建的对象
+     * 	    - (推荐)创建方式1: new 构造函数(); 构造函数就是普通函数,一般写法会首字节大写, 使用new关键字调用创建对象.
+     * 	                     new构造,执行流程->立即创建新对象->设置为函数中的this->逐行执行构造中的代码->新对象作为返回值返回
+     * 	                     构造函数中定义方法一般写到原型上, 避免每次创建对象都产生一个方法实例.
+     * 	    - 创建方式2: let aa = {};
+     * 	    - 创建方式3: 使用工厂方法创建; 这种方式使用的构造函数都是Object所以缺点是无法判断类型.
+     *  4. 垃圾回收: 我们需要做的只是要将不再使用的对象设置null即可, JS会自动垃圾回收
+     *
+     * 在JS中为我们提供了三个包装类，通过这三个包装类可以将基本数据类型的数据转换为对象
+     * 	String()
+     * 		- 可以将基本数据类型字符串转换为String对象
+     * 	Number()
+     * 		- 可以将基本数据类型的数字转换为Number对象
+     *  Boolean()
+     * 		- 可以将基本数据类型的布尔值转换为Boolean对象
+     * 	但是注意：我们在实际应用中不会使用基本数据类型的对象，
+     * 		如果使用基本数据类型的对象，在做一些比较时可能会带来一些不可预期的结果
+     *
+     */
+
+    console.log("内建对象, ES中定义的对象")
+    console.log(Math)
+    console.log("宿主对象, 浏览器提供对象")
+    console.log("典型DOM",document)
+    console.log("典型BOM",window)
+
+    console.log("自定义对象")
+    let myObjectCreate = new Object();
+    console.log("创建方式1 new Object(): ",myObjectCreate)
+    function Person(age, name, gender) {
+        this.age = age;
+        this.name = name;
+        this.gender = gender;
+        this.sayName = function () {
+            console.log("hahaha")
+        };
+    }
+
+    console.log("创建方式1 new Person(1,2,3):",new Person(1,2,3))
+
+    console.log("创建方式2 直接大括号创建对象")
+    let myObject = {
+        aa: "de",
+        ar: [2, 4, 3],
+        fn: function () {
+            return "dll";
+        },
+        3: "3333"
+    }
+
+
+    function createPerson(name, age, gender) {
+        const obj = new Object();
+        obj.name = name;
+        obj.age = age;
+        obj.gender = gender;
+        obj.sayName = function () {
+            console.log("好好好")
+        };
+        return obj;
+    }
+    console.log("创建方式3 使用工厂方法创建createPerson(\"baigujing\",22,\"女\"):",createPerson("baigujing",22,"女"))
+
+    console.log("控制台输出对象: 此值是在第一次展开时评估得出的。之后可能已发生更改。: ",myObject);
+
+    console.log("添加属性")
+    myObject.test = "test"
+    console.log("添加属性: ",myObject.test)
+
+    console.log("获取属性值")
+    console.log("最稳定方式_myObject[\"aa\"]: ",myObject["aa"])
+    console.log("点的方式_myObject.aa : ",myObject.aa)
+    // console.log(myObject.3)
+    console.log("点的方式不允许_myObject.3_必须用中括号_myObject[\"3\"]: ",myObject["3"])
+
+    console.log("检查是否包含属性")
+    console.log("\"name\" in myObject","name" in myObject)
+    console.log("\"aa\" in myObject","aa" in myObject)
+    console.log("myObject.hasOwnProperty(\"name\")",myObject.hasOwnProperty("name"))
+
+    console.log("三个包装类")
+    console.log("new Number(3): ",new Number(3))
+    console.log("new String(\"ddd\"): ",new String("ddd"))
+    console.log("new Boolean(true): ",new Boolean(true))
+
+    console.log('============================对象结束===================================');
+    console.log('============================函数开始===================================');
+    /*
+     * 函数 function
+     * 	- 函数也是一个对象,函数中可以封装一些功能（代码），在需要时可以执行这些功能（代码）
+     * 	- 使用typeof检查一个函数对象时，会返回function
+     *  - 函数是头等公民, Object() 是一个构造函数, Function是函数的顶级构造函数, 有个函数实例也叫Function
+     * 使用 函数声明 来创建一个函数
+     * 	语法：
+     * 		function 函数名([形参1,形参2...形参N]){
+     * 			语句...
+     * 		}
+     * 返回值 return
+     *   语法: return value
+     *      return后的值将会会作为函数的执行结果返回，在函数中return后的语句都不会执行
+     *      如果return语句后不跟任何值或者如果函数中不写return, 就相当于返回一个undefined，
+     *      return后可以跟任意类型的值, 所有函数都可以任意return.
+     * 立即执行函数
+     * (function(){
+				alert("我是一个匿名函数~~~");
+			})()
+     *
+     * 作用域:
+     * - 直接编写在script标签中的JS代码，都在全局作用域, 页面关闭才销毁.
+     * - 全局作用域有个全局对象window, 代表浏览器窗口由浏览器创建.
+     * - 全局作用域的变量都会作为window的属性或方法保存, var 的变量是全局, let的不是.
+     * - 没有var,let等关键字的变量, 就会设置为全局变量.
+     * - 函数作用域只在函数大括号内, 函数的参数相当于函数作用域中声明的变量.
+     *
+     */
+
+    console.log("函数创建与传参")
+    function fun2() {
+        console.log("我是函数fun2")
+    }
+
+    console.log(fun2)
+    console.log("执行函数 fun2()")
+    fun2()
+
+    function fun3(a, b, c) {
+        console.log(a,b,c)
+    }
+
+    console.log("参数只写名字即可: fun3(a, b, c)")
+    fun3(1,2,3)
+    console.log("传参不限制数量,不传的不赋值:fun3(1) ")
+    fun3(1)
+
+    let fun4 = function () {
+        console.log("我是匿名函数")
+    };
+    console.log("匿名函数赋值给变量: let fun4 = function ():", fun4)
+    fun4();
+
+    console.log("函数返回值return")
+    function fun5() {
+        return "ddd"
+    }
+    console.log("fun5 return :",fun5())
+
+    ;(function () {
+        console.log("我是立即执行函数")
+    })()
+
+    var c = "hello";
+    console.log("全局变量,可以从window取值window.c",window.c)
+
+    console.log('============================函数结束===================================');
+    console.log('============================对象函数高级开始===================================');
+
+
+    /**
+     *  1.对象的高级部分
+     *      - 实例对象没有原型(prototype)属性, 只有隐士原型(__proto__),隐士原型指向的是构造函数的原型对象.
+     *      - 原型对象默认指向一个Object空对象, 原型对象中有一个属性constructor, 它指向函数对象本身(每写一个函数就相当于创建了一个函数对象)
+     *      - 给原型对象添加属性(一般都是方法), 函数的所有实例对象自动拥有原型中的属性(方法).
+     *      - 方法一般定义在原型中, 属性一般通过构造函数定义在对象本身上
+     *  2.函数高级
+     *      - 每个函数都有一个特殊的属性叫作原型（prototype）
+     *      - 原型对象:prototype是Object的空对象, 所以属性(__proto__)是Object.prototype
+     *
+     *  3.原型链:别名: 隐式原型链; 作用: 查找对象的属性(方法)
+     *      - 访问一个对象的属性时，
+     *         * 先在自身属性中查找，找到返回
+     *         * 如果没有, 再沿着__proto__这条链向上查找, 找到返回
+     *         * 如果最终没找到, 返回undefined
+     *      - 读取对象的属性值时: 会自动到原型链中查找, 设置对象的属性值时: 不会查找原型链, 如果当前对象中没有此属性, 直接添加此属性并设置其值
+     *  4.特殊问题:
+     *      - Object也是函数, 但指向的原型不是空对象是包含了一些属性的.
+     *      - Object的原型是原型链的尽头. Object.prototype.__proto__ 为Null.
+     *      - Function是通过new自己产生的实例, 所以是对象也是构造函数名字相同.
+     *
+     *  5.instanceof是如何判断的?
+     *      - 表达式: A instanceof B. 如果B函数的显式原型对象在A对象的原型链上, 返回true, 否则返回false
+     */
+
+    console.log("对象函数高级")
+    function FN() {
+    }
+    console.log("输出构造函数的原型对象: ",FN.prototype)
+    FN.prototype.test = function () {
+        return "aaa";
+    };
+    console.log("原型对象添加方法FN.prototype.test():",FN.prototype.test())
+    console.log("原型对象constructor属性FN.prototype.constructor === FN : ",FN.prototype.constructor === FN)
+
+    myObject = new FN();
+    console.log("所有实例都有隐式原型__proto__ : ",myObject.__proto__)
+    console.log("与构造函数原型指向一个引用变量myObject.__proto__ === FN.prototype: ",myObject.__proto__ === FN.prototype)
+
+    console.log("原型链")
+    console.log("myObject.toString()原型链路找到toString方法: ",myObject.toString())
+    console.log("FN.prototype.__proto__ === Object.prototype: ",FN.prototype.__proto__ === Object.prototype)
+
+
+    console.log("特殊问题")
+    console.log("Object的构造是Function所以,Object.__proto__ === Function.prototype:",Object.__proto__ === Function.prototype)
+    console.log("Object instanceof Function: ",Object instanceof Function)
+    console.log("Function instanceof Function: ",Function instanceof Function)
+    console.log("前面的是对象,后面的是构造. Function.__proto__ === Function.prototype: ",Function.__proto__ === Function.prototype)
+
+    console.log('============================对象函数高级结束===================================');
+
+    console.log('============================this开始===================================');
+    /**
+     * 解析器在调用函数每次都会向函数内部传递进一个隐含的参数,
+     * 	这个隐含的参数就是this，this指向的是一个对象，
+     * 	这个对象我们称为函数执行的 上下文对象，
+     * 	根据函数的调用方式的不同，this会指向不同的对象
+     * 		1.以函数的形式调用时，this永远都是window, 找不到调用函数的对象时 一般this都是window
+     * 		2.以方法的形式调用时，this就是调用方法的那个对象
+     * 	    3.每个函数都包含两个非继承而来的方法：call()方法和apply()方法。在特定的作用域中调用函数，等于设置函数体内this对象的值.
+     *
+     */
+    function MYFun(){
+        console.log("MYFun_this: ",this)
+        return function MyFun2() {
+            console.log("MyFun2_this:",this)
+        }
+    }
+
+    console.log("函数形式调用this是Window")
+    const myFun2 = MYFun();
+    myFun2();
+
+    function add(c,d){
+        return [this,c,d]
+    }
+    function MYObj(a,fu){
+        console.log(this.a=a,this.fu=fu)
+        MYObj.prototype.test = function () {
+            console.log("MYObj_this: ",this)
+        }
+    }
+    let mYObj = new MYObj("参数_a","参数_fu");
+    mYObj.myFun = MYFun
+    mYObj.myFun()();//MYFun的this是mYObj, MYFun2的是window 相当于1的返回值由window调用2
+    mYObj.test()// this 是 mYObj实例对象
+    MYObj.prototype.test() //this 是MYObj的原型对象
+
+    console.log("call()方法和apply方法")
+    const s = {a:1, b:2 };
+    console.log(add.call(s,3,4)); // 1+2+3+4 = 10
+    console.log(add.apply(s,[5,6])); // 1+2+5+6 = 14
+
+    console.log('============================this结束===================================');
+
+    console.log('============================数据类型_Array数组开始===================================');
+    /*
+     * 数组（Array）
+     * 	- 数组也是一个对象, 它和我们普通对象功能类似，也是用来存储一些值的, 可以是任意类型.
+     * 	- 不同的是普通对象是使用字符串作为属性名的，
+     * 		而数组时使用数字来作为索引操作元素
+     * 	- 索引：
+     * 		从0开始的整数就是索引
+     * 	- 数组的存储性能比普通对象要好，在开发中我们经常使用数组来存储一些数据
+     *  - 读取不存在的元素不会报错, 会返回undefined
+     *  - 修改数组长度, 变大会空出来, 变小会删除元素.
+     *  - push(): 方法向数组末尾添加一个元素并返回长度.
+     *  - pop(): 该方法可以删除数组的最后一个元素,并将被删除的元素作为返回值返回
+     *  - unshift(): 向数组开头添加一个或多个元素，并返回新的数组长度, 其他的元素索引会依次调整
+     *  - shift(): 可以删除数组的第一个元素，并将被删除的元素作为返回值返回
+     *  - slice(): 截取指定元素, 封装返回新数组, 参数1:截取位置索引(包含), 参数2:截取位置索引(不包含), -1(倒数第一个) -2(倒数第二个)
+     *  - splice(): 删除指定元素,并返回删除元素, 参数1: 开始索引, 参数2: 删除数量, 参数3及以后: 会自动插入到开始索引前边
+     *  - concat(): 连接两个数组, 并返回新的数组.
+     *  - join(): 将数组转为字符串, 参数:连接符,如果不传默认是 , 号
+     *  - reverse(): 反转数组, 直接修改原数组.
+     *  - sort(): 对数组元素排序, 默认按照Unicode编码排序, 可以传方法自定义排序 arr.sort(function(a,b){})
+     *  - 遍历方式: 参考基础语法 循环语句;  forEach JS提供的方法.
+     *
+     *
+     */
+    console.log("创建方式1: new Array()")
+    console.log("创建方式1: new Array(2,3,4,5,6)")
+    let arr = new Array(2);//创建初始长度为2的数组,可以扩展
+    arr[0]=0;
+    arr[1]=2;
+    arr[2]=2;
+    arr[3]=2;
+    arr[4]=2;
+    arr[5]=4;
+    console.log("获取元素arr[5]: ",arr[5])
+    console.log("获取数组长度arr.length:",arr.length)
+    console.log("修改数组长度,arr.length=2",arr.length=2,arr)
+
+    console.log("创建方式2:arr = [2,3]")
+    arr = [2,3]
+    console.log(arr)
+    console.log("添加元素")
+    arr.push(4,5)
+    console.log("push(4,5): ",arr)
+    arr.push(6)
+    console.log("push(6)",arr)
+    arr.unshift(0)
+    console.log("unshift(0)",arr)
+
+    console.log("删除元素")
+    console.log("arr.pop():",arr.pop())
+    console.log("arr.shift(): ",arr.shift())
+    console.log("删除and添加arr.splice(0,2,3,6): ",arr.splice(0,2,3,6))
+
+    console.log("截取元素")
+    console.log("arr.slice(2):",arr,arr.slice(2))
+
+    console.log("连接两个数组:",arr.concat(arr.slice(2),"dd","cd"))
+    console.log(arr.join("#"))
+    arr.reverse();
+    console.log(arr)
+
+    console.log("排序")
+    arr = [{a:2,b:3},{a:4,b:5},{a:0,b:1}]
+    arr.sort()
+    console.log(JSON.stringify(arr))
+    console.log("默认排序:",JSON.stringify(arr))
+    arr.sort(function (a, b) {
+        //升序
+        // return a.a - b.a;
+        //降序
+        return b.a - a.a;
+    });
+    console.log("降序排序:",JSON.stringify(arr))
+
+    console.log('============================数据类型_Array数组结束===================================');
+    console.log('============================arguments开始===================================');
+    /*
+     * 在调用函数时，浏览器每次都会传递进两个隐含的参数：
+     * 	1.函数的上下文对象 this
+     * 	2.封装实参的对象 arguments
+     * 		- arguments是一个类数组对象,它也可以通过索引来操作数据，也可以获取长度
+     * 		- 在调用函数时，我们所传递的实参都会在arguments中保存
+     * 		- arguments.length可以用来获取实参的长度
+     * 		- 我们即使不定义形参，也可以通过arguments来使用实参，
+     * 			只不过比较麻烦
+     * 			arguments[0] 表示第一个实参
+     * 			arguments[1] 表示第二个实参 。。。
+     *		- 它里边有一个属性叫做callee，
+     * 			这个属性对应一个函数对象，就是当前正在指向的函数的对象, 不管是普通函数还是构造函数.
+     *
+     */
+
+    function funAB(a, b) {
+        console.log("this,arguments[0],arguments[1] : ",this,arguments[0],arguments[1])
+        console.log("arguments.callee === funAB : ",arguments.callee === funAB)
+    }
+
+    new funAB(2,3);
+
+    console.log('============================arguments结束===================================');
+
+    console.log('============================Data对象开始===================================');
+    /*
+     * Date对象
+     * 	- 在JS中使用Date对象来表示一个时间
+     */
+    let myDate = new Date();
+    //格式化时间
+    function format(dat){
+        //获取年月日，时间
+        const year = dat.getFullYear();
+        const mon = (dat.getMonth()+1) < 10 ? "0"+(dat.getMonth()+1) : dat.getMonth()+1;
+        const data = dat.getDate()  < 10 ? "0"+(dat.getDate()) : dat.getDate();
+        const hour = dat.getHours()  < 10 ? "0"+(dat.getHours()) : dat.getHours();
+        const min =  dat.getMinutes()  < 10 ? "0"+(dat.getMinutes()) : dat.getMinutes();
+        const seon = dat.getSeconds() < 10 ? "0"+(dat.getSeconds()) : dat.getSeconds();
+
+        return year +"-"+ mon +"-"+ data +" "+ hour +":"+ min +":"+ seon;
+    }
+    console.log("new Date():",format(myDate))
+    console.log("指定时间new Date(\"2022-02-02 11:11:11\"):" , format(new Date("2022-02-02 11:11:11")))
+    console.log("指定时间2022/02/02 11:11:11:" , format(new Date("2022/02/02 11:11:11")))
+
+    console.log("返回几日: ",myDate.getDate())
+    console.log("返回周几: ",myDate.getDay())
+    console.log("返回月份从0开始: ",myDate.getMonth())
+    console.log("返回年份: ",myDate.getFullYear())
+    console.log("返回毫秒时间戳:",myDate.getTime(), Date.now())
+
+    console.log("计算耗时")
+    const start = Date.now();
+    for (let i = 0; i < 1000000; i++) {
+        Math.abs(22)
+    }
+    const  end = Date.now();
+    console.log("执行了,"+(end-start)+" 毫秒")
+
+    console.log('============================Data对象结束===================================');
+    console.log('============================Math对象开始===================================');
+    /**
+     * Math
+     * 	- Math和其他的对象不同，它不是一个构造函数，
+     * 		它属于一个工具类不用创建对象，它里边封装了数学运算相关的属性和方法
+     * 	- 比如
+     * 		Math.PI 表示的圆周率
+     * 	    abs() 计算绝对值
+     * 	    ceil() 向上取整.
+     * 	    floor() 向下取整.
+     * 	    round() 四舍五入
+     * 	    random() 0-1之间随机数
+     * 	    max() 多个数的最大值
+     * 	    min() 多个数的最小值
+     * 	    pow(x,y) x的y次幂
+     * 	    sqrt() 对一个数开平方
+     */
+    console.log("Math.PI: ",Math.PI)
+    console.log("Math.abs(-1): ",Math.abs(-1))
+    console.log("Math.ceil(0.2): ",Math.ceil(0.2))
+    console.log("Math.floor(1.2): ",Math.floor(1.2))
+    console.log("Math.round(0.52): ",Math.round(0.52))
+    console.log("Math.random(): ",Math.random())
+    console.log("Math.max(2,3,4): ",Math.max(2,3,4))
+    console.log("Math.min(2,3,4): ",Math.min(2,3,4))
+    console.log("Math.pow(2,2): ",Math.pow(2,2))
+    console.log("Math.sqrt(4): ",Math.sqrt(4))
+    console.log('============================Math对象结束===================================');
+    console.log('============================String对象开始===================================');
+    /**
+     * 在底层字符串是以字符数组的形式保存的 ["H","e","l"]
+     * 方法属性:
+     *      - length属性 可以用来获取字符串的长度
+     *      - charAt() 可以返回字符串中指定位置的字符,根据索引获取指定的字符
+     *      - charCodeAt() 获取指定位置字符的字符编码（Unicode编码）
+     *      - fromCharCode() 可以根据字符编码去获取字符
+     *      - concat() 可以用来连接两个或多个字符串 与 + 号一样
+     *      - indexof() 该方法可以检索一个字符串中是否含有指定内容,返回其第一次出现的索引,不包含返回 -1, 参数2:指定开始查找位置
+     *      - lastIndexOf() 与indexof类似,反向查找
+     *      - slice() 截取字符串, 参数1:开始截取位置, 参数2: 结束位置 参数负值从后面计算
+     *      - substring() 与slice类似, 不能传负值, 会转为0
+     *      - substr() 截取字符串, 参数1: 开始索引, 参数2: 截取长度
+     *      - split() 切分字符串为数组, 例如 , 号分割.
+     *      - toUpperCase() 转大写
+     *      - toLowerCase() 转小写
+     */
+
+    let str = "中helloWord"
+    console.log("str.length: ",str.length)
+    console.log("str.charAt(2): ",str.charAt(2))
+    console.log("str.charCodeAt(0): ",str.charCodeAt(0))
+    console.log("String.fromCharCode(20013): ",String.fromCharCode(20013))
+    console.log("str.concat(\"ddd\"): ",str.concat("ddd"))
+    console.log("str.indexOf(3): ",str.indexOf(3))
+    console.log("str.lastIndexOf(3): ",str.lastIndexOf(3))
+    console.log("str.slice(0,-2): ",str.slice(0,-2))
+    console.log("str.substring(0,2): ",str.substring(0,2))
+    console.log("str.split(\"o\"): ",str.split("o"))
+    console.log("str.toUpperCase(): ",str.toUpperCase())
+    console.log("str.toLowerCase(): ",str.toLowerCase())
+
+    console.log('============================String对象结束===================================');
+
+    console.log('============================正则表达式开始===================================');
+    /**
+     * 语法：
+     * 	方式1: var 变量 = new RegExp("正则表达式","匹配模式");
+     *  方式2：var 变量 = /正则表达式/匹配模式; var reg = /.*\.(jpg|jpeg|png|gif)$/i;
+     *  使用typeof检查正则对象，会返回object
+     * 	var reg = new RegExp("a"); 这个正则表达式可以来检查一个字符串中是否含有a
+     * 在构造函数中可以传递一个匹配模式作为第二个参数，
+     * 		可以是
+     * 			i 忽略大小写
+     * 			g 全局匹配模式
+     *
+     * 方法:
+     *     - test() 使用这个方法可以用来检查一个字符串是否符合正则表达式的规则，返回true，否则返回false
+     *     - str.split() 可以传正则分割字符串
+     *     - str.search() 通过正则搜索字符串, 只会查找第一个 返回索引,没查到返回 -1
+     *     - str.match() 搜索字符串, 默认返回第一个, 设置全局可以返回所有, 数组形式, 可以设置两个模式无顺序要求
+     *     - str.replace() 将匹配内容指定为新内容, 参数1: 被替换的内容可以是正则, 参数2: 新的内容.
+     */
+    const reg1 = new RegExp("a.*","i")
+    const reg2 = /.*\.(jpg|jpeg|png|gif)$/i;
+
+    console.log("test方法: ",reg1.test("aaa"),reg2.test("dei.png"))
+
+    console.log("是否abc组成; a.*|b.*|c.*: ",/a.*|b.*|c.*/.test("adacbcb"))
+    console.log("是否字母; /[A-z]/",/[A-z]/.test("dasldjsdgaiush"))
+    console.log("是否包含 abc adc; /a[bd]c/",/a[bd]c/.test("adc"))
+    console.log("包含除了abc外的内容; /[^abc]/",/[^abc]/.test("bbbweiutiwuyiwy"))
+    console.log("非数字; /[^0-9]/",/[^0-9]/.test("19456789"))
+
+    console.log("通过正则按数字分割: ","dak8dkdks5dkds3dk".split(/[0-9]/))
+    console.log("通过正则搜索: ","daf356sa89f".search(/[0-9]/))
+    console.log("通过正则匹配多个全局忽略大小写匹配: ","daf356sa89fii0".match(/[0-9]/gi))
+    console.log("通过正则替换字符串: ","daf356sa89fii0".replace(/[0-9]+/gi,"==="))
+
+    console.log('============================正则表达式结束===================================');
+
+
+
+</script>
+
+</html>
