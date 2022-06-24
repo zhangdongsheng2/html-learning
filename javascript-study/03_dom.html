@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom</title>
+</head>
+<body>
+<h1>dom操作</h1>
+<ul>
+    <li>DOM</li>
+</ul>
+
+<h1>页面数据</h1>
+<button id="btn">我是一个按钮</button>
+<ul id="city">
+    <li id="bj">北京</li>
+    <li>上海</li>
+    <li>东京</li>
+    <li>首尔</li>
+</ul>
+<h3>多选全选</h3>
+<form id="form1" method="post" action="">
+    你爱好的运动是？<input type="checkbox" id="checkedAllBox"/>全选/全不选
+
+    <br/>
+    <input type="checkbox" name="items" value="足球"/>足球
+    <input type="checkbox" name="items" value="篮球"/>篮球
+    <input type="checkbox" name="items" value="羽毛球"/>羽毛球
+    <input type="checkbox" name="items" value="乒乓球"/>乒乓球
+    <br/>
+    <input type="button" id="checkedAllBtn" value="全　选"/>
+    <input type="button" id="checkedNoBtn" value="全不选"/>
+    <input type="button" id="checkedRevBtn" value="反　选"/>
+    <input type="button" id="sendBtn" value="提　交"/>
+</form>
+
+<h3>表格添加删除</h3>
+
+<table id="employeeTable">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tr>
+        <td>Tom</td>
+        <td>tom@tom.com</td>
+        <td>5000</td>
+        <td><a href="javascript:;">Delete</a></td>
+    </tr>
+    <tr>
+        <td>Jerry</td>
+        <td>jerry@sohu.com</td>
+        <td>8000</td>
+        <td><a href="deleteEmp?id=002">Delete</a></td>
+    </tr>
+    <tr>
+        <td>Bob</td>
+        <td>bob@tom.com</td>
+        <td>10000</td>
+        <td><a href="deleteEmp?id=003">Delete</a></td>
+    </tr>
+</table>
+
+<div id="formDiv">
+
+    <h5>添加新员工</h5>
+
+    <table>
+        <tr>
+            <td class="word">name:</td>
+            <td class="inp">
+                <input type="text" name="empName" id="empName"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="word">email:</td>
+            <td class="inp">
+                <input type="text" name="email" id="email"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="word">salary:</td>
+            <td class="inp">
+                <input type="text" name="salary" id="salary"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <button id="addEmpButton" value="abc">
+                    Submit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+
+<script type="text/javascript">
+    console.log('============================DOM开始===================================');
+    /*
+     * 浏览器已经为我们提供 文档节点 对象这个对象是window属性
+     * 	可以在页面中直接使用，文档节点代表的是整个网页
+     */
+
+    // const btn = document.getElementById("btn");
+    // btn.innerHTML = "im button"
+    // btn.onclick = function () {
+    //     alert("点击事件")
+    // };
+
+    /*
+     * 浏览器在加载一个页面时，是按照自上向下的顺序加载的，
+     * 	读取到一行就运行一行,如果将script标签写到页面的上边，
+     * 	在代码执行时，页面还没有加载，页面没有加载DOM对象也没有加载
+     * 	会导致无法获取到DOM对象
+     *
+     * onload事件会在整个页面加载完成之后才触发
+     */
+
+    window.onload = function () {
+        const btn = document.getElementById("btn");
+        btn.innerHTML = "im button"
+        btn.onclick = function () {
+            alert("点击事件")
+        };
+
+        console.log("获取所有子元素")
+        let el = document.documentElement.querySelectorAll("#city > *");
+        console.log(el)
+
+        console.log("获取第一个子节点")
+        el = document.documentElement.querySelector("#city> *:first-child")
+        console.log(el)
+
+        console.log("获取元素父节点")
+        el = document.documentElement.querySelector("#bj").parentNode
+        console.log(el)
+
+        console.log("获取下一个兄弟节点")
+        el = document.documentElement.querySelector("#bj + li")
+        console.log(el)
+
+        console.log("获取兄弟节点前一个节点")
+        el = document.documentElement.querySelector("#bj + li")
+        // let elIndex = 0;
+        // for (let i = 0; i < el.parentNode.children.length; i++) {
+        //     console.log();
+        //     if (el.parentNode.children[i] === el) {
+        //         elIndex = i
+        //     }
+        // }
+        // console.log(el.parentNode.children[elIndex-1],elIndex)
+        console.log(el.previousElementSibling)
+        console.log("节点内容: ", el.previousElementSibling.firstChild.nodeValue)
+
+        console.log("============多选全选=============")
+
+        const checkedAllBtn = document.getElementById("checkedAllBtn")
+        const checkedNoBtn = document.getElementById("checkedNoBtn")
+        const checkedRevBtn = document.getElementById("checkedRevBtn")
+        const sendBtn = document.getElementById("sendBtn")
+        const checkedAllBox = document.getElementById("checkedAllBox")
+        const items = document.getElementsByName("items")
+
+
+        checkedAllBtn.onclick = function () {
+            for (let item of items) {
+                item.checked = true;
+            }
+            checkedAllBox.checked = true;
+        };
+        checkedNoBtn.onclick = function () {
+            for (let item of items) {
+                item.checked = false;
+            }
+            checkedAllBox.checked = false;
+        };
+
+        checkedRevBtn.onclick = function () {
+            checkedAllBox.checked = true;
+            for (let item of items) {
+                item.checked = !item.checked;
+                if (!item.checked) {
+                    checkedAllBox.checked = false;
+                }
+            }
+        };
+
+        sendBtn.onclick = function () {
+            const arr = []
+            for (let item of items) {
+                if (item.checked) {
+                    arr.push(item.value)
+                }
+            }
+            console.log(arr)
+        };
+        checkedAllBox.onclick = function () {
+            for (let item of items) {
+                item.checked = checkedAllBox.checked;
+            }
+        };
+
+        console.log("============表格添加删除=============")
+        const addEmpButton = document.getElementById("addEmpButton")
+        const empName = document.getElementById("empName")
+        const email = document.getElementById("email")
+        const salary = document.getElementById("salary")
+        const employeeTable = document.getElementById("employeeTable")
+
+        const del = function () {
+            const flag = confirm("确认删除吗?")
+            if (flag)
+                this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)
+            return false;
+        };
+
+        addEmpButton.onclick = function () {
+            const elTr = document.createElement("tr");
+            elTr.innerHTML = "<td>" + empName.value + "</td>" +
+                "<td>" + email.value + "</td>" +
+                "<td>" + salary.value + "</td>" +
+                "<td>" +
+                "<a href=\"javascript:;\">Delete</a>" +
+                "</td>"
+            elTr.getElementsByTagName("a")[0].onclick = del
+            employeeTable.appendChild(elTr)
+            console.log("添加成功")
+        };
+
+        for (let elementsByTagNameElement of employeeTable.getElementsByTagName("a")) {
+            elementsByTagNameElement.onclick = del
+        }
+
+
+        console.log("============读取元素的样式=============")
+
+
+        console.log('============================DOM结束===================================');
+    };
+
+
+</script>
+</html>
