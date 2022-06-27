@@ -18,6 +18,7 @@
     <li>事件</li>
     <li>BOM</li>
     <li>定时任务</li>
+    <li>JSON</li>
 </ul>
 
 <h1>页面数据</h1>
@@ -265,6 +266,18 @@
         // clearTimeout(timer)
 
         console.log('============================定时任务结束===================================');
+        console.log('============================JSON开始===================================');
+        const json = '{"name":"孙悟空","age":18,"gender":"男"}';
+        //JSON字符串转对象
+        console.log(JSON.parse(json));
+
+        const testObj = {
+            name:"aa"
+        }
+        //对象转 JSON字符串
+        console.log(JSON.stringify(testObj));
+
+        console.log('============================JSON结束===================================');
     };
 
     //BOM:Location,地址栏信息
