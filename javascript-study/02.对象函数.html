@@ -236,6 +236,20 @@
     console.log("FN.prototype.__proto__ === Object.prototype: ",FN.prototype.__proto__ === Object.prototype)
 
 
+    console.log("函数自调用")
+    ;(function (){
+        var a = 1;
+        function test() {
+            console.log("test")
+        }
+        window.$ = function () {
+            return {
+                test: test
+            }
+        };
+    })(window)
+
+
     console.log("特殊问题")
     console.log("Object的构造是Function所以,Object.__proto__ === Function.prototype:",Object.__proto__ === Function.prototype)
     console.log("Object instanceof Function: ",Object instanceof Function)
