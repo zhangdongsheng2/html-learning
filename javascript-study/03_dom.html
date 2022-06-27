@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>dom</title>
+    <style>
+        #css_box, .css_box {
+            background: #0c37ba;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 <body>
 <h1>dom操作</h1>
 <ul>
     <li>DOM</li>
+    <li>事件</li>
+    <li>BOM</li>
+    <li>定时任务</li>
 </ul>
 
 <h1>页面数据</h1>
+
+<h3>1. 选择元素</h3>
 <button id="btn">我是一个按钮</button>
 <ul id="city">
     <li id="bj">北京</li>
@@ -18,7 +30,8 @@
     <li>东京</li>
     <li>首尔</li>
 </ul>
-<h3>多选全选</h3>
+
+<h3>2. 多选全选</h3>
 <form id="form1" method="post" action="">
     你爱好的运动是？<input type="checkbox" id="checkedAllBox"/>全选/全不选
 
@@ -34,8 +47,7 @@
     <input type="button" id="sendBtn" value="提　交"/>
 </form>
 
-<h3>表格添加删除</h3>
-
+<h3>3. 表格添加删除</h3>
 <table id="employeeTable">
     <tr>
         <th>Name</th>
@@ -62,10 +74,9 @@
         <td><a href="deleteEmp?id=003">Delete</a></td>
     </tr>
 </table>
-
 <div id="formDiv">
 
-    <h5>添加新员工</h5>
+    <div>添加新员工</div>
 
     <table>
         <tr>
@@ -97,31 +108,339 @@
 
 </div>
 
+<h3>4. 样式CSS</h3>
+<button id="btn01">点我一下</button>
+<button id="btn02">点我一下</button>
+<br/><br/>
+<div id="css_box"></div>
+
+<h3>5. 事件-事件委派</h3>
+<div>
+    <button id="btn03">添加超烂就</button>
+    <ul id="u1">
+        <li><a href="javascript:;">超链接1</a></li>
+        <li><a href="javascript:;">超链接2</a></li>
+        <li><a href="javascript:;">超链接3</a></li>
+    </ul>
+</div>
+
+<h3>6. 事件-事件绑定,传播</h3>
+<button id="btn04">点击按钮</button>
+
+
+<h3>7. 事件-键盘事件</h3>
+<div class="css_box"></div>
+<input type="text" class="key_input">
+
+<h3>8. BOM-浏览器信息</h3>
+<div class="b_ua"></div>
+
+<h3>9. BOM-His</h3>
+<button id="btn05">点击按钮</button>
+<a href="02.对象函数.html">去对象函数</a>
+
+<h3>10. BOM-Location</h3>
+<div>
+    <button id="btn06">跳转新页面,记录历史</button>
+    <button id="btn07">强制清空缓存刷新页面</button>
+    <button id="btn08">替换当前页面不记录历史</button>
+</div>
+
+<h3>11. 定时任务</h3>
+<div>
+    <div class="interval_box"></div>
+</div>
+
+
 </body>
 
 <script type="text/javascript">
-    console.log('============================DOM开始===================================');
-    /*
-     * 浏览器已经为我们提供 文档节点 对象这个对象是window属性
-     * 	可以在页面中直接使用，文档节点代表的是整个网页
-     */
-
-    // const btn = document.getElementById("btn");
-    // btn.innerHTML = "im button"
-    // btn.onclick = function () {
-    //     alert("点击事件")
-    // };
-
-    /*
-     * 浏览器在加载一个页面时，是按照自上向下的顺序加载的，
-     * 	读取到一行就运行一行,如果将script标签写到页面的上边，
-     * 	在代码执行时，页面还没有加载，页面没有加载DOM对象也没有加载
-     * 	会导致无法获取到DOM对象
-     *
-     * onload事件会在整个页面加载完成之后才触发
-     */
-
     window.onload = function () {
+        console.log('============================DOM开始===================================');
+        /*
+         * 浏览器已经为我们提供 文档节点 对象这个对象是window属性
+         * 	可以在页面中直接使用，文档节点代表的是整个网页
+         */
+
+        // const btn = document.getElementById("btn");
+        // btn.innerHTML = "im button"
+        // btn.onclick = function () {
+        //     alert("点击事件")
+        // };
+
+        /*
+         * 浏览器在加载一个页面时，是按照自上向下的顺序加载的，
+         * 	读取到一行就运行一行,如果将script标签写到页面的上边，
+         * 	在代码执行时，页面还没有加载，页面没有加载DOM对象也没有加载
+         * 	会导致无法获取到DOM对象
+         *
+         * onload事件会在整个页面加载完成之后才触发
+         */
+        console.log("Dom元素查找")
+        domSelecd();
+
+        console.log("Dom多选全选")
+        selectAll();
+
+        console.log("Dom表格添加删除")
+        tableAddDel();
+
+        console.log("Dom读取元素的样式")
+        getStyleCss();
+
+        console.log('============================DOM结束===================================');
+
+        console.log('============================事件开始===================================');
+        console.log("事件委派")
+        listenerPi();
+
+        console.log("事件绑定,传播")
+        listenerBind();
+
+        console.log("键盘事件")
+        listenerKey();
+
+        console.log('============================事件结束===================================');
+        console.log('============================BOM开始===================================');
+        /**
+         * BOM : 浏览器对象模型, 可以使我们通过JS来操作浏览器, 为我们提供了一组对象，用来完成对浏览器的操作
+         *    - BOM对象
+         *        Window: 代表的是整个浏览器的窗口，同时window也是网页中的全局对象
+         *        Navigator: 代表的当前浏览器的信息，通过该对象可以来识别不同的浏览器;
+         *                   - 一般我们只会使用 userAgent 来判断浏览器信息.
+         *                   - 内部包含描述浏览器信息的内容, 不同浏览器有不同的 userAgent
+         *        Location: 代表当前浏览器的地址栏信息，通过Location可以获取地址栏信息，或者操作浏览器跳转页面
+         *        History: 代表浏览器的历史记录，可以通过该对象来操作浏览器的历史记录, 只能操作浏览器向前或向后翻页
+         *        Screen: 代表用户的屏幕的信息，通过该对象可以获取到用户的显示器的相关的信息
+         *
+         *
+         */
+
+        console.log("BOM:userAgent:浏览器标识")
+        bomUA();
+
+        console.log("BOM:history,控制前进后退")
+        bomHis();
+
+        console.log("BOM:Location,地址栏信息")
+        bomLocation();
+
+        console.log('============================BOM结束===================================');
+
+        console.log('============================定时任务开始===================================');
+        /*
+         * setInterval()
+         * 	- 定时调用
+         * 	- 可以将一个函数，每隔一段时间执行一次
+         * 	- 参数：
+         * 		1.回调函数，该函数会每隔一段时间被调用一次
+         * 		2.每次调用间隔的时间，单位是毫秒
+         * 	- 返回值：
+         * 		返回一个Number类型的数据
+         * 		这个数字用来作为定时器的唯一标识
+         *
+         * clearInterval()可以用来关闭一个定时器,需要一个定时器的标识作为参数
+         */
+        const intervalBox = document.querySelector(".interval_box");
+        let num =0,timer;
+        timer = setInterval(function () {
+            intervalBox.innerHTML = num++;
+            if (num === 11) {
+                clearInterval(timer)
+            }
+        }, 1000);
+
+        /*
+         * 延时调用，
+         * 	延时调用一个函数不马上执行，而是隔一段时间以后在执行，而且只会执行一次
+         *
+         * 延时调用和定时调用的区别，定时调用会执行多次，而延时调用只会执行一次
+         *
+         * 延时调用和定时调用实际上是可以互相代替的，在开发中可以根据自己需要去选择
+         */
+
+        timer = setTimeout(function () {
+            console.log(num)
+        },3000);
+        // clearTimeout(timer)
+
+        console.log('============================定时任务结束===================================');
+    };
+
+    //BOM:Location,地址栏信息
+    function bomLocation() {
+        const btn06 = document.querySelector("#btn06");
+        const btn07 = document.querySelector("#btn07");
+        const btn08 = document.querySelector("#btn08");
+        /**
+         * location对象
+         *  -包含地址栏的 host 和完整url等
+         *  -可以直接修改为一个完整路径或相对路径, 页面会跳转到新路径并记录历史记录.
+         * assign()
+         *  - 用来跳转到其他网页,作用和直接修改location一样
+         * reload()
+         *  - 用来重新加载当前页面, 跟刷新一
+         *  - 如果传递参数 true 会强制清空缓存刷新页面
+         * replace()
+         *  - 用新页面替换当前页面, 不会有历史记录, 不能使用回退按钮.
+         */
+        btn06.onclick = function () {
+            location = "02.对象函数.html"
+        };
+        btn07.onclick = function () {
+            location.reload(true)
+        };
+        btn08.onclick = function () {
+            location.replace("02.对象函数.html")
+        };
+    }
+
+    //BOM:history,控制前进后退
+    function bomHis() {
+        const btn05 = document.querySelector("#btn05");
+
+        btn05.onclick = function () {
+            /**
+             * length
+             *    - 属性，可以获取到当成访问的链接数量
+             * back()
+             *    - 可以用来回退到上一个页面，作用和浏览器的回退按钮一样
+             * forward()
+             *    - 可以跳转下一个页面，作用和浏览器的前进按钮一样
+             * go()
+             *    - 可以用来跳转到指定的页面
+             *    - 它需要一个整数作为参数
+             *        1:表示向前跳转一个页面 相当于forward()
+             *        2:表示向前跳转两个页面
+             *        -1:表示向后跳转一个页面
+             *        -2:表示向后跳转两个页面
+             */
+            console.log(history.length)
+            history.go(1)
+        };
+
+    }
+
+    //Navigator.userAgent
+    function bomUA() {
+        const ua = navigator.userAgent;
+        const bUa = document.querySelector(".b_ua");
+        console.log("userAgent", ua)
+        if (/firefox/i.test(ua)) {
+            console.log(bUa.innerHTML = "火狐浏览器")
+        } else if (/chrome/i.test(ua)) {
+            console.log(bUa.innerHTML = "Chrome浏览器")
+        } else if ((/msie/i.test(ua))) {
+            console.log(bUa.innerHTML = "IE浏览器")
+        } else if ((/ActiveXObject/i.test(ua))) {
+            console.log(bUa.innerHTML = "IE11, 哈哈哈")
+        }
+    }
+
+    //键盘事件
+    function listenerKey() {
+        /*
+         * 键盘事件：
+         * 	onkeydown
+         * 		- 按键被按下
+         * 		- 对于onkeydown来说如果一直按着某个按键不松手，则事件会一直触发
+         * 		- 当onkeydown连续触发时，第一次和第二次之间会间隔稍微长一点，其他的会非常的快
+         * 			这种设计是为了防止误操作的发生。
+         * 	onkeyup
+         * 		- 按键被松开
+         *
+         *  键盘事件一般都会绑定给一些可以获取到焦点的对象或者是document
+         */
+        const css_box = document.querySelector(".css_box")
+        const key_input = document.querySelector(".key_input")
+
+        document.onkeydown = function (ev) {
+            ev = ev || window.event;
+            //通过keycode获取按键编码
+            if (ev.key === "y" && ev.ctrlKey) {
+                console.log("ctrl和y都被按下了");
+            }
+
+            const step = 10;
+            switch (ev.keyCode) {
+                case 37:
+                case 39:
+                    css_box.style.width = css_box.offsetWidth + step + "px"
+                    break;
+                case 38:
+                case 40:
+                    css_box.style.height = css_box.offsetHeight + step + "px"
+                    break;
+            }
+        };
+
+        key_input.onkeydown = function (ev) {
+            ev = ev || window.event;
+            //通过keycode获取按键编码
+            if (ev.keyCode >= 48 && ev.keyCode <= 57) {
+                console.log("不让文本框输入数字");
+                return false;
+            }
+
+        };
+
+
+    }
+
+    //事件绑定,传播
+    function listenerBind() {
+        /**
+         * 1.对象.事件 = 函数 的形式绑定响应函数，不能绑定多个，如果绑定了多个，则后边会覆盖掉前边的
+         * 2.addEventListener(); 参数1:事件字符串; 参数2:回调函数; 参数3:是否捕获;
+         * 3.attachEvent; IE8中使用
+         *
+         * 事件传播分三个阶段:
+         *  1.捕获阶段:
+         *      - 事件从外向内传播.
+         *  2.目标阶段:
+         *      - 事件捕获到目标元素,捕获结束开始在目标元素触发.
+         *  3.冒泡阶段:
+         *      - 事件从目标元素向祖先元素传递.
+         */
+
+        const btn04 = document.getElementById("btn04");
+        btn04.onclick = function () {
+            console.log("onclick")
+        };
+        btn04.addEventListener("click", function () {
+            console.log("onclick")
+        }, false);
+
+
+    }
+
+    //事件委派
+    function listenerPi() {
+        /*
+         * 我们希望，只绑定一次事件，即可应用到多个的元素上，即使元素是后添加的
+         * 我们可以尝试将其绑定给元素的共同的祖先元素
+         *
+         * 事件的委派
+         * 	- 指将事件统一绑定给元素的共同的祖先元素，这样当后代元素上的事件触发时，会一直冒泡到祖先元素
+         * 		从而通过祖先元素的响应函数来处理事件。
+         *  - 事件委派是利用了冒泡，通过委派可以减少事件绑定的次数，提高程序的性能
+         */
+        const btn03 = document.getElementById("btn03");
+        const u1 = document.getElementById("u1");
+        btn03.onclick = function () {
+            const li = document.createElement("li")
+            li.innerHTML = "<li><a href=\"javascript:;\">新超链接</a></li>"
+            u1.appendChild(li)
+        };
+
+        u1.onclick = function (ev) {
+            console.log("aaaaaaaaaa", ev.target)
+        };
+
+    }
+
+    //Dom元素查找
+    function domSelecd() {
         const btn = document.getElementById("btn");
         btn.innerHTML = "im button"
         btn.onclick = function () {
@@ -156,9 +475,10 @@
         // console.log(el.parentNode.children[elIndex-1],elIndex)
         console.log(el.previousElementSibling)
         console.log("节点内容: ", el.previousElementSibling.firstChild.nodeValue)
+    }
 
-        console.log("============多选全选=============")
-
+    //Dom多选全选
+    function selectAll() {
         const checkedAllBtn = document.getElementById("checkedAllBtn")
         const checkedNoBtn = document.getElementById("checkedNoBtn")
         const checkedRevBtn = document.getElementById("checkedRevBtn")
@@ -204,8 +524,10 @@
                 item.checked = checkedAllBox.checked;
             }
         };
+    }
 
-        console.log("============表格添加删除=============")
+    //Dom表格添加删除
+    function tableAddDel() {
         const addEmpButton = document.getElementById("addEmpButton")
         const empName = document.getElementById("empName")
         const email = document.getElementById("email")
@@ -235,13 +557,42 @@
         for (let elementsByTagNameElement of employeeTable.getElementsByTagName("a")) {
             elementsByTagNameElement.onclick = del
         }
+    }
 
+    //Dom读取元素的样式
+    function getStyleCss() {
+        let box01 = document.querySelector("#btn01");
+        let box02 = document.querySelector("#btn02");
+        let css_box = document.querySelector("#css_box");
 
-        console.log("============读取元素的样式=============")
+        box01.onclick = function () {
+            css_box.style.width = "200px"
+            css_box.style.height = "200px"
+            css_box.style.backgroundColor = "yellow"
+        };
 
+        box02.onclick = function () {
+            //这样只能读取内联样式, 无法读取css设置的样式.
+            console.log(css_box.style.width)
 
-        console.log('============================DOM结束===================================');
-    };
+            //这样可以获取css设置的样式.
+            if (window.getComputedStyle) {
+                console.log(getComputedStyle(css_box, null)["width"])
+            } else {
+                console.log(css_box.currentStyle)
+            }
+
+            //获取元素可见宽高
+            console.log("获取元素可见宽高:", css_box.clientWidth, css_box.clientHeight)
+
+            //获取元素整个宽高, 包括边距边框
+            console.log("获取元素整个宽高, 包括边距边框: ", css_box.offsetWidth, css_box.offsetHeight)
+
+            //获取元素定位父元素, 如果没有返回body
+            console.log("取元素定位父元素, 如果没有返回body: ", css_box.offsetParent)
+
+        };
+    }
 
 
 </script>
