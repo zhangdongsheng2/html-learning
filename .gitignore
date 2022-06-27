@@ -49,6 +49,6 @@ dist
 test-output
 build.log
 
-
+node_modules/
 
 

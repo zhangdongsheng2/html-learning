@@ -179,8 +179,12 @@
         console.log("c");
     },false);
 
-
-
+    //相当于第二个参数是true 是捕获的行为
+    divIn.onclick = function (ev) {
+        ev = ev || window.event
+        console.log("aaaaaaaaaaa")
+        ev.cancelBubble = true;
+    };
 
 
 </script>

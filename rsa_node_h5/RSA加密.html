@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>客户端RSA公钥加密</title>
+		<style>
+			div{
+				width: 1300px;
+				height: 50px;
+				border: #0c37ba 1px solid;
+				word-break:break-all;
+				padding-top: 25px;
+				padding-left: 15px;
+				padding-right: 15px;
+				margin: 50px;
+				white-space: nowrap;
+				overflow: auto;
+			}
+		</style>
+	</head>
+	<body>
+	</body>
+
+	<script src="jsencrypt.min.js"></script>
+	<script type="text/javascript">
+
+		// RSA公钥加密
+		function RSAEntry(content){
+			var crypt = new JSEncrypt();
+			crypt.setKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCcHY9yGOKGOij281asUsGb/bfW+DAuKZgdvOlKL/jndcZSBNAbn5UQyZkfN+DMG0nKnBj9Nn3MpfwjPkEMBuGZNG3U3rcGF/A1lgVbiEkxEIZLHr1HgSnuoBpk4fy9weA55j6BFJ3XxXXWeJMG+lg6XX/0Rjxw+ID5U3fNonuc3wIDAQAB")
+			return crypt.encrypt(content)
+		}
+
+		function encryption(str) {
+			var encStr = encodeURIComponent(str);
+			encStr = btoa(encStr);
+			console.log(encStr)
+			return encStr;
+		}
+
+		console.log("CT",encryption("7fc91a5e3a84491db9507375c78506d1"))
+		console.log("user",encodeURIComponent(RSAEntry(encryption("qy37061366"))))
+		console.log("pass",encodeURIComponent(RSAEntry(encryption("123456mf"))))
+		console.log("userType",encodeURIComponent(RSAEntry(encryption("PERSONAGE"))))
+
+
+		let div = document.createElement("div");
+		div.innerHTML = "字符串: 7fc91a5e3a84491db9507375c78506d1  <===>  Url编码+base64: " + encryption("7fc91a5e3a84491db9507375c78506d1")
+		document.body.appendChild(div)
+
+		div = document.createElement("div");
+		div.innerHTML = "RSA公钥: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCcHY9yGOKGOij281asUsGb/bfW+DAuKZgdvOlKL/jndcZSBNAbn5UQyZkfN+DMG0nKnBj9Nn3MpfwjPkEMBuGZNG3U3rcGF/A1lgVbiEkxEIZLHr1HgSnuoBpk4fy9weA55j6BFJ3XxXXWeJMG+lg6XX/0Rjxw+ID5U3fNonuc3wIDAQAB"
+		document.body.appendChild(div)
+
+		div = document.createElement("div");
+		div.innerHTML = "字符串: qy37061366  <===>  Url编码+base64+RSA公钥加密: " + RSAEntry(encryption("qy37061366"))
+		document.body.appendChild(div)
+
+		div = document.createElement("div");
+		div.innerHTML = "字符串: 123456mf  <===>  Url编码+base64+RSA公钥加密: " + RSAEntry(encryption("123456mf"))
+		document.body.appendChild(div)
+
+		div = document.createElement("div");
+		div.innerHTML = "字符串: PERSONAGE  <===>  Url编码+base64+RSA公钥加密: " + RSAEntry(encryption("PERSONAGE"))
+		document.body.appendChild(div)
+
+	</script>
+</html>
