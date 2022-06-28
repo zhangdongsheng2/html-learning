@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6</title>
+</head>
+<body>
+<h1>ES6</h1>
+<ul>
+    <li>let_const_变量 --解构赋值,模板字符串,</li>
+    <li>对象简化</li>
+    <li>箭头函数</li>
+    <li>函数参数</li>
+    <li>扩展运算符</li>
+    <li>Symbol</li>
+    <li>迭代器</li>
+    <li>生成函数</li>
+    <li>Promise</li>
+    <li>集合</li>
+    <li>map</li>
+    <li>class</li>
+    <li>数值扩展</li>
+    <li>模块化_babel_npm包引入</li>
+
+</ul>
+</body>
+<script>
+    console.log('============================let_const_变量开始===================================');
+    console.log("1. 声明变量")
+    let a;
+    let b, c, d;
+    let e = 100;
+    let f = 512, g = "aaa", h = [];
+
+    console.log("2. 变量不能重复声明")
+    let star = "aaa"
+    // let star = "bbb"
+
+    console.log("3. 块级作用域 全局, 函数, eval(执行js字符串)")
+    //if else while for 的代码块, 变量只能在块内部
+    {
+        let girl = "hello"
+    }
+    //这里就不能读到块里面的数据
+    // console.log(girl)
+
+    console.log("4. 不存在变量提升")
+    // console.log(song)
+    let song = "达人"
+    let nodeListOf = document.querySelectorAll("li");
+    for (let i = 0; i < nodeListOf.length; i++) {
+        nodeListOf[i].onclick = function () {
+            console.log(i)
+        };
+    }
+
+    console.log("5. 作用域链路正常")
+    {
+        let school = "shang"
+
+        function fn() {
+            console.log("外部变量: ", school)
+        }
+
+        fn();
+    }
+
+    console.log("6. const_声明常量")
+    //必须赋值, 不可重新赋值(引用类型堆内存对象可以修改)
+    const SCHOOL = "shang"
+
+    console.log("7. 解构赋值")
+
+    console.log("7.1 数组解构")
+    const f4 = ["aa", "bb", "cc", "dd"]
+    let [xiao, liu, zhao, sang] = f4;
+    console.log(xiao, liu, zhao, sang)
+
+    console.log("7.2 对象解构")
+    const zhen = {
+        name: '赵本子',
+        age: 2,
+        xiaopin: function () {
+            console.log("我可以眼小品")
+        },
+        price: 666
+    }
+    let {name, age, xiaopin} = zhen;
+    console.log(name, age, typeof xiaopin)
+    let {price} = zhen
+    console.log(price)
+
+    console.log("9. 模板字符串")
+    console.log("9.1 新增声明字符串方式 ``")
+    let str = `
+    <ul>
+    <li>st</li>
+    <li>st</li>
+    <li>st</li>
+    <li>st</li>
+    </ul>
+    `
+    console.log(str,typeof str)
+
+    console.log("9.2 变量拼接")
+    let out = `${name}是一个很厉害的人`
+    console.log(out)
+
+    console.log('============================let_const_变量结束===================================');
+    console.log('============================简化对象写法开始===================================');
+    //允许大括号里面, 直接写入变量和函数, 作为对象的属性和方法
+    let objName = "shang"
+    let change = function () {
+        console.log("我们可以的!!")
+    };
+    console.log("变量不用加冒号, 方法不用写声明")
+    const school = {
+        name,
+        change,
+        improve(){
+            console.log("我们可以提高技能")
+        }
+    }
+    console.log('============================简化对象写法结束===================================');
+    console.log('============================箭头函数开始===================================');
+
+    /**
+     * 语法: () => 定义函数
+     * 1. this是静态的不可改变
+     * 2. 不可作为构造函数
+     * 3. 不能使用 arguments 变量
+     * 4. 没有 arguments 变量
+     *
+     */
+    function getName(){
+        console.log(this.name)
+    }
+    let getName2 = ()=>{
+        console.log(this.name)
+    }
+
+    window.name = "hello"
+    const schoolObj = {
+        name: "ATG"
+    }
+    getName()
+    getName2()
+
+    getName.call(schoolObj)
+    //this是静态的不可改变
+    getName2.call(schoolObj)
+
+    //不可作为构造函数
+    let Person = (name,age) => {
+        this.name = name;
+        this.age = age
+    }
+    // const p = new Person()
+
+    Person = (name,age)=>{
+        //没有 arguments 变量
+        // console.log(arguments)
+    }
+    Person("ad",21)
+
+    //箭头函数的简写
+    let addd = n => {
+        return n*2
+    }
+    console.log(addd(9))
+    let addP = n => n*2
+    console.log(addP(9))
+    let addN = () => 88
+    console.log(addN())
+
+    //实践1
+
+    //实践2
+
+    console.log('============================箭头函数结束===================================');
+
+
+    console.log('============================class的set_get开始===================================');
+
+    class Phone {
+        get price() {
+            return 2
+        }
+
+        set price(val) {
+            console.log("设置价格:", val)
+        }
+
+        aa() {
+            console.log("aa")
+        }
+    }
+
+    const phone = new Phone();
+    phone.aa()
+    console.log("查询价格:", phone.price);
+    phone.price = 20
+    console.log('============================class的set_get结束===================================');
+
+
+</script>
+
+
+</html>
