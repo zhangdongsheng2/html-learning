@@ -10,6 +10,7 @@
     <li>对象: Object对象类型数据</li>
     <li>函数</li>
     <li>对象函数高级</li>
+    <li>对象继承</li>
     <li>this</li>
     <li>数据类型_Array数组</li>
     <li>arguments</li>
@@ -73,9 +74,9 @@
         };
     }
 
-    console.log("创建方式1 new Person(1,2,3):",new Person(1,2,3))
+    console.log("创建方式2: 构造函数 new Person(1,2,3):",new Person(1,2,3))
 
-    console.log("创建方式2 直接大括号创建对象")
+    console.log("创建方式3: 对象字面量 直接大括号创建对象")
     let myObject = {
         aa: "de",
         ar: [2, 4, 3],
@@ -96,7 +97,7 @@
         };
         return obj;
     }
-    console.log("创建方式3 使用工厂方法创建createPerson(\"baigujing\",22,\"女\"):",createPerson("baigujing",22,"女"))
+    console.log("创建方式4 使用工厂方法创建createPerson(\"baigujing\",22,\"女\"):",createPerson("baigujing",22,"女"))
 
     console.log("控制台输出对象: 此值是在第一次展开时评估得出的。之后可能已发生更改。: ",myObject);
 
@@ -257,6 +258,85 @@
     console.log("前面的是对象,后面的是构造. Function.__proto__ === Function.prototype: ",Function.__proto__ === Function.prototype)
 
     console.log('============================对象函数高级结束===================================');
+    console.log('============================对象继承开始===================================');
+    /**
+     * 方式1: 原型链继承
+     *   1. 套路
+     *     1. 定义父类型构造函数, 给父类型的原型添加方法
+     *     2. 定义子类型的构造函数, 创建父类型的对象赋值给子类型的原型
+     *     3. 将子类型原型的构造属性 constructor 设置为子类型
+     *     4. 给子类型原型添加方法
+     *     5. 创建子类型的对象: 可以调用父类型的方法
+     *   2. 关键
+     *     1. 子类型的原型为父类型的一个实例对象
+     *
+     * 方式2: 借用构造函数继承(假的)
+     * 1. 套路:
+     *   1. 定义父类型构造函数
+     *   2. 定义子类型构造函数
+     *   3. 在子类型构造函数中调用父类型构造
+     * 2. 关键:
+     *   1. 在子类型构造函数中通用call()调用父类型构造函数
+     *
+     * 方式3: 原型链+借用构造函数的组合继承
+     * 1. 利用原型链实现对父类型对象的方法继承
+     * 2. 利用super()借用父类型构建函数初始化相同属性
+     *
+     */
+
+    console.log("方式1: 原型链继承")
+    function Supper() {
+        this.name = "su"
+        this.age = 12
+    }
+    Supper.prototype.showSuper = function () {
+        console.log(this.name)
+    };
+    function Sub(){
+        this.price = 2
+    }
+    //子类型的原型设置为 父类型的实例对象
+    Sub.prototype = new Supper();
+    //子类型原型的 constructor 指向子类型
+    Sub.prototype.constructor = Sub
+
+    Sub.prototype.showSub = function () {
+        console.log(this.name)
+    };
+
+    var sub = new Sub();
+    sub.showSuper()
+    sub.showSub()
+    console.log(sub)
+
+    console.log("方式2+方式3: 组合继承")
+    function Person(name,age) {
+        this.name = name
+        this.age = age
+    }
+    Person.prototype.showSuper = function () {
+        console.log(this.name)
+    };
+    function Student(name,age,price){
+        Person.call(this,name,age)
+        this.price = price
+    }
+    //子类型的原型设置为 父类型的实例对象
+    Student.prototype = new Person();
+    //子类型原型的 constructor 指向子类型
+    Student.prototype.constructor = Student
+
+    Student.prototype.showSub = function () {
+        console.log(this.price)
+    };
+
+    var student = new Student('张三',22,999);
+    student.showSuper()
+    student.showSub()
+    console.log(student)
+
+
+    console.log('============================对象继承结束===================================');
 
     console.log('============================this开始===================================');
     /**
