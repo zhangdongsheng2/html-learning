@@ -8,38 +8,265 @@
 <h1>Promise_Web</h1>
 <ul>
     <li>Promise基本语法</li>
+    <li>Promise封装AJAX</li>
+    <li>终极方案</li>
+    <li>多个回调函数</li>
+    <li>中断Promise链</li>
+    <li>面试题1</li>
+    <li>面试题2</li>
+    <li>自定义Promise: Promise.js | Promise_class.js</li>
 </ul>
 
 </body>
 <script>
-  /**
-   * Promise是什么?
-   *     1.抽象表达:
-   *         Promise是JS中进行异步编程的新的解决方案(旧解决方案是单纯使用回调函数, 有回调地狱的问题)
-   *     2.具体表达:
-   *         从语法上来说: Promise是一个构造函数
-   *         从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
-   *     3. promise的状态改变(只有2种, 只能改变一次)
-   *         pending变为resolved
-   *         pending变为rejected
-   *     4. promise的基本流程
-   */
+    console.log('============================Promise基本语法开始===================================');
 
-  const p = new Promise(function (resolve, reject) {
-      setTimeout(function () {
-          let data = '异步查到数据'
-          resolve(data)
-      },1000);
-  });
-  p.then(function (value) {
-      console.log(value);
-  }, function (reason) {
-      console.error(reason)
-  });
+    /**
+     * Promise是什么?
+     *     1.抽象表达:
+     *         Promise是JS中进行异步编程的新的解决方案(旧解决方案是单纯使用回调函数, 有回调地狱的问题)
+     *         支持链式调用, 可以解决回调地狱问题
+     *         终极解决方案? async/await
+     *     2.具体表达:
+     *         从语法上来说: Promise是一个构造函数
+     *         从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
+     *     3. promise的状态改变(只有2种, 只能改变一次)
+     *         pending变为resolved : 调用方法 resolve(value)
+     *         pending变为rejected: 调用方法 reject(reason) 或者 抛出异常
+     *     4. promise的基本流程:
+     *          a. 创建对象后就会开始执行任务 => 等then回调方法传入后 => 根据结果状态执行回调.
+     *          b. promise: 启动异步任务 => 返回promie对象 => 给promise对象绑定回调函数(甚至可以在异步任务结束后指定)
+     *          c. 一个promise对象指定多个 成功/失败 回调函数, 当实例改变状态时会调用所有回调函数.
+     *
+     *
+     * Promise_API
+     *     1. Promise构造函数: Promise (excutor) {}
+     *         excutor函数: 同步执行  (resolve, reject) => {}
+     *         resolve函数: 内部定义成功时我们调用的函数 value => {}
+     *         reject函数: 内部定义失败时我们调用的函数 reason => {}
+     *         说明: excutor会在Promise内部立即同步回调执行,异步操作在执行器中执行
+     *
+     *     2. Promise.prototype.then方法: (onResolved, onRejected) => {}
+     *         onResolved函数: 成功的回调函数  (value) => {}
+     *         onRejected函数: 失败的回调函数 (reason) => {}
+     *         说明: 指定用于得到成功value的成功回调和用于得到失败reason的失败回调,返回一个新的promise对象
+     *          a. 返回结果是 promise 类型, 下一个 then 方法安装对应状态执行.
+     *          b. 返回结果非 promise 类型, 直接走成功的方法 value为返回值.
+     *          c. 如果抛出异常没有捕获, 下个then走失败的方法.  (Node.js 会直接异常报错)
+     *          d. 如果没有返回值, 下个then走成功方法, value为 undefined
+     *          e. 如果reject失败函数没有传, 默认会抛出异常, 会走到最后的 catch方法.
+     *          f. 如果resolve方法没传, 默认会是 (value) => {return value}
+     *          g. 中断链路: 在回调函数中返回一个pendding状态的promise对象
+     *
+     *     3. Promise.prototype.catch方法: (onRejected) => {}
+     *         onRejected函数: 失败的回调函数 (reason) => {}
+     *         说明: then()的语法糖, 相当于: then(undefined, onRejected)
+     *
+     *     4. Promise.resolve方法(实例不能使用): (value) => {}
+     *         value: 成功的数据或promise对象
+     *         说明: 返回一个成功/失败的promise对象
+     *
+     *     5. Promise.reject方法(实例不能使用): (reason) => {}
+     *         reason: 失败的原因
+     *         说明: 返回一个失败的promise对象
+     *
+     *     6. Promise.all方法(实例不能使用): (promises) => {}
+     *         promises: 包含n个promise的数组
+     *         说明: 返回一个新的promise, 只有所有的promise都成功才成功, 只要有一个失败了就直接失败
+     *     7. Promise.race方法(实例不能使用): (promises) => {}
+     *         promises: 包含n个promise的数组
+     *         说明: 返回一个新的promise, 第一个完成的promise的结果状态就是最终的结果状态
+     */
+
+    let p = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            let data = '基本语法_异步查到数据'
+            resolve(data)
+        }, 1000);
+    });
+    console.log("基本语法_调用了异步任务: ")
+    p.then(function (value) {
+        console.log(value);
+    }, function (reason) {
+        console.error(reason)
+    });
+    console.log('============================Promise基本语法结束===================================');
+    console.log('============================Promise封装AJAX开始===================================');
+    //1. 创建对象
+    p = new Promise(function (resolve, reject) {
+        //2. 创建xhr
+        const xhr = new XMLHttpRequest();
+        //3. 初始化
+        xhr.open("GET","https://api.apiopen.top/api/sentences");
+        xhr.send();
+        console.log("发起请求")
+        //4. 绑定事件处理结果
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject(xhr.response);
+                }
+            }
+        };
+    });
+
+    console.log("解决链式调用")
+    p.then(function (value) {
+        console.log(value);
+    }, function (reason) {
+        console.error(reason)
+    }).then(function (value) {
+        console.log(value);
+    }, function (reason) {
+        console.error(reason)
+    }).catch(function (reason) {
+        console.log("抛出异常了")
+    });
+
+
+
+    console.log('============================Promise封装AJAX结束===================================');
+    console.log('============================终极方案开始===================================');
+    console.log("终极方案: async,await")
+    function doSomething() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve("doSomething")
+            },3000)
+        })
+    }
+    function doSomethingElse() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve("doSomethingElse")
+            },1000)
+        })
+    }
+    function doThirdThing() {
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                resolve("doThirdThing")
+            },2000)
+        })
+    }
+
+    async function request(){
+        try {
+            const result = await doSomething();
+            console.log(result)
+            const newResult = await doSomethingElse();
+            console.log(newResult)
+            const finalResult = await doThirdThing();
+            console.log('Got the final result:',finalResult)
+        } catch (error){
+            console.log('error')
+        }
+    }
+    request();
+
+    console.log('============================终极方案结束===================================');
+    console.log('============================多个回调函数开始===================================');
+    p = new Promise((resolve, reject)=>{
+        resolve(1)
+    })
+    p.then(value => console.log("回调1: ",value))
+    p.then(value => console.log("回调2: ",value))
+    console.log('============================多个回调函数结束===================================');
+
+    console.log('============================中断Promise链开始===================================');
+    p = new Promise((resolve, reject)=>{
+        resolve(1)
+    })
+        .then(value => {
+            console.log("执行1")
+            return 1;
+        })
+        .then(value => {
+            console.log("执行2")
+            return 2;
+        })
+        .then(value => {
+            console.log("还在执行")
+            return Promise.reject(3);
+        })
+        .catch(reason => {
+            console.log(reason)
+            return new Promise(()=>{})
+        })
+        .then(value => {
+            console.log("输出不了, 上面断了")
+        })
+    console.log('============================中断Promise链结束===================================');
+
 
 
 </script>
+<script>
+    console.log('============================面试题1===================================');
 
+    /*
+    1 7   2 3 8 4 6 5 0
+    宏: []
+    微: []
+    */
+    setTimeout(() => {
+        console.log("0") //宏队列: 1
+    }, 0)
+    new Promise((resolve,reject)=>{
+        console.log("1")//同步: 1
+        resolve()
+    }).then(()=>{
+        console.log("2")// 微队列: 1-1
+        //执行了这一段代码, 3 是同步执行, 然后执行 then (4), then(5), 但只有 then (4) 进入了微队列
+        new Promise((resolve,reject)=>{
+            console.log("3") //微队列: 1-2
+            resolve(222)
+        }).then(()=>{
+            console.log("4") //微队列: 3
+        }).then(()=>{
+            console.log("5") //微队列: 5
+        })
+    }).then((value)=>{
+        console.log("6") //微队列: 4
+    })
 
+    new Promise((resolve,reject)=>{
+        console.log("7") //同步: 2
+        resolve()
+    }).then(()=>{
+        console.log("8") //微队列: 2
+    })
+</script>
 
+<script>
+    console.log('============================面试题2===================================');
+    // 3 7 4 1 2 5
+    /*
+    宏: []
+    微: []
+    */
+    const first = () => (new Promise((resolve, reject) => {
+        console.log(3)
+        let p = new Promise((resolve, reject) => {
+            console.log(7)
+            setTimeout(() => {
+                console.log(5) //宏队列第一个: 最后执行
+                resolve(6) //这里不执行, 因为状态只能改变一次
+            }, 0)
+            resolve(1)
+        })
+        resolve(2)   //这里修改了状态, 还没有执行then中的回调函数
+        p.then((arg) => {
+            console.log(arg) //微队列第一个: 这里由于上面已经改变了状态, 主线程结束后先执行这个.
+        })
+
+    }))
+
+    first().then((arg) => {
+        console.log(arg) //微队列第二个
+    })
+    console.log(4)
+</script>
 </html>

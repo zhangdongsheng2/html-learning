@@ -19,6 +19,7 @@
     <li>map</li>
     <li>class</li>
     <li>数值_对象扩展</li>
+    <li>错误处理</li>
 
 </ul>
 </body>
@@ -98,7 +99,7 @@
     <li>st</li>
     </ul>
     `
-    console.log(str,typeof str)
+    console.log(str, typeof str)
 
     console.log("9.2 变量拼接")
     let out = `${name}是一个很厉害的人`
@@ -115,7 +116,7 @@
     const school = {
         name,
         change,
-        improve(){
+        improve() {
             console.log("我们可以提高技能")
         }
     }
@@ -134,10 +135,11 @@
      * 2. 不适合与this有关的回调, (对象方法, 原型方法, 事件回调, Vue生命周期method方法)
      *
      */
-    function getName(){
+    function getName() {
         console.log(this.name)
     }
-    let getName2 = ()=>{
+
+    let getName2 = () => {
         console.log(this.name)
     }
 
@@ -153,24 +155,24 @@
     getName2.call(schoolObj)
 
     //==不可作为构造函数
-    let Person = (name,age) => {
+    let Person = (name, age) => {
         this.name = name;
         this.age = age
     }
     // const p = new Person()
 
-    Person = (name,age)=>{
+    Person = (name, age) => {
         //==没有 arguments 变量
         // console.log(arguments)
     }
-    Person("ad",21)
+    Person("ad", 21)
 
     //==箭头函数的简写
     let addd = n => {
-        return n*2
+        return n * 2
     }
     console.log(addd(9))
-    let addP = n => n*2
+    let addP = n => n * 2
     console.log(addP(9))
     let addN = () => 88
     console.log(addN())
@@ -178,7 +180,7 @@
     //实践1
     for (let i = 0; i < nodeListOf.length; i++) {
         nodeListOf[i].onclick = function () {
-            setTimeout(()=>{
+            setTimeout(() => {
                 //这里的this 与外层 onclick的this相同
                 this.style.background = 'pink'
             })
@@ -186,18 +188,18 @@
     }
 
     //实践2: 获取偶数元素
-    const arr = [1,6,7,8,9,233,333]
-    const result = arr.filter(it => it %2 === 0);
-    console.log("偶数元素: ",result)
+    const arr = [1, 6, 7, 8, 9, 233, 333]
+    const result = arr.filter(it => it % 2 === 0);
+    console.log("偶数元素: ", result)
 
     //不适合场景
     console.log("不适合场景1: 对象方法")
     const objJ = {
-        name:"dd",
+        name: "dd",
         getName: function () {
             return this.name;
         },
-        getName1: ()=>{
+        getName1: () => {
             /*
             1. 这里的this是外层花括号的this
             2. 外层花括号是 objJ = { } 的this.
@@ -206,9 +208,9 @@
             return this.name;
         }
     }
-    console.log("对象方法_正常函数: ",objJ.getName())
+    console.log("对象方法_正常函数: ", objJ.getName())
     //这里的this变成了window. 因为箭头函数的this是外层花括号的this = window
-    console.log("对象方法_箭头函数: ",objJ.getName1())
+    console.log("对象方法_箭头函数: ", objJ.getName1())
 
     console.log("不适合场景2: 原型方法")
     objJ.__proto__.getName2 = function () {
@@ -217,66 +219,73 @@
     objJ.__proto__.getName3 = () => {
         return this.name;
     }
-    console.log("对象方法_正常函数: ",objJ.getName2())
+    console.log("对象方法_正常函数: ", objJ.getName2())
     //这里的this变成了window. 因为箭头函数的this是外层花括号的this = window
-    console.log("对象方法_箭头函数: ",objJ.getName3())
+    console.log("对象方法_箭头函数: ", objJ.getName3())
 
     console.log("不适合场景3: 回调函数")
-    nodeListOf[0].addEventListener("click",()=>{
+    nodeListOf[0].addEventListener("click", () => {
         //这里的this也是window
         console.log(this.name)
     })
 
     console.log("react可以Vue不行_React本质是一个class,Vue本质是一个对象: class可以")
-    class Man{
+
+    class Man {
         constructor(name) {
             this.name = name;
         }
-        getName = ()=>{
+
+        getName = () => {
             return this.name;
         }
     }
 
-    console.log("class可以用箭头函数: ",new Man("zhang").getName())
+    console.log("class可以用箭头函数: ", new Man("zhang").getName())
 
     console.log('============================箭头函数结束===================================');
     console.log('============================函数参数开始===================================');
+
     /**
      * 1. 形参默认值,函数参数可以赋值初始值 (一般写法都靠后放)
      * 2. rest参数,可变长参数
      */
     function cAdd(a, b, c = 10) {
-        return a+b+c;
+        return a + b + c;
     }
 
-    console.log("参数默认值: ",cAdd(1,2))
+    console.log("参数默认值: ", cAdd(1, 2))
 
     console.log("与解构结合使用: ")
+
     function cConnect({host = "127.0.0.1", username, password, port}) {
-        console.log(host,username,password,port)
+        console.log(host, username, password, port)
     }
+
     cConnect({
         host: "www.baidu.com",
         username: "root",
         password: "root",
-        port:3000
+        port: 3000
     })
 
     console.log("rest参数: 必须放参数最后")
+
     function restFn(a, b, ...args) {
-        console.log(a,b,args)
+        console.log(a, b, args)
     }
-    restFn(1,2,3,4,5,5,7,8,9)
+
+    restFn(1, 2, 3, 4, 5, 5, 7, 8, 9)
 
     console.log('============================函数参数结束===================================');
     console.log('============================扩展运算符开始===================================');
     /**
      * 语法: ...对象
      */
-    const kuaizi = ["wangtaili","xiaoyang"]
-    const fenghuang = ["zengyi","linghua"]
+    const kuaizi = ["wangtaili", "xiaoyang"]
+    const fenghuang = ["zengyi", "linghua"]
     console.log("数组合并: ...数组")
-    console.log([...kuaizi,...fenghuang])
+    console.log([...kuaizi, ...fenghuang])
 
     console.log("数组克隆")
     const jFenghuang = [...fenghuang]
@@ -287,7 +296,7 @@
     console.log(liArr)
 
     console.log("对象拷贝")
-    const objC = {...objJ,name: "objC"}
+    const objC = {...objJ, name: "objC"}
     console.log(objC)
 
     console.log('============================扩展运算符结束===================================');
@@ -307,23 +316,25 @@
     // console.log(Symbol('aa')+1)
 
     console.log("内置属性")
-    class PersonSym{
+
+    class PersonSym {
         static [Symbol.hasInstance](param) {
-            console.log(param,"检测类型了, instanceof 触发的函数")
+            console.log(param, "检测类型了, instanceof 触发的函数")
             return true;
         }
     }
+
     let o = {}
     console.log(o instanceof PersonSym)
 
-    let  arrSym = [1,2,3]
-    let arr2Sym = [4,5,6]
+    let arrSym = [1, 2, 3]
+    let arr2Sym = [4, 5, 6]
     console.log("集合合并是, 不做拆分设置")
     arr2Sym[Symbol.isConcatSpreadable] = false
     console.log(arrSym.concat(arr2Sym))
 
     console.log("对象中添加方法避免重复:")
-    let game={
+    let game = {
         name: "俄罗斯方块",
         up: function () {
             console.log("原始up")
@@ -361,7 +372,7 @@
     /**
      * iterator: 遍历循环使用, 内部有个 next方法, 可以不断的寻找下一个元素
      */
-    const xiyou = ["唐山",'孙悟空']
+    const xiyou = ["唐山", '孙悟空']
     console.log("for..of循环使用了迭代器")
     for (const string of xiyou) {
     }
@@ -375,17 +386,17 @@
     const banji = {
         name: "zhongji",
         stus: ['fei', 'dao'],
-        [Symbol.iterator](){
+        [Symbol.iterator]() {
             let index = 0;
             let _this = this;
             return {
                 next: function () {
                     if (index < _this.stus.length) {
-                        const result = {value:_this.stus[index],done: false};
+                        const result = {value: _this.stus[index], done: false};
                         index++;
                         return result;
-                    }else {
-                        return {value: undefined,done: true}
+                    } else {
+                        return {value: undefined, done: true}
                     }
                 },
             }
@@ -397,6 +408,7 @@
 
     console.log('============================迭代器结束===================================');
     console.log('============================生成器函数开始===================================');
+
     /**
      * 生成器函数: 是一个特殊的函数, 语法: function * xxx(){}
      * 1. 异步编程使用, 纯回调函数
@@ -405,15 +417,16 @@
      * 4. 避免异步编程的回调地狱问题.
      */
 
-    function * kk(arg){
-        console.log("每次都走: ",arg)
+    function* kk(arg) {
+        console.log("每次都走: ", arg)
         let one = yield 'yi';
-        console.log("one:",one)
+        console.log("one:", one)
         let two = yield 'er';
-        console.log("two: ",two)
+        console.log("two: ", two)
         let three = yield 'three';
-        console.log("three: ",three)
+        console.log("three: ", three)
     }
+
     let iteratorGen = kk('aaa');
     console.log("开始迭代生成器函数: ")
     console.log(iteratorGen.next('bbb'))
@@ -422,29 +435,34 @@
     console.log(iteratorGen.next('eee'))
 
     console.log("示例: 避免回调地狱")
+
     function one() {
         setTimeout(() => {
-            console.log("生成器函数:",111);
+            console.log("生成器函数:", 111);
             iteratorTime.next();
-        },1000)
+        }, 1000)
     }
+
     function two() {
         setTimeout(() => {
-            console.log("生成器函数:",222);
+            console.log("生成器函数:", 222);
             iteratorTime.next();
-        },2000)
+        }, 2000)
     }
+
     function three() {
         setTimeout(() => {
-            console.log("生成器函数:",333);
+            console.log("生成器函数:", 333);
             iteratorTime.next();
-        },3000)
+        }, 3000)
     }
-    function * genTime(){
+
+    function* genTime() {
         yield one();
         yield two();
         yield three();
     }
+
     let iteratorTime = genTime();
     iteratorTime.next();
 
@@ -457,8 +475,8 @@
      * 2. 会自动去除重复数据.
      */
     let sSet = new Set();
-    let sSet2 = new Set(['da','xiao','hao','xiao']);
-    console.log("元素个数:",sSet2.size)
+    let sSet2 = new Set(['da', 'xiao', 'hao', 'xiao']);
+    console.log("元素个数:", sSet2.size)
     //添加元素
     sSet2.add('xishi');
     console.log(sSet2)
@@ -466,7 +484,7 @@
     sSet2.delete('xishi')
     console.log(sSet2)
     //检测是否存在
-    console.log("检测是否存在: ",sSet2.has('zaoxin'))
+    console.log("检测是否存在: ", sSet2.has('zaoxin'))
     //清空
     sSet2.clear();
     console.log(sSet2)
@@ -477,15 +495,15 @@
     }
 
     console.log("实践1: 数据去重")
-    let arrQ = [1,2,3,4,5,6,7,2,1,3]
+    let arrQ = [1, 2, 3, 4, 5, 6, 7, 2, 1, 3]
     let resultQ = [...new Set(arrQ)]
     console.log(resultQ)
     console.log("实践2: 交集")
-    let arrQ2 = [4,5,6,4,5,7]
+    let arrQ2 = [4, 5, 6, 4, 5, 7]
     resultQ = [...new Set(arrQ)].filter(it => new Set(arrQ2).has(it))
     console.log(resultQ)
     console.log("实践3: 并集")
-    resultQ = [...new Set([...arrQ,...arrQ2])]
+    resultQ = [...new Set([...arrQ, ...arrQ2])]
     console.log(resultQ)
     console.log("实践4: 差集")
     resultQ = [...new Set(arrQ)].filter(it => !(new Set(arrQ2).has(it)));
@@ -499,20 +517,20 @@
      */
     let m = new Map();
     //添加元素
-    m.set("name","zhang")
+    m.set("name", "zhang")
     m.set("change", function () {
         console.log("hhh")
     });
     let key = {
         school: 'ATG'
     }
-    m.set(key,['bj','sh','sz'])
+    m.set(key, ['bj', 'sh', 'sz'])
     console.log(m)
-    console.log("size: ",m.size)
+    console.log("size: ", m.size)
     console.log("删除:")
     m.delete('change')
 
-    console.log("查询:",m.get("name"))
+    console.log("查询:", m.get("name"))
     //清空
     m.clear();
 
@@ -523,47 +541,55 @@
     }
     //循环遍历2
     for (let mElement of m) {
-        console.log(mElement[0],mElement[1])
+        console.log(mElement[0], mElement[1])
     }
 
     console.log('============================Map结束===================================');
     console.log('============================class开始===================================');
+
     //简单的class示例
-    class ShouJi{
+    class ShouJi {
         //构造方法, 名字不可修改
-        constructor(brand,price) {
+        constructor(brand, price) {
             this.brand = brand;
             this.price = price;
         }
+
         //方法必须使用该语法
-        call(){
+        call() {
             console.log("wei wei wei")
         }
     }
-    const shouJi = new ShouJi("1_",1999);
+
+    const shouJi = new ShouJi("1_", 1999);
     console.log(shouJi)
 
     //类继承
     class SmartShouJi extends ShouJi {
         static name = 'shouji';
+
         //静态方法 实例对象不能调用
-        static change(){
+        static change() {
             console.log("静态方法, 类名调用,")
         }
-        constructor(brand,price,color) {
-            super(brand,price);
+
+        constructor(brand, price, color) {
+            super(brand, price);
             this.color = color;
         }
-        phone(){
+
+        phone() {
             console.log("paiizhao")
         }
+
         //重写父类方法
         call() {
             // super.call();
             console.log("小米 wei wei wei")
         }
     }
-    const smartShouJi = new SmartShouJi('xiaomi',99,'hei');
+
+    const smartShouJi = new SmartShouJi('xiaomi', 99, 'hei');
     smartShouJi.call()
     SmartShouJi.change()
 
@@ -592,12 +618,13 @@
     console.log('============================数值_对象扩展开始===================================');
     //1. Number.EPSILON  表示最小精度
     console.log("1. Number.EPSILON  表示最小精度")
-    console.log("0.1+0.2 === 0.3: ",0.1+0.2 === 0.3)
+    console.log("0.1+0.2 === 0.3: ", 0.1 + 0.2 === 0.3)
 
     function equal(a, b) {
         return Math.abs(a - b) < Number.EPSILON;
     }
-    console.log("equal(0.1+0.2,0.3): ",equal(0.1+0.2,0.3))
+
+    console.log("equal(0.1+0.2,0.3): ", equal(0.1 + 0.2, 0.3))
 
     //2. 二进制八进制
     console.log('2. 二进制八进制')
@@ -610,7 +637,7 @@
     //3. 检测数值是否是有限数
     console.log('3. 检测数值是否是有限数')
     console.log(Number.isFinite(100))
-    console.log(Number.isFinite(100/0))
+    console.log(Number.isFinite(100 / 0))
     console.log(Number.isFinite(Infinity))
 
     //4. 检测数值是否为NaN
@@ -637,8 +664,8 @@
 
     //对象扩展
     console.log("1. Object.is 判断两个值是否相等")
-    console.log(Object.is(120,120))
-    console.log(Object.is(NaN,NaN))
+    console.log(Object.is(120, 120))
+    console.log(Object.is(NaN, NaN))
     console.log(NaN === NaN)
 
     console.log("2. Object.assign 对象合并, 相同的后面参数覆盖前面参数, 不同属性都保留")
@@ -652,20 +679,47 @@
         name: 'test',
         test: 'hhhhh'
     }
-    console.log(Object.assign(config1,config2))
+    console.log(Object.assign(config1, config2))
 
     console.log('3. Object.setPrototypeOf 设置原型对象 Object.getPrototypeOf')
     const schoolC = {
-        name:'sss'
+        name: 'sss'
     }
     const cities = {
-        xiaoqu:['bj','sh']
+        xiaoqu: ['bj', 'sh']
     }
     Object.setPrototypeOf(schoolC, cities);
-    console.log("修改了原型: ",Object.getPrototypeOf(schoolC), schoolC.__proto__)
+    console.log("修改了原型: ", Object.getPrototypeOf(schoolC), schoolC.__proto__)
     console.log(schoolC)
 
     console.log('============================数值_对象扩展结束===================================');
+    console.log('============================错误处理开始===================================');
+    /**
+     *   目标: 进一步理解JS中的错误(Error)和错误处理
+     *     mdn文档: https: //developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Error
+     *
+     *     1. 错误的类型
+     *         Error: 所有错误的父类型
+     *         ReferenceError: 引用的变量不存在
+     *         TypeError: 数据类型不正确的错误
+     *         RangeError: 数据值不在其所允许的范围内
+     *         SyntaxError: 语法错误
+     *     2. 错误处理
+     *         捕获错误: try ... catch
+     *         抛出错误: throw error
+     *     3. 错误对象
+     *         message属性: 错误相关信息
+     *         stack属性: 函数调用栈记录信息
+     */
+
+    try {
+        console.log(ddd)
+    } catch (e) {
+        console.log("错误值属性_message:", e.message)
+        console.log("错误值属性_stack:", e.stack)
+    }
+
+    console.log('============================错误处理结束===================================');
 
 
 </script>
