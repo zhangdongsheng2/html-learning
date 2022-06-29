@@ -7,7 +7,7 @@
 <body>
 <h1>ES6</h1>
 <ul>
-    <li>let_const_变量 --解构赋值,模板字符串,</li>
+    <li>let_const_变量</li>
     <li>对象简化</li>
     <li>箭头函数</li>
     <li>函数参数</li>
@@ -15,12 +15,10 @@
     <li>Symbol</li>
     <li>迭代器</li>
     <li>生成函数</li>
-    <li>Promise</li>
     <li>集合</li>
     <li>map</li>
     <li>class</li>
-    <li>数值扩展</li>
-    <li>模块化_babel_npm包引入</li>
+    <li>数值_对象扩展</li>
 
 </ul>
 </body>
@@ -126,10 +124,14 @@
 
     /**
      * 语法: () => 定义函数
-     * 1. this是静态的不可改变
+     * 1. this是静态的不可改变 (无法通过 apply call bind改变this)
      * 2. 不可作为构造函数
-     * 3. 不能使用 arguments 变量
+     * 3. 不能使用 arguments 变量, 可以用 rest参数代替(可变长度参数)
      * 4. 没有 arguments 变量
+     *
+     * 适用场景:
+     * 1. 适合与this无关的回调, 定时器, 数组的方法回调.
+     * 2. 不适合与this有关的回调, (对象方法, 原型方法, 事件回调, Vue生命周期method方法)
      *
      */
     function getName(){
@@ -147,10 +149,10 @@
     getName2()
 
     getName.call(schoolObj)
-    //this是静态的不可改变
+    //==this是静态的不可改变
     getName2.call(schoolObj)
 
-    //不可作为构造函数
+    //==不可作为构造函数
     let Person = (name,age) => {
         this.name = name;
         this.age = age
@@ -158,12 +160,12 @@
     // const p = new Person()
 
     Person = (name,age)=>{
-        //没有 arguments 变量
+        //==没有 arguments 变量
         // console.log(arguments)
     }
     Person("ad",21)
 
-    //箭头函数的简写
+    //==箭头函数的简写
     let addd = n => {
         return n*2
     }
@@ -174,12 +176,398 @@
     console.log(addN())
 
     //实践1
+    for (let i = 0; i < nodeListOf.length; i++) {
+        nodeListOf[i].onclick = function () {
+            setTimeout(()=>{
+                //这里的this 与外层 onclick的this相同
+                this.style.background = 'pink'
+            })
+        };
+    }
 
-    //实践2
+    //实践2: 获取偶数元素
+    const arr = [1,6,7,8,9,233,333]
+    const result = arr.filter(it => it %2 === 0);
+    console.log("偶数元素: ",result)
+
+    //不适合场景
+    console.log("不适合场景1: 对象方法")
+    const objJ = {
+        name:"dd",
+        getName: function () {
+            return this.name;
+        },
+        getName1: ()=>{
+            /*
+            1. 这里的this是外层花括号的this
+            2. 外层花括号是 objJ = { } 的this.
+            3. 而调用这个花括号的是window 所以 这里的this是window
+             */
+            return this.name;
+        }
+    }
+    console.log("对象方法_正常函数: ",objJ.getName())
+    //这里的this变成了window. 因为箭头函数的this是外层花括号的this = window
+    console.log("对象方法_箭头函数: ",objJ.getName1())
+
+    console.log("不适合场景2: 原型方法")
+    objJ.__proto__.getName2 = function () {
+        return this.name;
+    };
+    objJ.__proto__.getName3 = () => {
+        return this.name;
+    }
+    console.log("对象方法_正常函数: ",objJ.getName2())
+    //这里的this变成了window. 因为箭头函数的this是外层花括号的this = window
+    console.log("对象方法_箭头函数: ",objJ.getName3())
+
+    console.log("不适合场景3: 回调函数")
+    nodeListOf[0].addEventListener("click",()=>{
+        //这里的this也是window
+        console.log(this.name)
+    })
+
+    console.log("react可以Vue不行_React本质是一个class,Vue本质是一个对象: class可以")
+    class Man{
+        constructor(name) {
+            this.name = name;
+        }
+        getName = ()=>{
+            return this.name;
+        }
+    }
+
+    console.log("class可以用箭头函数: ",new Man("zhang").getName())
 
     console.log('============================箭头函数结束===================================');
+    console.log('============================函数参数开始===================================');
+    /**
+     * 1. 形参默认值,函数参数可以赋值初始值 (一般写法都靠后放)
+     * 2. rest参数,可变长参数
+     */
+    function cAdd(a, b, c = 10) {
+        return a+b+c;
+    }
+
+    console.log("参数默认值: ",cAdd(1,2))
+
+    console.log("与解构结合使用: ")
+    function cConnect({host = "127.0.0.1", username, password, port}) {
+        console.log(host,username,password,port)
+    }
+    cConnect({
+        host: "www.baidu.com",
+        username: "root",
+        password: "root",
+        port:3000
+    })
+
+    console.log("rest参数: 必须放参数最后")
+    function restFn(a, b, ...args) {
+        console.log(a,b,args)
+    }
+    restFn(1,2,3,4,5,5,7,8,9)
+
+    console.log('============================函数参数结束===================================');
+    console.log('============================扩展运算符开始===================================');
+    /**
+     * 语法: ...对象
+     */
+    const kuaizi = ["wangtaili","xiaoyang"]
+    const fenghuang = ["zengyi","linghua"]
+    console.log("数组合并: ...数组")
+    console.log([...kuaizi,...fenghuang])
+
+    console.log("数组克隆")
+    const jFenghuang = [...fenghuang]
+    console.log(jFenghuang)
+
+    console.log("伪数组转真数组")
+    const liArr = [...nodeListOf]
+    console.log(liArr)
+
+    console.log("对象拷贝")
+    const objC = {...objJ,name: "objC"}
+    console.log(objC)
+
+    console.log('============================扩展运算符结束===================================');
+    console.log('============================Symbol开始===================================');
+    /**
+     * Symbol:基本数据类型; 一种不可改变的唯一值
+     * 1.创建方式: Symbol():每次创建的都是唯一值  Symbol.for():参数一样就是一个值
+     * 2.不能与其他数据做运算
+     * 3.内置属性, 可以配合类,和对象使用,做一些设置
+     * 4.向对象中添加方法, 避免重复
+     */
+    console.log(Symbol() === Symbol())
+    console.log(Symbol('dd') === Symbol('dd'))
+    console.log(Symbol.for('dd') === Symbol.for('dd'))
+    //不能做运算
+    // console.log(Symbol('aa')+Symbol("aa"))
+    // console.log(Symbol('aa')+1)
+
+    console.log("内置属性")
+    class PersonSym{
+        static [Symbol.hasInstance](param) {
+            console.log(param,"检测类型了, instanceof 触发的函数")
+            return true;
+        }
+    }
+    let o = {}
+    console.log(o instanceof PersonSym)
+
+    let  arrSym = [1,2,3]
+    let arr2Sym = [4,5,6]
+    console.log("集合合并是, 不做拆分设置")
+    arr2Sym[Symbol.isConcatSpreadable] = false
+    console.log(arrSym.concat(arr2Sym))
+
+    console.log("对象中添加方法避免重复:")
+    let game={
+        name: "俄罗斯方块",
+        up: function () {
+            console.log("原始up")
+        }
+    }
+    //声明一个对象, 包含唯一值属性
+    let methods = {
+        up: Symbol(),
+        down: Symbol()
+    }
+    game[methods.up] = function () {
+        console.log("我是后来的up")
+    };
+    game[methods.down] = function () {
+        console.log("我是后来的down")
+    };
+    console.log(game)
+
+    const say = Symbol("say")
+    let youxi = {
+        name: "狼人杀",
+        [say]: function () {
+            console.log("我可以发言")
+            return say;
+        },
+        [Symbol("zibao")]: function () {
+            console.log("我可以自爆")
+        },
+    }
+    console.log(youxi[say]())
 
 
+    console.log('============================Symbol结束===================================');
+    console.log('============================迭代器开始===================================');
+    /**
+     * iterator: 遍历循环使用, 内部有个 next方法, 可以不断的寻找下一个元素
+     */
+    const xiyou = ["唐山",'孙悟空']
+    console.log("for..of循环使用了迭代器")
+    for (const string of xiyou) {
+    }
+    console.log("获取迭代器:")
+    let iterator = xiyou[Symbol.iterator]()
+    console.log(iterator.next())
+    console.log(iterator.next())
+    console.log(iterator.next())
+
+    console.log("自定义一个迭代器可以 for ... of的对象:")
+    const banji = {
+        name: "zhongji",
+        stus: ['fei', 'dao'],
+        [Symbol.iterator](){
+            let index = 0;
+            let _this = this;
+            return {
+                next: function () {
+                    if (index < _this.stus.length) {
+                        const result = {value:_this.stus[index],done: false};
+                        index++;
+                        return result;
+                    }else {
+                        return {value: undefined,done: true}
+                    }
+                },
+            }
+        }
+    }
+    for (const banjiElement of banji) {
+        console.log(banjiElement)
+    }
+
+    console.log('============================迭代器结束===================================');
+    console.log('============================生成器函数开始===================================');
+    /**
+     * 生成器函数: 是一个特殊的函数, 语法: function * xxx(){}
+     * 1. 异步编程使用, 纯回调函数
+     * 2. 关键字 yield 用来暂停和继续一个生成器函数的执行.
+     * 3. next 方法入参, 使用 yield 的返回值接收
+     * 4. 避免异步编程的回调地狱问题.
+     */
+
+    function * kk(arg){
+        console.log("每次都走: ",arg)
+        let one = yield 'yi';
+        console.log("one:",one)
+        let two = yield 'er';
+        console.log("two: ",two)
+        let three = yield 'three';
+        console.log("three: ",three)
+    }
+    let iteratorGen = kk('aaa');
+    console.log("开始迭代生成器函数: ")
+    console.log(iteratorGen.next('bbb'))
+    console.log(iteratorGen.next('ccc'))
+    console.log(iteratorGen.next('ddd'))
+    console.log(iteratorGen.next('eee'))
+
+    console.log("示例: 避免回调地狱")
+    function one() {
+        setTimeout(() => {
+            console.log("生成器函数:",111);
+            iteratorTime.next();
+        },1000)
+    }
+    function two() {
+        setTimeout(() => {
+            console.log("生成器函数:",222);
+            iteratorTime.next();
+        },2000)
+    }
+    function three() {
+        setTimeout(() => {
+            console.log("生成器函数:",333);
+            iteratorTime.next();
+        },3000)
+    }
+    function * genTime(){
+        yield one();
+        yield two();
+        yield three();
+    }
+    let iteratorTime = genTime();
+    iteratorTime.next();
+
+    console.log('============================生成器函数结束===================================');
+
+    console.log('============================Set集合开始===================================');
+    /**
+     * 集合:
+     * 1. 创建方式, new Set(); new Set(['大','小'])
+     * 2. 会自动去除重复数据.
+     */
+    let sSet = new Set();
+    let sSet2 = new Set(['da','xiao','hao','xiao']);
+    console.log("元素个数:",sSet2.size)
+    //添加元素
+    sSet2.add('xishi');
+    console.log(sSet2)
+    //删除元素
+    sSet2.delete('xishi')
+    console.log(sSet2)
+    //检测是否存在
+    console.log("检测是否存在: ",sSet2.has('zaoxin'))
+    //清空
+    sSet2.clear();
+    console.log(sSet2)
+
+    sSet2.add('xishi')
+    for (const string of sSet2) {
+        console.log(string)
+    }
+
+    console.log("实践1: 数据去重")
+    let arrQ = [1,2,3,4,5,6,7,2,1,3]
+    let resultQ = [...new Set(arrQ)]
+    console.log(resultQ)
+    console.log("实践2: 交集")
+    let arrQ2 = [4,5,6,4,5,7]
+    resultQ = [...new Set(arrQ)].filter(it => new Set(arrQ2).has(it))
+    console.log(resultQ)
+    console.log("实践3: 并集")
+    resultQ = [...new Set([...arrQ,...arrQ2])]
+    console.log(resultQ)
+    console.log("实践4: 差集")
+    resultQ = [...new Set(arrQ)].filter(it => !(new Set(arrQ2).has(it)));
+    console.log(resultQ)
+
+
+    console.log('============================Set集合结束===================================');
+    console.log('============================Map开始===================================');
+    /**
+     * map: K,V数据
+     */
+    let m = new Map();
+    //添加元素
+    m.set("name","zhang")
+    m.set("change", function () {
+        console.log("hhh")
+    });
+    let key = {
+        school: 'ATG'
+    }
+    m.set(key,['bj','sh','sz'])
+    console.log(m)
+    console.log("size: ",m.size)
+    console.log("删除:")
+    m.delete('change')
+
+    console.log("查询:",m.get("name"))
+    //清空
+    m.clear();
+
+    console.log("循环遍历")
+    //循环遍历1
+    for (let key1 of m.keys()) {
+        console.log(m.get(key1))
+    }
+    //循环遍历2
+    for (let mElement of m) {
+        console.log(mElement[0],mElement[1])
+    }
+
+    console.log('============================Map结束===================================');
+    console.log('============================class开始===================================');
+    //简单的class示例
+    class ShouJi{
+        //构造方法, 名字不可修改
+        constructor(brand,price) {
+            this.brand = brand;
+            this.price = price;
+        }
+        //方法必须使用该语法
+        call(){
+            console.log("wei wei wei")
+        }
+    }
+    const shouJi = new ShouJi("1_",1999);
+    console.log(shouJi)
+
+    //类继承
+    class SmartShouJi extends ShouJi {
+        static name = 'shouji';
+        //静态方法 实例对象不能调用
+        static change(){
+            console.log("静态方法, 类名调用,")
+        }
+        constructor(brand,price,color) {
+            super(brand,price);
+            this.color = color;
+        }
+        phone(){
+            console.log("paiizhao")
+        }
+        //重写父类方法
+        call() {
+            // super.call();
+            console.log("小米 wei wei wei")
+        }
+    }
+    const smartShouJi = new SmartShouJi('xiaomi',99,'hei');
+    smartShouJi.call()
+    SmartShouJi.change()
+
+    console.log('============================class结束===================================');
     console.log('============================class的set_get开始===================================');
 
     class Phone {
@@ -201,6 +589,83 @@
     console.log("查询价格:", phone.price);
     phone.price = 20
     console.log('============================class的set_get结束===================================');
+    console.log('============================数值_对象扩展开始===================================');
+    //1. Number.EPSILON  表示最小精度
+    console.log("1. Number.EPSILON  表示最小精度")
+    console.log("0.1+0.2 === 0.3: ",0.1+0.2 === 0.3)
+
+    function equal(a, b) {
+        return Math.abs(a - b) < Number.EPSILON;
+    }
+    console.log("equal(0.1+0.2,0.3): ",equal(0.1+0.2,0.3))
+
+    //2. 二进制八进制
+    console.log('2. 二进制八进制')
+    let b2 = 0b1010;
+    let o2 = 0o777;
+    let d2 = 100;
+    let x2 = 0xff;
+    console.log(x2)
+
+    //3. 检测数值是否是有限数
+    console.log('3. 检测数值是否是有限数')
+    console.log(Number.isFinite(100))
+    console.log(Number.isFinite(100/0))
+    console.log(Number.isFinite(Infinity))
+
+    //4. 检测数值是否为NaN
+    console.log('4. 检测数值是否为NaN')
+    console.log(Number.isNaN(123))
+
+    //5. 字符串转数字
+    console.log('5. 字符串转数字')
+    console.log(Number.parseInt('232323l'))
+    console.log(Number.parseFloat("3.5.5.5"))
+
+    //6. 判断数字是否为整数
+    console.log('6. 判断数字是否为整数')
+    console.log(Number.isInteger(5))
+    console.log(Number.isInteger(5.5))
+
+    console.log('7. 抹除小数')
+    console.log(Math.trunc(3.5))
+
+    console.log("8. 判断是否正数")
+    console.log(Math.sign(100))
+    console.log(Math.sign(0))
+    console.log(Math.sign(-20000))
+
+    //对象扩展
+    console.log("1. Object.is 判断两个值是否相等")
+    console.log(Object.is(120,120))
+    console.log(Object.is(NaN,NaN))
+    console.log(NaN === NaN)
+
+    console.log("2. Object.assign 对象合并, 相同的后面参数覆盖前面参数, 不同属性都保留")
+    const config1 = {
+        host: 'ssss',
+        name: 'dddd',
+        test1: 'test1'
+    }
+    const config2 = {
+        host: 'http',
+        name: 'test',
+        test: 'hhhhh'
+    }
+    console.log(Object.assign(config1,config2))
+
+    console.log('3. Object.setPrototypeOf 设置原型对象 Object.getPrototypeOf')
+    const schoolC = {
+        name:'sss'
+    }
+    const cities = {
+        xiaoqu:['bj','sh']
+    }
+    Object.setPrototypeOf(schoolC, cities);
+    console.log("修改了原型: ",Object.getPrototypeOf(schoolC), schoolC.__proto__)
+    console.log(schoolC)
+
+    console.log('============================数值_对象扩展结束===================================');
 
 
 </script>

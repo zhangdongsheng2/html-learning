@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise_Web</title>
+</head>
+<body>
+<h1>Promise_Web</h1>
+<ul>
+    <li>Promise基本语法</li>
+</ul>
+
+</body>
+<script>
+  /**
+   * Promise是什么?
+   *     1.抽象表达:
+   *         Promise是JS中进行异步编程的新的解决方案(旧解决方案是单纯使用回调函数, 有回调地狱的问题)
+   *     2.具体表达:
+   *         从语法上来说: Promise是一个构造函数
+   *         从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
+   *     3. promise的状态改变(只有2种, 只能改变一次)
+   *         pending变为resolved
+   *         pending变为rejected
+   *     4. promise的基本流程
+   */
+
+  const p = new Promise(function (resolve, reject) {
+      setTimeout(function () {
+          let data = '异步查到数据'
+          resolve(data)
+      },1000);
+  });
+  p.then(function (value) {
+      console.log(value);
+  }, function (reason) {
+      console.error(reason)
+  });
+
+
+</script>
+
+
+
+</html>
