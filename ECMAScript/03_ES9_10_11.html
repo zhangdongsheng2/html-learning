@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES9_10_11</title>
+</head>
+<body>
+<h1>ES9_10_11</h1>
+<ul>
+    <li>ES9_对象展开</li>
+    <li>ES9_正则命名分组</li>
+    <li>ES9_正则断言</li>
+    <li>ES9_正则dotAll模式</li>
+    <li>ES10_Object.fromEntries</li>
+    <li>ES10_trim</li>
+    <li>ES10_flat_flatMap</li>
+    <li>ES10_Symbol.prototype.description</li>
+    <li>ES11_私有属性</li>
+    <li>ES11_Promise.allSettled</li>
+    <li>ES11_可选链操作符?</li>
+    <li>ES11_BigInt</li>
+    <li>ES11_globalThis</li>
+</ul>
+</body>
+
+
+<script type="module">
+    console.log('============================ES9_对象展开开始===================================');
+    /**
+     * Rest 参数与 spread 扩展运算符在 ES6 中已经引入，不过 ES6 中只针对于数组，
+     * 在 ES9 中为对象提供了像数组一样的 rest 参数和扩展运算符
+     */
+    console.log("1. rest对象参数")
+
+    function connect({host, port, ...user}) {
+        console.log(host, port, user)
+    }
+
+    connect({
+        host: '127.0.0.1',
+        port: 22,
+        username: 'root',
+        password: 'root',
+        type: 'master'
+    })
+
+    const skillOne = {q: '天音波'}
+    const skillTwo = {w: '金钟罩'}
+    const skillThree = {e: '天雷破'}
+    const skillFour = {r: '猛龙摆尾'}
+    const manseng = {...skillOne, ...skillTwo, ...skillThree, ...skillFour}
+    console.log(manseng)
+
+    console.log('============================ES9_对象展开结束===================================');
+    console.log('============================ES9_正则命名分组开始===================================');
+    let str = '<a href="http://www.atguigu.com">尚硅谷</a>'
+    //提取url与标签
+    let reg = /<a href="(.*)">(.*)<\/a>/
+    console.log(reg.exec(str))
+
+    reg = /<a href="(?<url>.*)">(?<text>.*)<\/a>/
+    console.log(reg.exec(str).groups)
+
+    console.log('============================ES9_正则命名分组结束===================================');
+    console.log('============================ES9_正则断言开始===================================');
+    str = 'JS5211314你知道么555龙拦路'
+    //正向断言,  多个连续数字, 结尾跟个龙字
+    reg = /\d+(?=龙)/
+    console.log(reg.exec(str))
+
+    //反向断言    多个连续数字, 前面跟个么字
+    reg = /(?<=么)\d+/
+    console.log(reg.exec(str))
+
+    console.log('============================ES9_正则断言结束===================================');
+    console.log('============================ES9_正则dotAll模式开始===================================');
+    str = `
+        <ul>
+            <li>
+                <a>肖生克的救赎</a>
+                <p>上映日期: 1994-09-10</p>
+            </li>
+            <li>
+                <a>阿甘正传</a>
+                <p>上映日期: 1994-07-06</p>
+            </li>
+        </ul>`;
+
+    reg = /<li>.*?<a>(.*?)<\/a>.*?<p>(.*?)<\/p>/gs
+    // console.log(reg.exec(str))
+    let result;
+    let data = []
+    while (result = reg.exec(str)) {
+        data.push({title: result[1], time: result[2]})
+    }
+    console.log(data)
+
+    console.log('============================ES9_正则dotAll模式结束===================================');
+    console.log('============================ES10_Object.fromEntries开始===================================');
+    console.log('Map转对象')
+    const m = new Map()
+    m.set('name', "hhh")
+    console.log(Object.fromEntries(m));
+
+    console.log("二维数组转对象")
+    const arr2 = Object.fromEntries([
+        ['name', 'guigu'],
+        ['xueke', 'dd,de,da']
+    ])
+    console.log(arr2)
+
+
+    console.log('============================ES10_Object.fromEntries结束===================================');
+    console.log('============================ES10_trim开始===================================');
+    str = '    dda    '
+    console.log(str)
+    console.log(str.trim())
+    console.log(str.trimEnd())
+    console.log(str.trimStart())
+    console.log('============================ES10_trim结束===================================');
+    console.log('============================ES10_flat_flatMap开始===================================');
+    console.log("多维数组拉平")
+    let arr = [1, 2, 3, 4, [5, 6]]
+    console.log(arr.flat(2))
+    arr = [1, 2, 3, [5, 6, [7, 8, [9, 10]]]]
+    //参数代表递归深度
+    console.log(arr.flat(2))
+
+    arr = [1, 2, 3, 4]
+    result = arr.flatMap(item => [item * 10 + '', '2'])
+    console.log(result)
+
+
+    console.log('============================ES10_flat_flatMap结束===================================');
+    console.log('============================ES10_Symbol.prototype.description开始===================================');
+    let s = Symbol("aaa")
+    //获取Symbol的字符串
+    console.log(s.description)
+
+    console.log('============================ES10_Symbol.prototype.description结束===================================');
+    console.log('============================ES11_私有属性开始===================================');
+
+    class Person {
+        name;
+        //私有属性
+        #age;
+        #weight;
+
+        constructor(name, age, weight) {
+            this.name = name
+            this.#age = age
+            this.#weight = weight
+        }
+
+        intro() {
+            console.log(this.name, this.#age, this.#weight)
+        }
+    }
+
+    const girl = new Person('xiao', 11, '66kg')
+    console.log(girl.name)
+    //不可读取私有属性
+    // console.log(girl.#age)
+    girl.intro()//只能内部方法访问
+
+    console.log('============================ES11_私有属性结束===================================');
+    console.log('============================ES11_Promise.allSettled开始===================================');
+    const p1 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('商品 -1')
+        }, 1000)
+    })
+    const p2 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // resolve('商品 -2')
+            reject('出错了')
+        }, 1000)
+    })
+
+    console.log("有一个成功就是成功")
+    const resultP12 = Promise.allSettled([p1, p2]);
+    resultP12.then(value => {
+        console.log('allSettled ok')
+    }, reason => {
+        console.log('allSettled fial')
+    })
+    console.log(resultP12)
+
+    console.log('有一个不成功就是不成功')
+    const resultP12A = Promise.all([p1, p2])
+    console.log(resultP12A)
+    resultP12A.then(value => {
+        console.log('all ok')
+    }, reason => {
+        console.log('all fial')
+    })
+
+    console.log('============================ES11_Promise.allSettled结束===================================');
+    console.log('============================ES11_可选链操作符?开始===================================');
+
+    function main(config) {
+        const dbHost = config?.db?.host;
+        console.log(dbHost)
+
+        //TypeError: Cannot read properties of undefined
+        // console.log(config.db2.host); 不加问好报错
+        console.log(config.db2?.host);
+    }
+
+    main({
+        db: {
+            host: '192.198',
+            username: 'root'
+        },
+        cache: {
+            host: '192.99',
+            username: 'admin'
+        }
+    })
+    console.log('============================ES11_可选链操作符?结束===================================');
+    console.log('============================动态import开始===================================');
+    document.querySelector('ul').onclick = function () {
+        import('./hello.js').then(module => {
+            module.hello();
+        })
+    };
+
+    console.log('============================动态import结束===================================');
+    console.log('============================ES11_BigInt开始===================================');
+    console.log(9223372036854775807)
+    console.log(9223372036854775807 + 2)
+
+
+    console.log(BigInt(9223372036854775808) - BigInt(8))
+    console.log(BigInt(9223372036854775807) + BigInt(2))
+
+
+    console.log('============================ES11_BigInt结束===================================');
+    console.log('============================ES11_globalThis开始===================================');
+    console.log(globalThis)
+
+    let obj = {
+        ff: function ff() {
+            console.log(globalThis)
+        }
+    }
+    obj.ff();
+
+
+    console.log('============================ES11_globalThis结束===================================');
+
+
+</script>
+
+
+</html>
