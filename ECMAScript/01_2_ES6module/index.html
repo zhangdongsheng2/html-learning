@@ -27,12 +27,14 @@
 
     console.log("===================解构赋值导入方式=======================")
     import {school,teach} from "./js/m1.js"
+    import {DATA_ARR} from "./js/m1.js"
     import {school as schoolM2,findJob} from "./js/m2.js"
     import {default as m3j} from "./js/m3.js"
 
     console.log(school)
     console.log(schoolM2)
     console.log(m3j.school)
+    console.log(DATA_ARR)
     console.log("===================简便形式_默认暴露=======================")
     import m3s from './js/m3.js'
     console.log(m3s.school)
