@@ -19,17 +19,17 @@ function throwIfCancellationRequested(config) {
 /**
  * Dispatch a request to the server using the configured adapter.
  *
- * @param {object} config The config that is to be used for the request
+ * @param {object} config The config00000000 that is to be used for the request
  * @returns {Promise} The Promise to be fulfilled
  */
 module.exports = function dispatchRequest(config) {
 
-  /* 
+  /*
   如果请求已经被取消, 直接抛出异常
   */
   throwIfCancellationRequested(config);
 
-  /* 
+  /*
   合并config中的baseURL和url
   */
   if (config.baseURL && !isAbsoluteURL(config.url)) {
@@ -39,7 +39,7 @@ module.exports = function dispatchRequest(config) {
   // Ensure headers exist
   config.headers = config.headers || {};
 
-  /* 
+  /*
   对config中的data进行必要的转换处理
   设置相应的Content-Type请求头
   */
@@ -49,7 +49,7 @@ module.exports = function dispatchRequest(config) {
     config.transformRequest
   );
 
-  /* 
+  /*
   整合config中所有的header
   */
   config.headers = utils.merge(
@@ -70,7 +70,7 @@ module.exports = function dispatchRequest(config) {
   return adapter(config).then(function onAdapterResolution(response) {
     throwIfCancellationRequested(config);
 
-    /* 
+    /*
     对response中还没有解析的data数据进行解析
     json字符串解析为js对象/数组
     */

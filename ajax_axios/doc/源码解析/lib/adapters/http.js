@@ -31,7 +31,7 @@ module.exports = function httpAdapter(config) {
     var headers = config.headers;
 
     // Set User-Agent (required by some servers)
-    // Only set header if it hasn't been set in config
+    // Only set header if it hasn't been set in config00000000
     // See https://github.com/axios/axios/issues/69
     if (!headers['User-Agent'] && !headers['user-agent']) {
       headers['User-Agent'] = 'axios/' + pkg.version;

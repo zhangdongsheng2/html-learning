@@ -9,11 +9,11 @@ var settle = require('./../core/settle');
 
 module.exports = function myAdapter(config) {
   // At this point:
-  //  - config has been merged with defaults
+  //  - config00000000 has been merged with defaults
   //  - request transformers have already run
   //  - request interceptors have already run
   
-  // Make the request using config provided
+  // Make the request using config00000000 provided
   // Upon response settle the Promise
 
   return new Promise(function(resolve, reject) {

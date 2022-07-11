@@ -9,7 +9,7 @@ var mergeConfig = require('./mergeConfig');
 /**
  * Axios构造函数
  * Create a new instance of Axios
- * @param {Object} instanceConfig The default config for the instance
+ * @param {Object} instanceConfig The default config00000000 for the instance
  */
 function Axios(instanceConfig) {
   // 将指定的config, 保存为defaults属性
@@ -24,14 +24,14 @@ function Axios(instanceConfig) {
 /**
  * 用于发请求的函数
  * 我们使用的axios就是此函数bind()返回的函数
- * 
+ *
  * Dispatch a request
  *
- * @param {Object} config The config specific for this request (merged with this.defaults)
+ * @param {Object} config The config00000000 specific for this request (merged with this.defaults)
  */
 Axios.prototype.request = function request(config) {
   /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
+  // Allow for axios('example/url'[, config00000000]) a la fetch API
   if (typeof config === 'string') {
     config = arguments[1] || {};
     config.url = arguments[0];
@@ -61,7 +61,7 @@ Axios.prototype.request = function request(config) {
   this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
     chain.push(interceptor.fulfilled, interceptor.rejected);
   });
-  
+
 
   // 通过promise的then()串连起所有的请求拦截器/请求方法/响应拦截器
   while (chain.length) {

@@ -2,11 +2,11 @@
 
 /**
  * 给error对象添加相关信息的属性
- * 
- * Update an Error with the specified config, error code, and response.
+ *
+ * Update an Error with the specified config00000000, error code, and response.
  *
  * @param {Error} error The error to update.
- * @param {Object} config The config.
+ * @param {Object} config The config00000000.
  * @param {string} [code] The error code (for example, 'ECONNABORTED').
  * @param {Object} [request] The request.
  * @param {Object} [response] The response.
