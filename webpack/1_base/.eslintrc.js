@@ -9,7 +9,6 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 6, //es6 ES语法版本
         sourceType: "module", //es module 模块化
-
     },
     // 具体检查规则
     rules: {
@@ -25,7 +24,7 @@ module.exports = {
             'smart' // https://eslint.bootcss.com/docs/rules/eqeqeq#smart 除了少数情况下不会有警告
         ],
     },
-
+    plugins: ["import"], // 解决动态导入import语法报错问题 --> 实际使用eslint-plugin-import的规则解决的
     // ...
     // 其他规则详见：https://eslint.bootcss.com/docs/user-guide/configuring
 };

@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "author": {
+      "type": "string"
+    },
+    "presets": {
+      "type": "array"
+    }
+  },
+  "additionalProperties": false
+}

@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 // const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 // nodejs核心模块，直接使用
 const os = require("os");
@@ -46,8 +46,12 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"),
         // filename: 输出文件名
         // filename: "main.js",
-        filename: "static/js/main.js",
+        // filename: "static/js/main.js",
         clean: true, // 自动将上次打包目录资源清空
+
+        filename: "static/js/[name].js", // 入口文件打包输出资源命名方式
+        chunkFilename: "static/js/[name].chunk.js", // 动态导入输出资源命名方式
+        assetModuleFilename: "static/media/[name].[hash][ext]", // 图片、字体等资源命名方式（注意用hash）
     },
     // 加载器
     module: {
@@ -75,23 +79,23 @@ module.exports = {
                                 maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
                             }
                         },
-                        generator: {
-                            // 将图片文件输出到 static/imgs 目录中
-                            // 将图片文件命名 [hash:8][ext][query]
-                            // [hash:8]: hash值取8位
-                            // [ext]: 使用之前的文件扩展名
-                            // [query]: 添加之前的query参数
-                            filename: "static/imgs/[hash:8][ext][query]",
-                        },
+                        // generator: {
+                        //     // 将图片文件输出到 static/imgs 目录中
+                        //     // 将图片文件命名 [hash:8][ext][query]
+                        //     // [hash:8]: hash值取8位
+                        //     // [ext]: 使用之前的文件扩展名
+                        //     // [query]: 添加之前的query参数
+                        //     filename: "static/imgs/[hash:8][ext][query]",
+                        // },
                     },
                     {
                         test: /\.(ttf|woff2?|map4|map3|avi)$/,
                         //type: "asset/resource" 相当于file-loader, 将文件转化成 Webpack 能识别的资源，其他不做处理
                         //type: "asset" 相当于url-loader, 将文件转化成 Webpack 能识别的资源，同时小于某个大小的资源会处理成 data URI 形式
                         type: "asset/resource",
-                        generator: {
-                            filename: "static/media/[hash:8][ext][query]",
-                        },
+                        // generator: {
+                        //     filename: "static/media/[hash:8][ext][query]",
+                        // },
                     },
                     {
                         test: /\.js$/,
@@ -149,39 +153,23 @@ module.exports = {
         // 提取css成单独文件
         new MiniCssExtractPlugin({
             // 定义输出文件名和目录
-            filename: "static/css/main.css",
+            // filename: "static/css/main.css",
+
+            // 定义输出文件名和目录
+            filename: "static/css/[name].css",
+            chunkFilename: "static/css/[name].chunk.css",
         }),
         // css压缩
         // new CssMinimizerPlugin(),
 
-        // 压缩图片
-        // new ImageMinimizerPlugin({
-        //     minimizer: {
-        //         implementation: ImageMinimizerPlugin.imageminGenerate,
-        //         options: {
-        //             plugins: [
-        //                 ["jpegtran", { progressive: true }],
-        //                 ["optipng", { optimizationLevel: 50 }],
-        //                 [
-        //                     "svgo",
-        //                     {
-        //                         plugins: [
-        //                             "preset-default",
-        //                             "prefixIds",
-        //                             {
-        //                                 name: "sortAttrs",
-        //                                 params: {
-        //                                     xmlnsOrder: "alphabetical",
-        //                                 },
-        //                             },
-        //                         ],
-        //                     },
-        //                 ],
-        //             ],
-        //         },
-        //     },
-        // }),
+        new PreloadWebpackPlugin({
+            rel: "preload", // preload兼容性更好
+            as: "script",
+            // rel: 'prefetch' // prefetch兼容性更差
+        }),
+
     ],
+
 
     //开启多线程压缩
     optimization: {
@@ -194,6 +182,12 @@ module.exports = {
                 parallel: threads // 开启多进程
             })
         ],
+
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all",
+            // 其他都用默认值
+        },
     },
 
     // 开发服务器
