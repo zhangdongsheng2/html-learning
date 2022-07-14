@@ -19,7 +19,7 @@
 │ └── utils.js                 # 公用工具
 ├── package.json               # 项目信息
 ├── index.d.ts                 # 配置TypeScript的声明文件
-└── index.js                   # 入口文件
+└── file-loader.js                   # 入口文件
 
 ## 2. 源码分析
 ### 1). axios与Axios的关系
