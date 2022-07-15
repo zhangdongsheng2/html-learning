@@ -85,33 +85,42 @@ module.exports = {
                         test: /\.s[ac]ss$/,
                         use: getStyleLoaders("sass-loader"),
                     },
+                    // {
+                    //     test: /\.(png|jpe?g|gif|webp)$/,
+                    //     type: "asset",
+                    //     parser: {
+                    //         dataUrlCondition: {
+                    //             maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
+                    //         }
+                    //     },
+                    //     generator: {
+                    //         // 将图片文件输出到 static/imgs 目录中
+                    //         // 将图片文件命名 [hash:8][ext][query]
+                    //         // [hash:8]: hash值取8位
+                    //         // [ext]: 使用之前的文件扩展名
+                    //         // [query]: 添加之前的query参数
+                    //         filename: "static/imgs/[hash:8][ext][query]",
+                    //     },
+                    // },
                     {
-                        test: /\.(png|jpe?g|gif|webp)$/,
-                        type: "asset",
+                        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                        type: 'asset', // asset 资源类型可以根据指定的图片大小来判断是否需要将图片转化为 base64
+                        generator: {
+                            filename: 'static/imgs/[hash:8][ext][query]' // 局部指定输出位置
+                        },
                         parser: {
                             dataUrlCondition: {
-                                maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
+                                maxSize: 8 * 1024 // 限制于 8kb
                             }
                         },
-                        generator: {
-                            // 将图片文件输出到 static/imgs 目录中
-                            // 将图片文件命名 [hash:8][ext][query]
-                            // [hash:8]: hash值取8位
-                            // [ext]: 使用之前的文件扩展名
-                            // [query]: 添加之前的query参数
-                            filename: "static/imgs/[hash:8][ext][query]",
-                        },
-                    },
-                    {
-                        test: /\.(gif|png|jpe?g|svg)$/i,
                         use: [
-                            {
-                                loader: 'file-loader',
-                                options: {
-                                    esModule: false,
-                                    name: 'static/imgs/[hash:8].[ext][query]',
-                                },
-                            },
+                            // {
+                            //     loader: 'file-loader',
+                            //     options: {
+                            //         esModule: false,
+                            //         name: 'static/imgs/[hash:8].[ext][query]',
+                            //     },
+                            // },
                             {
                                 loader: 'image-webpack-loader', //图片压缩模块, 需要用cnpm安装才行.
                                 options: {

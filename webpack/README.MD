@@ -23,7 +23,7 @@
   * pwa : 离线访问
   * image-webpack-loader: 图片压缩模块.
     * 注意: 需要用cnpm安装才行,执行后必须执行file-load.
-    * 注意: 转base64不能放这里面, 需要放在这个loader的下一步执行.
+    * 注意: 转base64不能放这里面, 需要放在这个loader的下一步执行, 或者不用file-load直接使用 type: 'asset'
 
 # 配置详解
 ## entry: 入口起点
