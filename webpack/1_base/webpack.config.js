@@ -89,4 +89,9 @@ module.exports = {
 
     // 模式
     mode: "development", // 开发模式
+
+    externals: {
+        // 拒绝jQuery被打包进来
+        jquery: 'jQuery'
+    }
 };
