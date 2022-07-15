@@ -1,5 +1,5 @@
 export const siteData = {
-  "base": "/webpack/webpack_docs/pages/",
+  "base": "/html-learning/webpack/webpack_docs/pages/",
   "lang": "zh-CN",
   "title": "Web 前端之 Webpack5 教程",
   "description": "Webpack5从小白到大神",

@@ -33,7 +33,13 @@ export const data = {
     }
   ],
   "git": {
-    "contributors": []
+    "contributors": [
+      {
+        "name": "LAPTOP-P90NJHDM\\zhangdongsheng",
+        "email": "zhangdongsheng2@sina.com",
+        "commits": 1
+      }
+    ]
   },
   "filePathRelative": "senior/enhanceExperience.md"
 }
