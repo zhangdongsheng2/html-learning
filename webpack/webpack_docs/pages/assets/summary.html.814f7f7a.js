@@ -1,0 +1,1 @@
+const t={key:"v-860cdcba",path:"/origin/summary.html",title:"\u603B\u7ED3",lang:"zh-CN",frontmatter:{},excerpt:"",headers:[],git:{contributors:[{name:"LAPTOP-P90NJHDM\\zhangdongsheng",email:"zhangdongsheng2@sina.com",commits:1}]},filePathRelative:"origin/summary.md"};export{t as data};
