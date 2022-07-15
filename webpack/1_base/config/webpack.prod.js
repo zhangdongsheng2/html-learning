@@ -13,6 +13,19 @@ const os = require("os");
 // cpu核数
 const threads = os.cpus().length;
 
+/*
+  tree shaking：去除无用代码
+    前提：1. 必须使用ES6模块化  2. 开启production环境
+    作用: 减少代码体积
+    在package.json中配置
+      "sideEffects": false 所有代码都没有副作用（都可以进行tree shaking）
+        问题：可能会把css / @babel/polyfill （副作用）文件干掉
+      "sideEffects": ["*.css", "*.less"]
+*/
+// 定义nodejs环境变量：决定使用browserslist的哪个环境
+process.env.NODE_ENV = 'production';
+
+
 
 // 获取处理样式的Loaders
 const getStyleLoaders = (preProcessor) => {
@@ -105,7 +118,7 @@ module.exports = {
 
                         // loader: "babel-loader",
                         // options: {
-                        //     cacheDirectory: true, // 开启babel编译缓存
+                        //     cacheDirectory: true, // 开启babel编译缓存 第二次构建时，会读取之前的缓存
                         //     cacheCompression: false, // 缓存文件不要压缩
                         // },
 

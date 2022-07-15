@@ -30,6 +30,7 @@ document.getElementById("btn").onclick = function () {
 
 // 判断是否支持HMR功能;   这样写会很麻烦，所以实际开发我们会使用其他 loader 来解决。
 if (module.hot) {
+    //这里注册的回调函数, 会在由webpack调用, 重新打包文件有改变时
     module.hot.accept("./js/count.js", function (count) {
         const result1 = count(2, 1);
         console.log(result1);

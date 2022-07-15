@@ -39,9 +39,25 @@
     "postcss-preset-env": "^7.7.2",
     "thread-loader": "^3.0.4"
   },
-  "browserslist": [
-    "last 2 version",
-    "> 1%",
-    "not dead"
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "browser": true
+    }
+  },
+  "sideEffects": [
+    "*.css"
   ]
 }
