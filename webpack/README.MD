@@ -1,3 +1,30 @@
+# webpack性能优化
+* 开发环境性能优化
+* 生产环境性能优化
+
+## 开发环境性能优化
+* 优化打包构建速度
+  * HMR
+* 优化代码调试
+  * source-map
+
+## 生产环境性能优化
+* 优化打包构建速度
+  * oneOf : 只匹配一个规则
+  * babel缓存
+  * 多进程打包
+  * externals : 不打包的排除
+  * dll : 单独构建的,独立出来
+* 优化代码运行的性能
+  * 缓存(hash-chunkhash-contenthash)
+  * tree shaking : 默认认为所有代码都有副作用,不会忽略到某个模块, 需要package.json中加入sideEffects,指定哪些有副作用.
+  * code split : 代码分割
+  * 懒加载/预加载 : 代码中用到了在进行加载.
+  * pwa : 离线访问
+  * image-webpack-loader: 图片压缩模块.
+    * 注意: 需要用cnpm安装才行,执行后必须执行file-load.
+    * 注意: 转base64不能放这里面, 需要放在这个loader的下一步执行.
+
 # 配置详解
 ## entry: 入口起点
 ```text
@@ -175,36 +202,6 @@
     ]
   }
 ```
-
-
-
-
-
-
-# webpack性能优化
-* 开发环境性能优化
-* 生产环境性能优化
-
-## 开发环境性能优化
-* 优化打包构建速度
-  * HMR
-* 优化代码调试
-  * source-map
-
-## 生产环境性能优化
-* 优化打包构建速度
-  * oneOf : 只匹配一个规则
-  * babel缓存
-  * 多进程打包
-  * externals : 不打包的排除
-  * dll : 单独构建的,独立出来
-* 优化代码运行的性能
-  * 缓存(hash-chunkhash-contenthash)
-  * tree shaking
-  * code split : 代码分割
-  * 懒加载/预加载
-  * pwa : 离线访问
-
 
 
 

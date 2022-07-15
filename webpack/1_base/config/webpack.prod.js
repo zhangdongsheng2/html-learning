@@ -74,15 +74,16 @@ module.exports = {
                 oneOf: [
                     {
                         test: /\.css$/,
-                        use: ["style-loader","css-loader"],
+                        use: getStyleLoaders(),
+                        // use: ["style-loader","css-loader"],
                     },
                     {
                         test: /\.less$/,
-                        use: ["style-loader", "css-loader", "less-loader"],
+                        use: getStyleLoaders("less-loader"),
                     },
                     {
                         test: /\.s[ac]ss$/,
-                        use: ["style-loader", "css-loader", "sass-loader"],
+                        use: getStyleLoaders("sass-loader"),
                     },
                     {
                         test: /\.(png|jpe?g|gif|webp)$/,
@@ -92,15 +93,51 @@ module.exports = {
                                 maxSize: 10 * 1024 // 小于10kb的图片会被base64处理
                             }
                         },
-                        // generator: {
-                        //     // 将图片文件输出到 static/imgs 目录中
-                        //     // 将图片文件命名 [hash:8][ext][query]
-                        //     // [hash:8]: hash值取8位
-                        //     // [ext]: 使用之前的文件扩展名
-                        //     // [query]: 添加之前的query参数
-                        //     filename: "static/imgs/[hash:8][ext][query]",
-                        // },
+                        generator: {
+                            // 将图片文件输出到 static/imgs 目录中
+                            // 将图片文件命名 [hash:8][ext][query]
+                            // [hash:8]: hash值取8位
+                            // [ext]: 使用之前的文件扩展名
+                            // [query]: 添加之前的query参数
+                            filename: "static/imgs/[hash:8][ext][query]",
+                        },
                     },
+                    {
+                        test: /\.(gif|png|jpe?g|svg)$/i,
+                        use: [
+                            {
+                                loader: 'file-loader',
+                                options: {
+                                    esModule: false,
+                                    name: 'static/imgs/[hash:8].[ext][query]',
+                                },
+                            },
+                            {
+                                loader: 'image-webpack-loader', //图片压缩模块, 需要用cnpm安装才行.
+                                options: {
+                                    mozjpeg: {
+                                        progressive: true,
+                                    },
+                                    // optipng.enabled: false will disable optipng
+                                    optipng: {
+                                        enabled: false,
+                                    },
+                                    pngquant: {
+                                        quality: [0.65, 0.90],
+                                        speed: 4
+                                    },
+                                    gifsicle: {
+                                        interlaced: false,
+                                    },
+                                    // the webp option will enable WEBP
+                                    webp: {
+                                        quality: 75
+                                    }
+                                }
+                            },
+                        ],
+                    },
+
                     {
                         test: /\.(ttf|woff2?|map4|map3|avi)$/,
                         //type: "asset/resource" 相当于file-loader, 将文件转化成 Webpack 能识别的资源，其他不做处理
@@ -173,7 +210,7 @@ module.exports = {
             chunkFilename: "static/css/[name].chunk.css",
         }),
         // css压缩
-        // new CssMinimizerPlugin(),
+        new CssMinimizerPlugin(),
 
         new PreloadWebpackPlugin({
             rel: "preload", // preload兼容性更好
@@ -185,23 +222,23 @@ module.exports = {
 
 
     //开启多线程压缩
-    optimization: {
-        minimize: true,
-        minimizer: [
-            // css压缩也可以写到optimization.minimizer里面，效果一样的
-            new CssMinimizerPlugin(),
-            // 当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
-            new TerserPlugin({
-                parallel: threads // 开启多进程
-            })
-        ],
-
-        // 代码分割配置
-        splitChunks: {
-            chunks: "all",
-            // 其他都用默认值
-        },
-    },
+    // optimization: {
+    //     minimize: true,
+    //     minimizer: [
+    //         // css压缩也可以写到optimization.minimizer里面，效果一样的
+    //         new CssMinimizerPlugin(),
+    //         // 当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
+    //         new TerserPlugin({
+    //             parallel: threads // 开启多进程
+    //         })
+    //     ],
+    //
+    //     // 代码分割配置
+    //     splitChunks: {
+    //         chunks: "all",
+    //         // 其他都用默认值
+    //     },
+    // },
 
     // 开发服务器
     // devServer: {
@@ -210,9 +247,15 @@ module.exports = {
     //     open: true, // 是否自动打开浏览器
     // },
 
-    // 模式
+    // tree shaking 的触发前提是：
+    // 生产环境：mode = 'production'
+    // EsModules: import/export
+    // 默认地将所有代码视为有副作用。但这意味着 Webpack 的默认行为实际上是不进行 tree-shaking。
+    // 所以需要在项目的 package.json中加入sideEffects, 指定哪些有副作用的不压缩
     mode: "production", // 生产模式
-
+    optimization: {
+        usedExports: true,
+    },
 
     /*
   source-map: 一种 提供源代码到构建后代码映射 技术 （如果构建后代码出错了，通过映射可以追踪源代码错误）
