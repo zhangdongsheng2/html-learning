@@ -297,6 +297,13 @@
 
     console.log("对象拷贝")
     const objC = {...objJ, name: "objC"}
+    //Object.asign实现对象拷贝
+    let obj1 = { a: 0 , b: { c: 0}};
+    //把 obj1 拷贝出一个新对象 obj2
+    let obj2 = Object.assign({}, obj1);
+    //利用JSON深度拷贝对象, 而不是引用地址值
+    let obj3 = JSON.parse(JSON.stringify(obj1));
+
     console.log(objC)
 
     console.log('============================扩展运算符结束===================================');
