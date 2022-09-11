@@ -615,7 +615,16 @@
         aa() {
             console.log("aa")
         }
+
     }
+    const lll = {
+        list: {
+            get: function (){
+                return 'ddd'
+            }
+        }
+    }
+    console.log(lll.list,'对象属性的get方法重写')
 
     const phone = new Phone();
     phone.aa()
