@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>导航条</title>
 		<style type="text/css">
-			
+
 			/*
 			 * 清除默认样式
 			 */
@@ -12,7 +12,7 @@
 				margin:0;
 				padding:0;
 			}
-			
+
 			/*
 			 * 设置ul
 			 */
@@ -31,7 +31,7 @@
 				/*解决高度塌陷*/
 				overflow: hidden;
 			}
-			
+
 			/**
 			 * 设置li
 			 */
@@ -40,7 +40,7 @@
 				float: left;
 				width: 12.5%;
 			}
-			
+
 			.nav a{
 				/*将a转换为块元素*/
 				display: block;
@@ -57,19 +57,19 @@
 				/*设置加粗*/
 				font-weight: bold;
 			}
-			
+
 			/*
 			 * 设置a的鼠标移入的效果
 			 */
 			.nav a:hover{
 				background-color: #c00;
 			}
-			
-			
+
+
 		</style>
 	</head>
 	<body>
-		
+
 		<!-- 创建导航条的结构 -->
 		<ul class="nav">
 			<li><a href="#">首页</a></li>
@@ -81,6 +81,13 @@
 			<li><a href="#">联系</a></li>
 			<li><a href="#">关于</a></li>
 		</ul>
-		
+
 	</body>
+<script>
+	console.log(window.self===window.top,'------------------------')
+	if(window.self!==window.top){
+		console.log(self,'------------------------')
+		console.log("aaaaaaaaaaaaaaaaaaaa");
+	}
+</script>
 </html>
