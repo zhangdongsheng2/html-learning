@@ -85,6 +85,12 @@ class BaseTypes {
         let k :object
         k = {}
         k = function (){}
+        k = {
+            name:'222'
+        }
+        //这里不可以像js那样随便获取属性
+        // console.log(k.name)
+        console.log(k)
 
         // {}语法用来指定对象可以包含的属性
         // 属性名后加 ? 表示属性是可选的
