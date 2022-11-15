@@ -10,7 +10,7 @@
 7. ajax_axios: 网络请求
 8. webpack: 打包构建的框架学习, 基础和高级使用, 以及自定义loader和plugins 
    * [笔记文档](https://zhangdongsheng2.github.io/html-learning/webpack/webpack_docs/pages)
-
+9. type_script: TS基础练习
 
 
 # 工具示例
