@@ -7,6 +7,12 @@ import {MyClass as MyClassT, fn3, fn2, fn} from './06_泛型';
 
 
 function testClazz() {
+    /*
+    概念:
+        封装:数据或函数等集合在一个单元中（类）。被封装的对象通常被称为抽象数据类型。可以把属性或者方法隐藏不对外界公开.
+        继承:主要实现重用代码，节省开发时间
+        多态:父类型的引用指向了子类型的对象,不同类型的对象针对相同的方法,产生了不同的行为
+     */
     console.log("----类的简介")
     const per = new Person();
     console.log('name=',per.name)
