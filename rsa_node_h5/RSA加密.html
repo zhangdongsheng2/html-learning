@@ -64,5 +64,19 @@
 		div.innerHTML = "字符串: PERSONAGE  <===>  Url编码+base64+RSA公钥加密: " + RSAEntry(encryption("PERSONAGE"))
 		document.body.appendChild(div)
 
+
+		function getEncryptedStr(encrytStr = '', publicKey) {
+			if (!publicKey || !encrytStr) return encrytStr;
+			const encrypt = new JSEncrypt();
+			encrypt.setPublicKey('MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCgTj64J845YrG9N7PhKXBk5ED7Mh6W7vBrBUKKNPDAk0FEOgwpZubsqImjwK8fUHwPrZfi1vtQ2DyeT2TjISM00jrRuXv+fUWNuHVveJkWgsP7/H0ssbkcSK/lPdOr78vb807iQ9YpvQ0t7OklJLZL/sQ/enMtLNbF/wphBEiNmwIDAQAB');
+			return encrypt.encrypt(encrytStr);
+		}
+
+		div = document.createElement("div");
+		div.innerHTML = "字符串: PERSONAGE  <===>  Url编码+base64+RSA公钥加密: " +getEncryptedStr('b0863eb5d66d4af89537b1090a28530c','MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCgTj64J845YrG9N7PhKXBk5ED7Mh6W7vBrBUKKNPDAk0FEOgwpZubsqImjwK8fUHwPrZfi1vtQ2DyeT2TjISM00jrRuXv+fUWNuHVveJkWgsP7/H0ssbkcSK/lPdOr78vb807iQ9YpvQ0t7OklJLZL/sQ/enMtLNbF/wphBEiNmwIDAQAB')
+		document.body.appendChild(div)
+
+
+
 	</script>
 </html>
