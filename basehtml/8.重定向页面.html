@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>绑定手机号</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            height: 90%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+            width: 100%;
+        }
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>绑定手机号</h2>
+    <div class="form-group">
+        <label for="phone">手机号码:</label>
+        <input type="tel" id="phone" name="phone" placeholder="请输入手机号码">
+    </div>
+    <button onclick="bindPhoneNumber()">确认</button>
+</div>
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+
+<script>
+    function bindPhoneNumber() {
+        var phoneNumber = document.getElementById('phone').value;
+        // 在这里你可以添加处理绑定手机号的逻辑，比如发送验证码等
+        console.log("手机号码:", phoneNumber);
+        // 这里只是简单打印输入的手机号码，你需要根据实际需求进行处理
+
+        console.log("index list url=");
+        $.get("https://ynksservices.com/api/auth/checkTokenCustomer?customerUuid=2c92808488428b4f01889a186e5d0001&token=9dddd311-3e3f-47bc-8940-6932f4394712", function (result, status) {
+            if ('success' == status) {
+                //alert("Data: " + result.data + "\nStatus: " + status);
+                console.log("result: " + JSON.stringify(result) + "\nStatus: " + status);
+
+                window.location.replace("https://ksdapp.ksdao.com/ksdwxgzh/#/pages/menuPage/family?ewmid=Q0109C220613456746200106205184");
+
+            } else {
+                alert("请求失败 status=" + status);
+            }
+        }, "json");
+
+    }
+
+</script>
+
+</body>
+</html>
